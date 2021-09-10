@@ -26,10 +26,10 @@ namespace Lecture02
     {
         public void ArrayTypeCovariance()
         {
-            // Person[] people = new Student[9];
+            Person[] people = new Student[9];
 
             // What happens here?
-            // people[3] = new Person();
+            people[3] = new Person();
         }
 
         public void Invariance()

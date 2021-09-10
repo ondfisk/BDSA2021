@@ -29,14 +29,11 @@ namespace Lecture02
         }
 
         /// <summary>
-        /// Overridden default equals to compare ducks by Id
+        /// Overridden default equals to compare ducks by Name
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Duck);
-        }
+        public override bool Equals(object obj) => Equals(obj as Duck);
 
         public static bool operator ==(Duck x, Duck y)
         {
@@ -50,11 +47,11 @@ namespace Lecture02
 
         public int CompareTo(Duck other)
         {
-            if (Id < other.Id)
+            if (Age < other.Age)
             {
                 return -1;
             }
-            if (Id > other.Id)
+            if (Age > other.Age)
             {
                 return 1;
             }
@@ -67,15 +64,9 @@ namespace Lecture02
         /// https://docs.microsoft.com/en-us/visualstudio/code-quality/ca2218-override-gethashcode-on-overriding-equals
         /// </summary>
         /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return Id;
-        }
+        public override int GetHashCode() => Name.GetHashCode();
 
-        public override string ToString()
-        {
-            return Id + ": " + Name + ", " + Age;
-        }
+        public override string ToString() => $"{Id}: {Name}, {Age}";
 
         public static ICollection<Duck> Ducks = new[] {
             new Duck { Id = 3, Name = "Huey Duck", Age = 10 },

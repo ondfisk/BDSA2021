@@ -3,11 +3,21 @@ using static Lecture02.TrafficLightColor;
 
 namespace Lecture02
 {
-    public class TrafficLightController : ITrafficLightController
+    public class TrafficLightController : ITrafficLightController, IBadTrafficLightController
     {
-        public bool MayIGo(string color)
+        public bool MayIGo(string color) => color.ToLowerInvariant() switch {
+            "green" => true,
+            "yellow" => false,
+            "red" => false,
+            _ => throw new ArgumentException("Invalid color", nameof(color))
+        };
+
+        public bool MayIGo(TrafficLightColor color) => color switch
         {
-            throw new NotImplementedException();
-        }
+            Green => true,
+            Yellow => false,
+            Red => false,
+            _ => false
+        };
     }
 }

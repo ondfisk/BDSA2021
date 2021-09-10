@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Lecture02
 {
@@ -11,5 +10,35 @@ namespace Lecture02
         T Peek();
         void Clear();
         bool Contains(T item);
+    }
+
+    public class PriorityQueue<T> : IPriorityQueue<T>
+    {
+        public int Count => throw new NotImplementedException();
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T Dequeue()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Enqueue(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T Peek()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -5,34 +5,47 @@ namespace Lecture02
 {
     public static class CollectionUtilities
     {
-        public static IList<int> GetEven(IList<int> list)
+        public static IEnumerable<int> GetEven(IEnumerable<int> list)
         {
-            throw new NotImplementedException();
+            foreach (var number in list)
+            {
+                if (number % 2 == 0)
+                {
+                    yield return number;
+                }
+            }
         }
 
-        public static bool Find(int[] list, int number)
+        public static bool Find(IEnumerable<int> numbers, int number)
         {
-            throw new NotImplementedException();
+            foreach (var n in numbers)
+            {
+                if (n == number)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public static ISet<int> Unique(IList<int> numbers)
-        {
-            throw new NotImplementedException();
-        }
+        public static ISet<int> Unique(IEnumerable<int> numbers) => new HashSet<int>(numbers);
 
-        public static IList<int> Reverse(IList<int> numbers)
-        {
-            throw new NotImplementedException();
-        }
+        public static IEnumerable<int> Reverse(IEnumerable<int> numbers) => new Stack<int>(numbers);
 
         public static void Sort(List<Duck> ducks, IComparer<Duck> comparer = null)
         {
-            throw new NotImplementedException();
+            ducks.Sort(comparer);
         }
 
-        public static IDictionary<int, Duck> ToDictionary(IEnumerable<Duck> ducks)
+        public static IDictionary<string, Duck> ToDictionary(IEnumerable<Duck> ducks)
         {
-            throw new NotImplementedException();
+            var dict = new Dictionary<string, Duck>();
+            foreach (var duck in ducks)
+            {
+                dict.Add(duck.Name, duck);
+            }
+
+            return dict;
         }
 
         public static IEnumerable<Duck> GetOlderThan(IEnumerable<Duck> ducks, int age)

@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Lecture02
 {
@@ -7,6 +9,14 @@ namespace Lecture02
     {
         static void Main(string[] args)
         {
+            // foreach (var number in Fibonacci())
+            // {
+            //     Console.WriteLine(number);
+            // }
+
+            var ducks = CollectionUtilities.ToDictionary(Duck.Ducks);
+
+            Console.WriteLine(ducks["Donald Duck"]);
         }
 
         public static IEnumerable<int> StreamNumbers()
