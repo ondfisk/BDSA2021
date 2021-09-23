@@ -23,17 +23,7 @@ namespace Lecture03.Models
                 new Group { Id = 5, Name = "Batman, Incorporated" }
             };
 
-            HashSet<Group> getGroups(params int[] ids)
-            {
-                var groups = new HashSet<Group>();
-
-                foreach (var id in ids)
-                {
-                    groups.Add(Groups.Single(p => p.Id == id));
-                }
-
-                return groups;
-            }
+            HashSet<Group> getGroups(params int[] ids) => Groups.Where(g => ids.Contains(g.Id)).ToHashSet();
 
             Cities = new HashSet<City>
             {

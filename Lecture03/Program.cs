@@ -9,11 +9,26 @@ namespace Lecture03
     {
         static void Main(string[] args)
         {
-            var repo = new Repository();
-            foreach (var hero in repo.Superheroes2)
-            {
-                Console.WriteLine(hero);
-            }
+        }
+
+        public static int LocalFunctionFactorial(int n)
+        {
+            return nthFactorial(n);
+
+            int nthFactorial(int number) => number < 2
+                ? 1
+                : number * nthFactorial(number - 1);
+        }
+
+        public static int LambdaFactorial(int n)
+        {
+            Func<int, int> nthFactorial = default(Func<int, int>);
+
+            nthFactorial = number => number < 2
+                ? 1
+                : number * nthFactorial(number - 1);
+
+            return nthFactorial(n);
         }
     }
 }
