@@ -4,15 +4,14 @@ namespace Lecture03
 {
     public enum LogLevel { Verbose, Warning, Debug, Error };
 
-    public delegate void Logger(string input, LogLevel logLevel = LogLevel.Debug);
-
     public class SubSystem
     {
-        private Logger _logger;
+        private Action<string, LogLevel> _logger;
 
-        public SubSystem(Logger logger)
+        public SubSystem(Action<string, LogLevel> logger)
         {
             _logger = logger;
+
         }
 
         public void Operation(string input)
