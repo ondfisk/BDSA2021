@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using Lecture03.Models;
+using static System.Console;
 
 namespace Lecture03
 {
@@ -9,8 +11,32 @@ namespace Lecture03
     {
         static void Main(string[] args)
         {
+            var add = new BinaryOperation(
+                delegate (int x, int y)
+                {
+                    return x + y;
+                }
+            );
+
+            var results = Compute(4, 2, add, Subtract);
+
+            foreach (var result in results)
+            {
+                WriteLine(result);
+            }
         }
 
+        static int Subtract(int x, int y) => x - y;
+
+        static IEnumerable<(int, int, int)> Compute(int x, int y, params BinaryOperation[] operations)
+        {
+            foreach (var operation in operations)
+            {
+                yield return (x, y, operation(x, y));
+            }
+        }
+
+        #region Local Functions
         public static int LocalFunctionFactorial(int n)
         {
             return nthFactorial(n);
@@ -30,5 +56,6 @@ namespace Lecture03
 
             return nthFactorial(n);
         }
+        #endregion
     }
 }
