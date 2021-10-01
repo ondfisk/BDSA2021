@@ -1,173 +1,160 @@
-// using System.Collections.Generic;
-// using System.Data;
-// using System.Data.SqlClient;
-// using System.IO;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
 
-// namespace Lecture04
-// {
-//     public class RawSqlCharacterRepository
-//     {
-//         private readonly SqlConnection _connection;
+namespace Lecture04
+{
+    public class RawSqlCharacterRepository
+    {
+        private readonly SqlConnection _connection;
 
-//         public RawSqlCharacterRepository(SqlConnection connection)
-//         {
-//             _connection = connection;
-//         }
+        public RawSqlCharacterRepository(SqlConnection connection)
+        {
+            _connection = connection;
+        }
 
-//         public void Reset()
-//         {
-//             var cmdText = File.ReadAllText("FuturamaReset.sql");
+        public int Create(FuturamaCharacterDTO character)
+        {
+            var cmdText = @"INSERT Character (Name, Species, Planet, ActorId)
+                            VALUES (@Name, @Species, @Planet, @ActorId);
+                            SELECT SCOPE_IDENTITY()";
 
-//             using var command = new SqlCommand(cmdText, _connection);
+            using var command = new SqlCommand(cmdText, _connection);
 
-//             OpenConnection();
+            command.Parameters.AddWithValue("@Name", character.Name);
+            command.Parameters.AddWithValue("@Species", character.Species);
+            command.Parameters.AddWithValue("@Planet", character.Planet);
+            command.Parameters.AddWithValue("@ActorId", character.ActorId);
 
-//             command.ExecuteNonQuery();
+            OpenConnection();
 
-//             CloseConnection();
-//         }
+            var id = command.ExecuteScalar();
 
-//         public int Create(FuturamaCharacterDTO character)
-//         {
-//             var cmdText = @"INSERT Character (Name, Species, Planet, ActorId)
-//                             VALUES (@Name, @Species, @Planet, @ActorId);
-//                             SELECT SCOPE_IDENTITY()";
+            CloseConnection();
 
-//             using var command = new SqlCommand(cmdText, _connection);
+            return (int)id;
+        }
 
-//             command.Parameters.AddWithValue("@Name", character.Name);
-//             command.Parameters.AddWithValue("@Species", character.Species);
-//             command.Parameters.AddWithValue("@Planet", character.Planet);
-//             command.Parameters.AddWithValue("@ActorId", character.ActorId);
+        public FuturamaCharacterDTO Read(string name)
+        {
+            var cmdText = @"SELECT c.Id, c.Name, c.Species, c.Planet, c.ActorId, a.Name AS ActorName
+                            FROM Characters AS c
+                            LEFT JOIN Actors AS a ON c.ActorId = a.Id
+                            WHERE c.Name = @Name";
 
-//             OpenConnection();
+            using var command = new SqlCommand(cmdText, _connection);
 
-//             var id = command.ExecuteScalar();
+            command.Parameters.AddWithValue("@Name", name);
 
-//             CloseConnection();
+            OpenConnection();
 
-//             return (int)id;
-//         }
+            using var reader = command.ExecuteReader();
 
-//         public FuturamaCharacterDTO Read(string name)
-//         {
-//             var cmdText = @"SELECT c.Id, c.Name, c.Species, c.Planet, c.ActorId, a.Name AS ActorName
-//                             FROM Characters AS c
-//                             LEFT JOIN Actors AS a ON c.ActorId = a.Id
-//                             WHERE c.Name = @Name";
+            var character = reader.Read()
+                ? new FuturamaCharacterDTO
+                {
+                    Id = reader.GetInt32("Id"),
+                    Name = reader.GetString("Name"),
+                    Species = reader.GetString("Species"),
+                    Planet = reader.GetString("Planet"),
+                    ActorId = reader.GetInt32("ActorId"),
+                    ActorName = reader.GetString("ActorName")
+                }
+                : null;
 
-//             using var command = new SqlCommand(cmdText, _connection);
+            CloseConnection();
 
-//             command.Parameters.AddWithValue("@Name", name);
+            return character;
+        }
 
-//             OpenConnection();
+        public IEnumerable<FuturamaCharacterDTO> Read()
+        {
+            var cmdText = @"SELECT c.Id, c.Name, c.Species, c.Planet, c.ActorId, a.Name AS ActorName
+                            FROM Characters AS c
+                            LEFT JOIN Actors AS a ON c.ActorId = a.Id
+                            ORDER BY c.Name";
 
-//             using var reader = command.ExecuteReader();
+            using var command = new SqlCommand(cmdText, _connection);
 
-//             var character = reader.Read()
-//                 ? new FuturamaCharacterDTO
-//                 {
-//                     Id = reader.GetInt32("Id"),
-//                     Name = reader.GetString("Name"),
-//                     Species = reader.GetString("Species"),
-//                     Planet = reader.GetString("Planet"),
-//                     ActorId = reader.GetInt32("ActorId"),
-//                     ActorName = reader.GetString("ActorName")
-//                 }
-//                 : null;
+            OpenConnection();
 
-//             CloseConnection();
+            using var reader = command.ExecuteReader();
 
-//             return character;
-//         }
+            while (reader.Read())
+            {
+                yield return new FuturamaCharacterDTO
+                {
+                    Id = reader.GetInt32("Id"),
+                    Name = reader.GetString("Name"),
+                    Species = reader.GetString("Species"),
+                    Planet = reader.GetString("Planet"),
+                    ActorId = reader.GetInt32("ActorId"),
+                    ActorName = reader.GetString("ActorName")
+                };
+            }
 
-//         public IEnumerable<FuturamaCharacterDTO> Read()
-//         {
-//             var cmdText = @"SELECT c.Id, c.Name, c.Species, c.Planet, c.ActorId, a.Name AS ActorName
-//                             FROM Characters AS c
-//                             LEFT JOIN Actors AS a ON c.ActorId = a.Id
-//                             ORDER BY c.Name";
+            CloseConnection();
+        }
 
-//             using var command = new SqlCommand(cmdText, _connection);
+        public void Update(FuturamaCharacterDTO character)
+        {
+            var cmdText = @"UPDATE Characters SET
+                            Name = @Name,
+                            Species = @Species,
+                            Planet = @Planet,
+                            ActorId = @ActorId
+                            WHERE Id = @Id";
 
-//             OpenConnection();
+            using var command = new SqlCommand(cmdText, _connection);
 
-//             using var reader = command.ExecuteReader();
+            command.Parameters.AddWithValue("@Id", character.Id);
+            command.Parameters.AddWithValue("@Name", character.Name);
+            command.Parameters.AddWithValue("@Species", character.Species);
+            command.Parameters.AddWithValue("@Planet", character.Planet);
+            command.Parameters.AddWithValue("@ActorId", character.ActorId);
 
-//             while (reader.Read())
-//             {
-//                 yield return new FuturamaCharacterDTO
-//                 {
-//                     Id = reader.GetInt32("Id"),
-//                     Name = reader.GetString("Name"),
-//                     Species = reader.GetString("Species"),
-//                     Planet = reader.GetString("Planet"),
-//                     ActorId = reader.GetInt32("ActorId"),
-//                     ActorName = reader.GetString("ActorName")
-//                 };
-//             }
+            OpenConnection();
 
-//             CloseConnection();
-//         }
+            command.ExecuteNonQuery();
 
-//         public void Update(FuturamaCharacterDTO character)
-//         {
-//             var cmdText = @"UPDATE Characters SET
-//                             Name = @Name,
-//                             Species = @Species,
-//                             Planet = @Planet,
-//                             ActorId = @ActorId
-//                             WHERE Id = @Id";
+            CloseConnection();
+        }
 
-//             using var command = new SqlCommand(cmdText, _connection);
+        public void Delete(int characterId)
+        {
+            var cmdText = @"DELETE Characters WHERE Id = @Id";
 
-//             command.Parameters.AddWithValue("@Id", character.Id);
-//             command.Parameters.AddWithValue("@Name", character.Name);
-//             command.Parameters.AddWithValue("@Species", character.Species);
-//             command.Parameters.AddWithValue("@Planet", character.Planet);
-//             command.Parameters.AddWithValue("@ActorId", character.ActorId);
+            using var command = new SqlCommand(cmdText, _connection);
 
-//             OpenConnection();
+            command.Parameters.AddWithValue("@Id", characterId);
 
-//             command.ExecuteNonQuery();
+            OpenConnection();
 
-//             CloseConnection();
-//         }
+            command.ExecuteNonQuery();
 
-//         public void Delete(int characterId)
-//         {
-//             var cmdText = @"DELETE Characters WHERE Id = @Id";
+            CloseConnection();
+        }
 
-//             using var command = new SqlCommand(cmdText, _connection);
+        private void OpenConnection()
+        {
+            if (_connection.State == ConnectionState.Closed)
+            {
+                _connection.Open();
+            }
+        }
 
-//             command.Parameters.AddWithValue("@Id", characterId);
+        private void CloseConnection()
+        {
+            if (_connection.State == ConnectionState.Open)
+            {
+                _connection.Close();
+            }
+        }
 
-//             OpenConnection();
-
-//             command.ExecuteNonQuery();
-
-//             CloseConnection();
-//         }
-
-//         private void OpenConnection()
-//         {
-//             if (_connection.State == ConnectionState.Closed)
-//             {
-//                 _connection.Open();
-//             }
-//         }
-
-//         private void CloseConnection()
-//         {
-//             if (_connection.State == ConnectionState.Open)
-//             {
-//                 _connection.Close();
-//             }
-//         }
-
-//         public void Dispose()
-//         {
-//             _connection.Dispose();
-//         }
-//     }
-// }
+        public void Dispose()
+        {
+            _connection.Dispose();
+        }
+    }
+}
