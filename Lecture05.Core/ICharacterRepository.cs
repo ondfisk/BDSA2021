@@ -5,10 +5,10 @@ namespace Lecture05.Core
 {
     public interface ICharacterRepository : IDisposable
     {
-        int Create(CharacterDetailsDTO character);
+        CharacterDetailsDTO Create(CharacterCreateDTO character);
         CharacterDetailsDTO Read(int characterId);
         IReadOnlyCollection<CharacterDTO> Read();
-        void Update(CharacterDetailsDTO character);
+        void Update(CharacterUpdateDTO character);
         void Delete(int characterId);
     }
 }
