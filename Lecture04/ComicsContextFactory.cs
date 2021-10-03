@@ -54,7 +54,7 @@ namespace Lecture04
             var inexhaustibleWealth = new Power { Name = "inexhaustible wealth" };
             var brilliantDeductiveSkill = new Power { Name = "brilliant deductive skill" };
             var advancedTechnology = new Power { Name = "advanced technology" };
-            var combatSkill = new Power { Name = "combat skill technology" };
+            var combatSkill = new Power { Name = "combat skill" };
             var superhumanAgility = new Power { Name = "superhuman weaponry" };
             var magicWeaponry = new Power { Name = "magic agility" };
             var gymnasticAbility = new Power { Name = "gymnastic ability" };

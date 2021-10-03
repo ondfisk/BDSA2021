@@ -1,14 +1,13 @@
-using System;
 using System.Collections.Generic;
 
 namespace Lecture05.Core
 {
-    public interface ICharacterRepository : IDisposable
+    public interface ICharacterRepository
     {
         CharacterDetailsDTO Create(CharacterCreateDTO character);
         CharacterDetailsDTO Read(int characterId);
         IReadOnlyCollection<CharacterDTO> Read();
-        void Update(CharacterUpdateDTO character);
-        void Delete(int characterId);
+        Response Update(CharacterUpdateDTO character);
+        Response Delete(int characterId);
     }
 }

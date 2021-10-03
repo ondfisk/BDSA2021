@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Lecture05.Core
 {
-    public record CharacterDTO(int Id, string Name, string AlterEgo);
+    public record CharacterDTO(int Id, string GivenName, string Surname, string AlterEgo);
 
-    public record CharacterDetailsDTO(int Id, string Name, string AlterEgo, string City, DateTime? FirstAppearance, IReadOnlyCollection<string> Powers) : CharacterDTO(Id, Name, AlterEgo);
+    public record CharacterDetailsDTO(int Id, string GivenName, string Surname, string AlterEgo, string City, DateTime? FirstAppearance, string Occupation, IReadOnlySet<string> Powers) : CharacterDTO(Id, GivenName, Surname, AlterEgo);
 
     public record CharacterCreateDTO
     {
@@ -29,7 +29,8 @@ namespace Lecture05.Core
 
         public Gender Gender { get; init; }
 
-        public IReadOnlyCollection<string> Powers { get; init; }
+        [Required]
+        public IReadOnlySet<string> Powers { get; init; }
     }
 
     public record CharacterUpdateDTO : CharacterCreateDTO
