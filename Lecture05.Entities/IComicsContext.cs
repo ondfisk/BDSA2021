@@ -5,9 +5,9 @@ namespace Lecture05.Entities
 {
     public interface IComicsContext : IDisposable
     {
-        DbSet<City> Cities { get; set; }
-        DbSet<Power> Powers { get; set; }
-        DbSet<Character> Characters { get; set; }
+        DbSet<City> Cities { get; }
+        DbSet<Power> Powers { get; }
+        DbSet<Character> Characters { get; }
         int SaveChanges();
     }
 }

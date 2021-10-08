@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Lecture05.Core
 {
-    public interface ICityRepository
+    public interface ICityRepository : IDisposable
     {
         CityDTO Create(CityCreateDTO city);
         CityDTO Read(int cityId);

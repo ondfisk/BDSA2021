@@ -120,6 +120,7 @@ namespace Lecture05.Entities.Tests
             Assert.Equal("Catwoman", character.AlterEgo);
             Assert.Equal("Gotham City", character.City);
             Assert.Equal(DateTime.Parse("1940-04-01"), character.FirstAppearance);
+            Assert.Equal("Thief", character.Occupation);
             Assert.True(character.Powers.SetEquals(new[] { "exceptional martial artist", "gymnastic ability", "combat skill" }));
         }
 

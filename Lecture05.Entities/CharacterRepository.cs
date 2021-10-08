@@ -54,7 +54,10 @@ namespace Lecture05.Entities
             return characters.FirstOrDefault();
         }
 
-        public IReadOnlyCollection<CharacterDTO> Read() => _context.Characters.Select(c => new CharacterDTO(c.Id, c.GivenName, c.Surname, c.AlterEgo)).ToList().AsReadOnly();
+        public IReadOnlyCollection<CharacterDTO> Read() =>
+            _context.Characters
+                    .Select(c => new CharacterDTO(c.Id, c.GivenName, c.Surname, c.AlterEgo))
+                    .ToList().AsReadOnly();
 
         public Response Update(CharacterUpdateDTO character)
         {
@@ -94,7 +97,9 @@ namespace Lecture05.Entities
             return Deleted;
         }
 
-        private City GetCity(string name) => _context.Cities.FirstOrDefault(c => c.Name == name) ?? new City { Name = name };
+        private City GetCity(string name) =>
+            _context.Cities.FirstOrDefault(c => c.Name == name) ??
+            new City { Name = name };
 
         private IEnumerable<Power> GetPowers(IEnumerable<string> powers)
         {
