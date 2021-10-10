@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Lecture04.Entities;
+using Lecture04.Infrastructure;
 
 namespace Lecture04
 {

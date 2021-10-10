@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lecture05.Core\Lecture05.Core.csproj" />
-    <ProjectReference Include="..\Lecture05.Entities\Lecture05.Entities.csproj" />
+    <ProjectReference Include="..\Lecture05.Infrastructure\Lecture05.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

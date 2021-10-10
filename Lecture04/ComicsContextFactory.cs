@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using Lecture04.Entities;
+using Lecture04.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
