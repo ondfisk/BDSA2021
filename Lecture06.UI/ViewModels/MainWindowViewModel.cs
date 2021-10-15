@@ -46,27 +46,26 @@ namespace Lecture06.UI.ViewModels
             _dispatcherTimer.Start();
         }
 
-        public ICommand Calculate => new RelayCommand(async _ => await CalculateRates());
+        public ICommand Calculate => new RelayCommand(_ => CalculateRates());
 
-        private async Task CalculateRates()
+        private void CalculateRates()
         {
             _stopWatch.Restart();
 
-            USD = await GetRate("DKK", "USD") * DKK;
-            GBP = await GetRate("DKK", "GBP") * DKK;
-            EUR = await GetRate("DKK", "EUR") * DKK;
+            USD = GetRate("DKK", "USD") * DKK;
+            GBP = GetRate("DKK", "GBP") * DKK;
+            EUR = GetRate("DKK", "EUR") * DKK;
 
             _stopWatch.Stop();
         }
 
-        private async Task<double> GetRate(string from, string to)
+        private double GetRate(string from, string to)
         {
-            //Thread.Sleep(TimeSpan.FromSeconds(2));
-            await Task.Delay(TimeSpan.FromSeconds(2));
+            Thread.Sleep(TimeSpan.FromSeconds(2));
 
             var url = $"http://currency-api.appspot.com/api/{from}/{to}.json";
 
-            var data = await _client.GetStringAsync(url);
+            var data = _client.GetStringAsync(url).Result;
 
             var json = JsonSerializer.Deserialize<ExchangeRate>(data, _serializerOptions);
 
