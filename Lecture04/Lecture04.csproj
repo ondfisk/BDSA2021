@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lecture04.Core\Lecture04.Core.csproj" />
-    <ProjectReference Include="..\Lecture04.Entities\Lecture04.Entities.csproj" />
+    <ProjectReference Include="..\Lecture04.Infrastructure\Lecture04.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
