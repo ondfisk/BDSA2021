@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lecture05.Infrastructure
@@ -9,5 +11,6 @@ namespace Lecture05.Infrastructure
         DbSet<Power> Powers { get; }
         DbSet<Character> Characters { get; }
         int SaveChanges();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

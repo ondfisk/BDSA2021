@@ -18,6 +18,8 @@ namespace Lecture06
             // Deadlock.RunWithComments();
             // Deadlock.RunWithCommentsAndOrder();
 
+            // var t = new Tasks();
+            // t.CallDoALotOfStuff();
             // Tasks.TaskFactory();
             // Tasks.Wait();
             // Tasks.WaitAll();
@@ -34,7 +36,7 @@ namespace Lecture06
 
             // ParallelLinq.Run();
 
-            // ConcurrentCollections.Race();
+            ConcurrentCollections.Race();
         }
     }
 }

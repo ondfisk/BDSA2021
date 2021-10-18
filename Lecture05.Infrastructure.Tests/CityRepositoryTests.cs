@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Lecture05.Core;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -31,45 +32,45 @@ namespace Lecture05.Infrastructure.Tests
         }
 
         [Fact]
-        public void Create_given_City_returns_Created_with_City()
+        public async Task CreateAsync_given_City_returns_Created_with_City()
         {
             var city = new CityCreateDTO("Central City");
 
-            var created = _repository.Create(city);
+            var created = await _repository.CreateAsync(city);
 
             Assert.Equal((Created, new CityDTO(3, "Central City")), created);
         }
 
         [Fact]
-        public void Create_given_existing_City_returns_Conflict_with_existing_City()
+        public async Task CreateAsync_given_existing_City_returns_Conflict_with_existing_City()
         {
             var city = new CityCreateDTO("Gotham City");
 
-            var created = _repository.Create(city);
+            var created = await _repository.CreateAsync(city);
 
             Assert.Equal((Conflict, new CityDTO(2, "Gotham City")), created);
         }
 
         [Fact]
-        public void Read_given_non_existing_id_returns_null()
+        public async Task ReadAsync_given_non_existing_id_returns_null()
         {
-            var city = _repository.Read(42);
+            var city = await _repository.ReadAsync(42);
 
             Assert.Null(city);
         }
 
         [Fact]
-        public void Read_given_existing_id_returns_city()
+        public async Task ReadAsync_given_existing_id_returns_city()
         {
-            var city = _repository.Read(2);
+            var city = await _repository.ReadAsync(2);
 
             Assert.Equal(new CityDTO(2, "Gotham City"), city);
         }
 
         [Fact]
-        public void Read_returns_all_cities()
+        public async Task ReadAsync_returns_all_cities()
         {
-            var cities = _repository.Read();
+            var cities = await _repository.ReadAsync();
 
             Assert.Collection(cities,
                 city => Assert.Equal(new CityDTO(1, "Metropolis"), city),
@@ -78,33 +79,33 @@ namespace Lecture05.Infrastructure.Tests
         }
 
         [Fact]
-        public void Update_given_non_existing_City_returns_NotFound()
+        public async Task UpdateAsync_given_non_existing_City_returns_NotFound()
         {
             var city = new CityDTO(42, "Central City");
 
-            var response = _repository.Update(city);
+            var response = await _repository.UpdateAsync(city);
 
             Assert.Equal(NotFound, response);
         }
 
         [Fact]
-        public void Update_given_existing_name_returns_Conflict()
+        public async Task UpdateAsync_given_existing_name_returns_Conflict()
         {
             var city = new CityDTO(2, "Metropolis");
 
-            var response = _repository.Update(city);
+            var response = await _repository.UpdateAsync(city);
 
             Assert.Equal(Conflict, response);
         }
 
         [Fact]
-        public void Update_updates_and_returns_Updated()
+        public async Task UpdateAsync_updates_and_returns_Updated()
         {
             var city = new CityDTO(2, "Central City");
 
-            var response = _repository.Update(city);
+            var response = await _repository.UpdateAsync(city);
 
-            var entity = _context.Cities.FirstOrDefault(c => c.Name == "Central City");
+            var entity = await _context.Cities.FirstOrDefaultAsync(c => c.Name == "Central City");
 
             Assert.Equal(Updated, response);
 
@@ -113,29 +114,29 @@ namespace Lecture05.Infrastructure.Tests
         }
 
         [Fact]
-        public void Delete_given_non_existing_Id_returns_NotFound()
+        public async Task DeleteAsync_given_non_existing_Id_returns_NotFound()
         {
-            var response = _repository.Delete(42);
+            var response = await _repository.DeleteAsync(42);
 
             Assert.Equal(NotFound, response);
         }
 
         [Fact]
-        public void Delete_deletes_and_returns_Deleted()
+        public async Task DeleteAsync_deletes_and_returns_Deleted()
         {
-            var response = _repository.Delete(2);
+            var response = await _repository.DeleteAsync(2);
 
-            var entity = _context.Cities.Find(2);
+            var entity = await _context.Cities.FindAsync(2);
 
             Assert.Equal(Deleted, response);
             Assert.Null(entity);
         }
 
         [Fact]
-        public void Delete_given_existing_City_with_Characters_does_not_delete_and_returns_Conflict()
+        public async Task Delete_given_existing_City_with_Characters_does_not_delete_and_returns_Conflict()
         {
-            var response = _repository.Delete(1);
-            var entity = _context.Cities.Find(1);
+            var response = await _repository.DeleteAsync(1);
+            var entity = await _context.Cities.FindAsync(1);
 
             Assert.Equal(Conflict, response);
             Assert.NotNull(entity);

@@ -76,6 +76,7 @@ namespace Lecture06
 
         private static void Write(object c)
         {
+            Thread.Sleep(2000);
             Write((char)c, 40);
         }
 

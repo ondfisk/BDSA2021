@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Lecture05.Core;
+using Microsoft.EntityFrameworkCore;
 using static Lecture05.Core.Response;
 
 namespace Lecture05.Infrastructure
 {
-    public class CharacterRepository
+    public class CharacterRepository : ICharacterRepository
     {
         private readonly IComicsContext _context;
 
@@ -15,7 +17,7 @@ namespace Lecture05.Infrastructure
             _context = context;
         }
 
-        public CharacterDetailsDTO Create(CharacterCreateDTO character)
+        public async Task<CharacterDetailsDTO> CreateAsync(CharacterCreateDTO character)
         {
             var entity = new Character
             {
@@ -24,19 +26,19 @@ namespace Lecture05.Infrastructure
                 AlterEgo = character.AlterEgo,
                 FirstAppearance = character.FirstAppearance,
                 Occupation = character.Occupation,
-                City = GetCity(character.City),
+                City = await GetCityAsync(character.City),
                 Gender = character.Gender,
-                Powers = GetPowers(character.Powers).ToList()
+                Powers = await GetPowersAsync(character.Powers).ToListAsync()
             };
 
             _context.Characters.Add(entity);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return Read(entity.Id);
+            return await ReadAsync(entity.Id);
         }
 
-        public CharacterDetailsDTO Read(int characterId)
+        public async Task<CharacterDetailsDTO> ReadAsync(int characterId)
         {
             var characters = from c in _context.Characters
                              where c.Id == characterId
@@ -51,17 +53,18 @@ namespace Lecture05.Infrastructure
                                  c.Powers.Select(c => c.Name).ToHashSet()
                              );
 
-            return characters.FirstOrDefault();
+            return await characters.FirstOrDefaultAsync();
         }
 
-        public IReadOnlyCollection<CharacterDTO> Read() =>
-            _context.Characters
-                    .Select(c => new CharacterDTO(c.Id, c.GivenName, c.Surname, c.AlterEgo))
-                    .ToList().AsReadOnly();
+        public async Task<IReadOnlyCollection<CharacterDTO>> ReadAsync() =>
+            (await _context.Characters
+                           .Select(c => new CharacterDTO(c.Id, c.GivenName, c.Surname, c.AlterEgo))
+                           .ToListAsync())
+                           .AsReadOnly();
 
-        public Response Update(CharacterUpdateDTO character)
+        public async Task<Response> UpdateAsync(CharacterUpdateDTO character)
         {
-            var entity = _context.Characters.Find(character.Id);
+            var entity = await _context.Characters.FindAsync(character.Id);
 
             if (entity == null)
             {
@@ -73,18 +76,18 @@ namespace Lecture05.Infrastructure
             entity.AlterEgo = character.AlterEgo;
             entity.FirstAppearance = character.FirstAppearance;
             entity.Occupation = character.Occupation;
-            entity.City = GetCity(character.City);
+            entity.City = await GetCityAsync(character.City);
             entity.Gender = character.Gender;
-            entity.Powers = GetPowers(character.Powers).ToList();
+            entity.Powers = await GetPowersAsync(character.Powers).ToListAsync();
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Updated;
         }
 
-        public Response Delete(int characterId)
+        public async Task<Response> DeleteAsync(int characterId)
         {
-            var entity = _context.Characters.Find(characterId);
+            var entity = await _context.Characters.FindAsync(characterId);
 
             if (entity == null)
             {
@@ -92,18 +95,18 @@ namespace Lecture05.Infrastructure
             }
 
             _context.Characters.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Deleted;
         }
 
-        private City GetCity(string name) =>
-            _context.Cities.FirstOrDefault(c => c.Name == name) ??
+        private async Task<City> GetCityAsync(string name) =>
+            await _context.Cities.FirstOrDefaultAsync(c => c.Name == name) ??
             new City { Name = name };
 
-        private IEnumerable<Power> GetPowers(IEnumerable<string> powers)
+        private async IAsyncEnumerable<Power> GetPowersAsync(IEnumerable<string> powers)
         {
-            var existing = _context.Powers.Where(p => powers.Contains(p.Name)).ToDictionary(p => p.Name);
+            var existing = await _context.Powers.Where(p => powers.Contains(p.Name)).ToDictionaryAsync(p => p.Name);
 
             foreach (var power in powers)
             {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
@@ -8,18 +9,18 @@ namespace Lecture06
     {
         private static Random _random = new Random();
 
-        public static void Race(StringBuilder sb, string name, int count)
+        public static void Race(Queue<string> sb, string name, int count)
         {
             for (var i = 0; i < count; i++)
             {
-                Thread.Sleep(_random.Next(5));
-                sb.AppendLine($"{name}: {i}");
+                // Thread.Sleep(_random.Next(5));
+                sb.Enqueue($"{name}: {i}");
             }
         }
 
         public static void Race()
         {
-            var sb = new StringBuilder();
+            var sb = new Queue<string>();
             var t1 = new Thread(() => Race(sb, "One", 50));
             var t2 = new Thread(() => Race(sb, "Two", 50));
             var t3 = new Thread(() => Race(sb, "Three", 50));
@@ -35,7 +36,8 @@ namespace Lecture06
             t3.Join();
             t4.Join();
             t5.Join();
-            Console.WriteLine(sb);
+            // sb.ForEach(Console.WriteLine);
+            // Console.WriteLine(sb);
         }
     }
 

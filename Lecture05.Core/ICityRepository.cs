@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Lecture05.Core
 {
     public interface ICityRepository
     {
-        (Response, CityDTO) Create(CityCreateDTO city);
-        CityDTO Read(int cityId);
-        IReadOnlyCollection<CityDTO> Read();
-        Response Update(CityDTO city);
-        Response Delete(int cityId);
+        Task<(Response, CityDTO)> CreateAsync(CityCreateDTO city);
+        Task<CityDTO> ReadAsync(int cityId);
+        Task<IReadOnlyCollection<CityDTO>> ReadAsync();
+
+        Task<Response> UpdateAsync(CityDTO city);
+        Task<Response> DeleteAsync(int cityId);
     }
 }

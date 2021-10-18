@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Lecture05.Core;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -60,10 +61,8 @@ namespace Lecture05.Infrastructure.Tests
         }
 
         [Fact]
-        public void Create_creates_new_character_with_generated_id()
+        public async Task CreateAsync_creates_new_character_with_generated_id()
         {
-            var repository = new CharacterRepository(_context);
-
             var character = new CharacterCreateDTO
             {
                 GivenName = "Harleen",
@@ -76,7 +75,7 @@ namespace Lecture05.Infrastructure.Tests
                 Powers = new HashSet<string> { "complete unpredictability", "superhuman agility", "skilled fighter", "intelligence", "emotional manipulation", "immunity to toxins" }
             };
 
-            var created = repository.Create(character);
+            var created = await _repository.CreateAsync(character);
 
             Assert.Equal(5, created.Id);
             Assert.Equal("Harleen", created.GivenName);
@@ -89,9 +88,9 @@ namespace Lecture05.Infrastructure.Tests
         }
 
         [Fact]
-        public void Read_returns_all_characters()
+        public async Task ReadAsync_returns_all_characters()
         {
-            var characters = _repository.Read();
+            var characters = await _repository.ReadAsync();
 
             Assert.Collection(characters,
                 character => Assert.Equal(new CharacterDTO(1, "Clark", "Kent", "Superman"), character),
@@ -102,17 +101,17 @@ namespace Lecture05.Infrastructure.Tests
         }
 
         [Fact]
-        public void Read_given_id_does_not_exist_returns_null()
+        public async Task ReadAsync_given_id_does_not_exist_returns_null()
         {
-            var character = _repository.Read(42);
+            var character = await _repository.ReadAsync(42);
 
             Assert.Null(character);
         }
 
         [Fact]
-        public void Read_given_id_exists_returns_Character()
+        public async Task ReadAsync_given_id_exists_returns_Character()
         {
-            var character = _repository.Read(4);
+            var character = await _repository.ReadAsync(4);
 
             Assert.Equal(4, character.Id);
             Assert.Equal("Selina", character.GivenName);
@@ -125,10 +124,8 @@ namespace Lecture05.Infrastructure.Tests
         }
 
         [Fact]
-        public void Update_given_non_existing_id_returns_NotFound()
+        public async Task UpdateAsync_given_non_existing_id_returns_NotFound()
         {
-            var repository = new CharacterRepository(_context);
-
             var character = new CharacterUpdateDTO
             {
                 Id = 42,
@@ -137,16 +134,14 @@ namespace Lecture05.Infrastructure.Tests
                 Powers = new HashSet<string>()
             };
 
-            var updated = repository.Update(character);
+            var updated = await _repository.UpdateAsync(character);
 
             Assert.Equal(NotFound, updated);
         }
 
         [Fact]
-        public void Update_updates_existing_character()
+        public async Task UpdateAsync_updates_existing_character()
         {
-            var repository = new CharacterRepository(_context);
-
             var character = new CharacterUpdateDTO
             {
                 Id = 3,
@@ -160,11 +155,11 @@ namespace Lecture05.Infrastructure.Tests
                 Powers = new HashSet<string> { "super speed", "intangibility", "superhuman agility", "time travel", "creates and controls lightning", "multiversal knowledge" }
             };
 
-            var updated = repository.Update(character);
+            var updated = await _repository.UpdateAsync(character);
 
             Assert.Equal(Updated, updated);
 
-            var flash = repository.Read(3);
+            var flash = await _repository.ReadAsync(3);
             Assert.Equal(3, flash.Id);
             Assert.Equal("Barry", flash.GivenName);
             Assert.Equal("Allen", flash.Surname);
@@ -176,24 +171,20 @@ namespace Lecture05.Infrastructure.Tests
         }
 
         [Fact]
-        public void Delete_given_non_existing_id_returns_NotFound()
+        public async Task DeleteAsync_given_non_existing_id_returns_NotFound()
         {
-            var repository = new CharacterRepository(_context);
-
-            var deleted = repository.Delete(42);
+            var deleted = await _repository.DeleteAsync(42);
 
             Assert.Equal(NotFound, deleted);
         }
 
         [Fact]
-        public void Delete_given_existing_id_deletes()
+        public async Task DeleteAsync_given_existing_id_deletes()
         {
-            var repository = new CharacterRepository(_context);
-
-            var deleted = repository.Delete(3);
+            var deleted = await _repository.DeleteAsync(3);
 
             Assert.Equal(Deleted, deleted);
-            Assert.Null(_context.Characters.Find(3));
+            Assert.Null(await _context.Characters.FindAsync(3));
         }
 
         public void Dispose()

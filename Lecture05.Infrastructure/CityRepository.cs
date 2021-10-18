@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Lecture05.Core;
 using Microsoft.EntityFrameworkCore;
 using static Lecture05.Core.Response;
@@ -15,12 +16,13 @@ namespace Lecture05.Infrastructure
             _context = context;
         }
 
-        public (Response, CityDTO) Create(CityCreateDTO city)
+        public async Task<(Response, CityDTO)> CreateAsync(CityCreateDTO city)
         {
-            var conflict = _context.Cities
-                                   .Where(c => c.Name == city.Name)
-                                   .Select(c => new CityDTO(c.Id, c.Name))
-                                   .FirstOrDefault();
+            var conflict =
+                await _context.Cities
+                              .Where(c => c.Name == city.Name)
+                              .Select(c => new CityDTO(c.Id, c.Name))
+                              .FirstOrDefaultAsync();
 
             if (conflict != null)
             {
@@ -31,40 +33,40 @@ namespace Lecture05.Infrastructure
 
             _context.Cities.Add(entity);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return (Created, new CityDTO(entity.Id, entity.Name));
         }
 
-        public CityDTO Read(int cityId)
+        public async Task<CityDTO> ReadAsync(int cityId)
         {
             var cities = from c in _context.Cities
                          where c.Id == cityId
                          select new CityDTO(c.Id, c.Name);
 
-            return cities.FirstOrDefault();
+            return await cities.FirstOrDefaultAsync();
         }
 
-        public IReadOnlyCollection<CityDTO> Read() =>
-            _context.Cities
-                    .Select(c => new CityDTO(c.Id, c.Name))
-                    .ToList()
-                    .AsReadOnly();
+        public async Task<IReadOnlyCollection<CityDTO>> ReadAsync() =>
+            (await _context.Cities
+                           .Select(c => new CityDTO(c.Id, c.Name))
+                           .ToListAsync())
+                           .AsReadOnly();
 
-        public Response Update(CityDTO city)
+        public async Task<Response> UpdateAsync(CityDTO city)
         {
-            var conflict = _context.Cities
+            var conflict = await _context.Cities
                                    .Where(c => c.Id != city.Id)
                                    .Where(c => c.Name == city.Name)
                                    .Select(c => new CityDTO(c.Id, c.Name))
-                                   .Any();
+                                   .AnyAsync();
 
             if (conflict)
             {
                 return Conflict;
             }
 
-            var entity = _context.Cities.Find(city.Id);
+            var entity = await _context.Cities.FindAsync(city.Id);
 
             if (entity == null)
             {
@@ -73,14 +75,17 @@ namespace Lecture05.Infrastructure
 
             entity.Name = city.Name;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Updated;
         }
 
-        public Response Delete(int cityId)
+        public async Task<Response> DeleteAsync(int cityId)
         {
-            var entity = _context.Cities.Include(c => c.Characters).FirstOrDefault(c => c.Id == cityId);
+            var entity =
+                await _context.Cities
+                              .Include(c => c.Characters)
+                              .FirstOrDefaultAsync(c => c.Id == cityId);
 
             if (entity == null)
             {
@@ -93,7 +98,7 @@ namespace Lecture05.Infrastructure
             }
 
             _context.Cities.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Deleted;
         }

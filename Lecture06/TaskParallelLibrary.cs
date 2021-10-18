@@ -22,10 +22,11 @@ namespace Lecture06
 
             var numbers = Enumerable.Range(0, 1000);
 
-            // var options = new ParallelOptions { MaxDegreeOfParallelism = 2 };
+            var options = new ParallelOptions { MaxDegreeOfParallelism = 1 };
 
             Parallel.ForEach(numbers, number =>
             {
+                Task.Delay(1).Wait();
                 Console.WriteLine(number);
             });
 

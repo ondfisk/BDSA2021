@@ -12,7 +12,7 @@ namespace Lecture06
         {
             for (var i = 0; i < count; i++)
             {
-                Task.Delay(20).Wait();
+                Task.Delay(TimeSpan.FromMilliseconds(20)).Wait();
                 lock (sb)
                 {
                     sb.AppendLine($"{name}: {i}");
@@ -43,10 +43,10 @@ namespace Lecture06
 
         public void DoALotOfStuff(params Task[] tasks)
         {
-            foreach (var t in tasks)
-            {
-                t.Start();
-            }
+            // foreach (var t in tasks)
+            // {
+            //     t.Start();
+            // }
 
             Task.WaitAll(tasks);
         }
