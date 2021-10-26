@@ -144,30 +144,23 @@ namespace Lecture07.Infrastructure.Tests
         {
             var character = new CharacterUpdateDTO
             {
-                Id = 3,
-                GivenName = "Barry",
-                Surname = "Allen",
-                AlterEgo = "The Flash",
-                FirstAppearance = DateTime.Parse("1956-10-01"),
-                Occupation = "Forensic scientist",
-                City = "Central City",
+                Id = 1,
+                GivenName = "Clark",
+                Surname = "Kent",
+                AlterEgo = "Superman",
+                FirstAppearance = DateTime.Parse("1938-04-18"),
+                Occupation = "Reporter",
+                City = "Metropolis",
                 Gender = Male,
-                Powers = new HashSet<string> { "super speed", "intangibility", "superhuman agility", "time travel", "creates and controls lightning", "multiversal knowledge" }
+                Powers = new HashSet<string>()
             };
 
             var updated = await _repository.UpdateAsync(character);
 
             Assert.Equal(Updated, updated);
 
-            var flash = await _repository.ReadAsync(3);
-            Assert.Equal(3, flash.Id);
-            Assert.Equal("Barry", flash.GivenName);
-            Assert.Equal("Allen", flash.Surname);
-            Assert.Equal("The Flash", flash.AlterEgo);
-            Assert.Equal(DateTime.Parse("1956-10-01"), flash.FirstAppearance);
-            Assert.Equal("Forensic scientist", flash.Occupation);
-            Assert.Equal("Central City", flash.City);
-            Assert.True(flash.Powers.SetEquals(new[] { "super speed", "intangibility", "superhuman agility", "time travel", "creates and controls lightning", "multiversal knowledge" }));
+            var superman = await _repository.ReadAsync(1);
+            Assert.Empty(superman.Powers);
         }
 
         [Fact]

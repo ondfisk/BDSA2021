@@ -64,7 +64,7 @@ namespace Lecture07.Infrastructure
 
         public async Task<Response> UpdateAsync(CharacterUpdateDTO character)
         {
-            var entity = await _context.Characters.FindAsync(character.Id);
+            var entity = await _context.Characters.Include(c => c.Powers).FirstOrDefaultAsync(c => c.Id == character.Id);
 
             if (entity == null)
             {

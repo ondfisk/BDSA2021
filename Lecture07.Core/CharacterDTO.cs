@@ -30,7 +30,7 @@ namespace Lecture07.Core
         public Gender Gender { get; init; }
 
         [Required]
-        public IReadOnlySet<string> Powers { get; init; }
+        public ISet<string> Powers { get; init; }
     }
 
     public record CharacterUpdateDTO : CharacterCreateDTO
