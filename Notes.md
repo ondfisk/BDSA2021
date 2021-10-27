@@ -18,6 +18,15 @@ dotnet add package Microsoft.Extensions.Configuration.Json
 dotnet add package Microsoft.Extensions.Configuration.UserSecrets
 ```
 
+## Configure IoC Container
+
+```csharp
+services.AddDbContext<ComicsContext>(options =>
+        options.UseSqlServer(Configuration.GetConnectionString("Comics")));
+services.AddScoped<IComicsContext, ComicsContext>();
+services.AddScoped<ICharacterRepository, CharacterRepository>();
+```
+
 ## Seed data
 
 ```csharp
