@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lecture07.Core\Lecture07.Core.csproj" />
-    <ProjectReference Include="..\Lecture07.Infrastructure\Lecture07.Infrastructure.csproj" />
+    <ProjectReference Include="..\Lecture08.Core\Lecture08.Core.csproj" />
+    <ProjectReference Include="..\Lecture08.Infrastructure\Lecture08.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
