@@ -9,7 +9,7 @@ namespace Lecture08.Core
         Task<CharacterDetailsDTO> CreateAsync(CharacterCreateDTO character);
         Task<CharacterDetailsDTO> ReadAsync(int characterId);
         Task<IReadOnlyCollection<CharacterDTO>> ReadAsync();
-        Task<Response> UpdateAsync(CharacterUpdateDTO character);
-        Task<Response> DeleteAsync(int characterId);
+        Task<Status> UpdateAsync(CharacterUpdateDTO character);
+        Task<Status> DeleteAsync(int characterId);
     }
 }

@@ -1,6 +1,6 @@
 namespace Lecture08.Core
 {
-    public enum Response
+    public enum Status
     {
         Created,
         Updated,

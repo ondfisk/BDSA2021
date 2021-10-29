@@ -1,13 +1,11 @@
-version: '3.4'
+version: '3.9'
 
 services:
   db:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
       ACCEPT_EULA: 'Y'
-      SA_PASSWORD_FILE: /run/secrets/db_password
-    secrets:
-      - db_password
+      SA_PASSWORD:
 
   web:
     image: web
@@ -18,13 +16,9 @@ services:
       - 5000:5000
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-    env_file:
-      - ./.local/environment.env
+    environment:
+      ConnectionStrings__Comics:
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
     depends_on:
       - db
-
-secrets:
-  db_password:
-    file: ./.local/db_password.txt

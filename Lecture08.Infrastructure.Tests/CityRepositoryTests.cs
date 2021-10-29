@@ -5,7 +5,7 @@ using Lecture08.Core;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
-using static Lecture08.Core.Response;
+using static Lecture08.Core.Status;
 
 namespace Lecture08.Infrastructure.Tests
 {

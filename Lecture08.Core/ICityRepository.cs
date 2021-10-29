@@ -6,11 +6,11 @@ namespace Lecture08.Core
 {
     public interface ICityRepository
     {
-        Task<(Response, CityDTO)> CreateAsync(CityCreateDTO city);
+        Task<(Status, CityDTO)> CreateAsync(CityCreateDTO city);
         Task<CityDTO> ReadAsync(int cityId);
         Task<IReadOnlyCollection<CityDTO>> ReadAsync();
 
-        Task<Response> UpdateAsync(CityDTO city);
-        Task<Response> DeleteAsync(int cityId);
+        Task<Status> UpdateAsync(CityDTO city);
+        Task<Status> DeleteAsync(int cityId);
     }
 }

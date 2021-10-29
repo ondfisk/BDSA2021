@@ -4,14 +4,16 @@ using Lecture08.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lecture08.Infrastructure.Migrations
 {
     [DbContext(typeof(ComicsContext))]
-    partial class ComicsContextModelSnapshot : ModelSnapshot
+    [Migration("20211029092813_UniqueAlterEgo")]
+    partial class UniqueAlterEgo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

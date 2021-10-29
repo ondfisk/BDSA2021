@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lecture08.Core;
 using Microsoft.EntityFrameworkCore;
-using static Lecture08.Core.Response;
+using static Lecture08.Core.Status;
 
 namespace Lecture08.Infrastructure
 {
@@ -62,7 +62,7 @@ namespace Lecture08.Infrastructure
                            .ToListAsync())
                            .AsReadOnly();
 
-        public async Task<Response> UpdateAsync(CharacterUpdateDTO character)
+        public async Task<Status> UpdateAsync(CharacterUpdateDTO character)
         {
             var entity = await _context.Characters.Include(c => c.Powers).FirstOrDefaultAsync(c => c.Id == character.Id);
 
@@ -85,7 +85,7 @@ namespace Lecture08.Infrastructure
             return Updated;
         }
 
-        public async Task<Response> DeleteAsync(int characterId)
+        public async Task<Status> DeleteAsync(int characterId)
         {
             var entity = await _context.Characters.FindAsync(characterId);
 

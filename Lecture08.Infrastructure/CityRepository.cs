@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lecture08.Core;
 using Microsoft.EntityFrameworkCore;
-using static Lecture08.Core.Response;
+using static Lecture08.Core.Status;
 
 namespace Lecture08.Infrastructure
 {
@@ -16,7 +16,7 @@ namespace Lecture08.Infrastructure
             _context = context;
         }
 
-        public async Task<(Response, CityDTO)> CreateAsync(CityCreateDTO city)
+        public async Task<(Status, CityDTO)> CreateAsync(CityCreateDTO city)
         {
             var conflict =
                 await _context.Cities
@@ -53,7 +53,7 @@ namespace Lecture08.Infrastructure
                            .ToListAsync())
                            .AsReadOnly();
 
-        public async Task<Response> UpdateAsync(CityDTO city)
+        public async Task<Status> UpdateAsync(CityDTO city)
         {
             var conflict = await _context.Cities
                                    .Where(c => c.Id != city.Id)
@@ -80,7 +80,7 @@ namespace Lecture08.Infrastructure
             return Updated;
         }
 
-        public async Task<Response> DeleteAsync(int cityId)
+        public async Task<Status> DeleteAsync(int cityId)
         {
             var entity =
                 await _context.Cities

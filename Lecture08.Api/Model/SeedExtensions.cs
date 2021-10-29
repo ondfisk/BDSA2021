@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using static Lecture08.Core.Gender;
 
-namespace Lecture08.Api
+namespace Lecture08.Api.Model
 {
     public static class SeedExtensions
     {

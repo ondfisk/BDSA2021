@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Lecture08.Api.Model;
 using Lecture08.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,24 +21,34 @@ namespace Lecture08.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IReadOnlyCollection<CharacterDTO>> Get() =>
-            await _repository.ReadAsync();
+        public async Task<IReadOnlyCollection<CharacterDTO>> Get()
+            => await _repository.ReadAsync();
 
+        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(CharacterDetailsDTO), 200)]
         [HttpGet("{id}")]
-        public async Task<CharacterDetailsDTO> Get(int id) =>
-            await _repository.ReadAsync(id);
+        public async Task<IActionResult> Get(int id)
+            => (await _repository.ReadAsync(id)).ToActionResult();
+
+        [HttpPost]
+        [ProducesResponseType(typeof(CharacterDetailsDTO), 201)]
+        public async Task<IActionResult> Post(CharacterCreateDTO character)
+        {
+            var created = await _repository.CreateAsync(character);
+
+            return CreatedAtRoute(nameof(Get), new { created.Id }, created);
+        }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Put(int id, [FromBody] CharacterUpdateDTO character)
-        {
-            var response = await _repository.UpdateAsync(character);
+            => (await _repository.UpdateAsync(character)).ToActionResult();
 
-            if (response == Lecture08.Core.Response.Updated)
-            {
-                return NoContent();
-            }
-
-            return NotFound();
-        }
+        [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Delete(int id)
+            => (await _repository.DeleteAsync(id)).ToActionResult();
     }
 }

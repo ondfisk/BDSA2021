@@ -1,3 +1,4 @@
+using Lecture08.Api.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
