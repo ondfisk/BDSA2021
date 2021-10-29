@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Lecture08.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Lecture08.Api.Controllers
 {
@@ -10,10 +11,12 @@ namespace Lecture08.Api.Controllers
     [Route("[controller]")]
     public class CharactersController : ControllerBase
     {
+        private readonly ILogger<CharactersController> _logger;
         private readonly ICharacterRepository _repository;
 
-        public CharactersController(ICharacterRepository repository)
+        public CharactersController(ILogger<CharactersController> logger, ICharacterRepository repository)
         {
+            _logger = logger;
             _repository = repository;
         }
 

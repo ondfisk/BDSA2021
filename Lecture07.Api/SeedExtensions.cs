@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Lecture07.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using static Lecture07.Core.Gender;
@@ -20,8 +21,10 @@ namespace Lecture07.Api
             return host;
         }
 
-        private static void SeedCharacters(IComicsContext context)
+        private static void SeedCharacters(ComicsContext context)
         {
+            context.Database.Migrate();
+
             if (!context.Characters.Any())
             {
                 var metropolis = new City { Name = "Metropolis" };

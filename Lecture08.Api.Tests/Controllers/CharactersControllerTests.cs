@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Lecture08.Api.Controllers;
 using Lecture08.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 using static Lecture08.Core.Response;
@@ -15,10 +16,11 @@ namespace Lecture08.Api.Tests.Controllers
         public async Task Get_returns_Characters_from_repo()
         {
             // Arrange
+            var logger = new Mock<ILogger<CharactersController>>();
             var expected = new CharacterDTO[0];
             var repository = new Mock<ICharacterRepository>();
             repository.Setup(m => m.ReadAsync()).ReturnsAsync(expected);
-            var controller = new CharactersController(repository.Object);
+            var controller = new CharactersController(logger.Object, repository.Object);
 
             // Act
             var actual = await controller.Get();
@@ -31,10 +33,11 @@ namespace Lecture08.Api.Tests.Controllers
         public async Task Put_updates_Character()
         {
             // Arrange
+            var logger = new Mock<ILogger<CharactersController>>();
             var character = new CharacterUpdateDTO();
             var repository = new Mock<ICharacterRepository>();
             repository.Setup(m => m.UpdateAsync(character)).ReturnsAsync(Updated);
-            var controller = new CharactersController(repository.Object);
+            var controller = new CharactersController(logger.Object, repository.Object);
 
             // Act
             var result = await controller.Put(1, character);
@@ -43,14 +46,15 @@ namespace Lecture08.Api.Tests.Controllers
             Assert.IsType<NoContentResult>(result);
         }
 
-                [Fact]
+        [Fact]
         public async Task Put_given_unknown_id_returns_NotFound()
         {
             // Arrange
+            var logger = new Mock<ILogger<CharactersController>>();
             var character = new CharacterUpdateDTO();
             var repository = new Mock<ICharacterRepository>();
             repository.Setup(m => m.UpdateAsync(character)).ReturnsAsync(NotFound);
-            var controller = new CharactersController(repository.Object);
+            var controller = new CharactersController(logger.Object, repository.Object);
 
             // Act
             var result = await controller.Put(1, character);
