@@ -6,7 +6,7 @@ namespace MyApp.Core
 {
     public record CharacterDTO(int Id, string GivenName, string Surname, string AlterEgo);
 
-    public record CharacterDetailsDTO(int Id, string GivenName, string Surname, string AlterEgo, string City, DateTime? FirstAppearance, string Occupation, IReadOnlySet<string> Powers) : CharacterDTO(Id, GivenName, Surname, AlterEgo);
+    public record CharacterDetailsDTO(int Id, string GivenName, string Surname, string AlterEgo, string City, Gender gender, DateTime? FirstAppearance, string Occupation, IReadOnlySet<string> Powers) : CharacterDTO(Id, GivenName, Surname, AlterEgo);
 
     public record CharacterCreateDTO
     {

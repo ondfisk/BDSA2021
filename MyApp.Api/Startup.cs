@@ -7,6 +7,8 @@ using Microsoft.OpenApi.Models;
 using MyApp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using MyApp.Core;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MyApp.Api
 {
@@ -22,15 +24,18 @@ namespace MyApp.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ComicsContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Comics")));
+            services.AddDbContext<ComicsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Comics")));
             services.AddScoped<IComicsContext, ComicsContext>();
             services.AddScoped<ICharacterRepository, CharacterRepository>();
-
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(c =>
+            {
+                c.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyApp.Api", Version = "v1" });
+                c.UseInlineDefinitionsForEnums();
             });
         }
 
@@ -45,7 +50,7 @@ namespace MyApp.Api
             }
             else
             {
-                // app.UseHttpsRedirection();
+                app.UseHttpsRedirection();
             }
 
             app.UseRouting();

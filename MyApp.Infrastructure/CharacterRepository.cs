@@ -48,6 +48,7 @@ namespace MyApp.Infrastructure
                                  c.Surname,
                                  c.AlterEgo,
                                  c.City.Name,
+                                 c.Gender,
                                  c.FirstAppearance,
                                  c.Occupation,
                                  c.Powers.Select(c => c.Name).ToHashSet()

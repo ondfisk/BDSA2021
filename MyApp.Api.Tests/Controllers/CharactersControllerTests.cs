@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
+using static MyApp.Core.Gender;
 using static MyApp.Core.Status;
 
 namespace MyApp.Api.Tests.Controllers
@@ -20,7 +21,7 @@ namespace MyApp.Api.Tests.Controllers
             // Arrange
             var logger = new Mock<ILogger<CharactersController>>();
             var toCreate = new CharacterCreateDTO();
-            var created = new CharacterDetailsDTO(1, "Clark", "Kent", "Superman", "Metropolis", DateTime.Parse("1938-04-18"), "Reporter", new HashSet<string>());
+            var created = new CharacterDetailsDTO(1, "Clark", "Kent", "Superman", "Metropolis", Male, DateTime.Parse("1938-04-18"), "Reporter", new HashSet<string>());
             var repository = new Mock<ICharacterRepository>();
             repository.Setup(m => m.CreateAsync(toCreate)).ReturnsAsync(created);
             var controller = new CharactersController(logger.Object, repository.Object);
@@ -73,7 +74,7 @@ namespace MyApp.Api.Tests.Controllers
             // Arrange
             var logger = new Mock<ILogger<CharactersController>>();
             var repository = new Mock<ICharacterRepository>();
-            var character = new CharacterDetailsDTO(1, "Clark", "Kent", "Superman", "Metropolis", DateTime.Parse("1931-01-01"), "Reporter", new HashSet<string>());
+            var character = new CharacterDetailsDTO(1, "Clark", "Kent", "Superman", "Metropolis", Male, DateTime.Parse("1931-01-01"), "Reporter", new HashSet<string>());
             repository.Setup(m => m.ReadAsync(1)).ReturnsAsync(character);
             var controller = new CharactersController(logger.Object, repository.Object);
 

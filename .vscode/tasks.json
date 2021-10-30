@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Lecture07.Api/Lecture07.Api.csproj",
+                "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Lecture07.Api/Lecture07.Api.csproj",
+                "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,67 +32,11 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Lecture07.Api/Lecture07.Api.csproj",
+                "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
-        },
-        {
-            "type": "docker-build",
-            "label": "docker-build: debug",
-            "dependsOn": [
-                "build"
-            ],
-            "dockerBuild": {
-                "tag": "bdsa2021:dev",
-                "target": "base",
-                "dockerfile": "${workspaceFolder}/MyApp.Api/Dockerfile",
-                "context": "${workspaceFolder}",
-                "pull": true
-            },
-            "netCore": {
-                "appProject": "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj"
-            }
-        },
-        {
-            "type": "docker-build",
-            "label": "docker-build: release",
-            "dependsOn": [
-                "build"
-            ],
-            "dockerBuild": {
-                "tag": "bdsa2021:latest",
-                "dockerfile": "${workspaceFolder}/MyApp.Api/Dockerfile",
-                "context": "${workspaceFolder}",
-                "pull": true
-            },
-            "netCore": {
-                "appProject": "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj"
-            }
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: debug",
-            "dependsOn": [
-                "docker-build: debug"
-            ],
-            "dockerRun": {},
-            "netCore": {
-                "appProject": "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj",
-                "enableDebugging": true
-            }
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: release",
-            "dependsOn": [
-                "docker-build: release"
-            ],
-            "dockerRun": {},
-            "netCore": {
-                "appProject": "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj"
-            }
         }
     ]
 }

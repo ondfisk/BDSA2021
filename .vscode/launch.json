@@ -1,4 +1,7 @@
 {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -6,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Lecture07.Api/bin/Debug/net5.0/Lecture07.Api.dll",
+            "program": "${workspaceFolder}/MyApp.Api/bin/Debug/net5.0/MyApp.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Lecture07.Api",
+            "cwd": "${workspaceFolder}/MyApp.Api",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -25,15 +28,6 @@
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
-        },
-        {
-            "name": "Docker .NET Core Launch",
-            "type": "docker",
-            "request": "launch",
-            "preLaunchTask": "docker-run: debug",
-            "netCore": {
-                "appProject": "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj"
-            }
         }
     ]
 }
