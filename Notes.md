@@ -1,5 +1,13 @@
 # Notes
 
+## Recrete Solution
+
+```powershell
+Get-ChildItem *.sln | Remove-Item
+dotnet new sln
+Get-ChildItem *.csproj -Recurse | ForEach-Object { dotnet sln add $PSItem }
+```
+
 ## Run SQL Server container
 
 ```PowerShell

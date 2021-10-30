@@ -47,12 +47,12 @@
             "dockerBuild": {
                 "tag": "bdsa2021:dev",
                 "target": "base",
-                "dockerfile": "${workspaceFolder}/Lecture08.Api/Dockerfile",
+                "dockerfile": "${workspaceFolder}/MyApp.Api/Dockerfile",
                 "context": "${workspaceFolder}",
                 "pull": true
             },
             "netCore": {
-                "appProject": "${workspaceFolder}/Lecture08.Api/Lecture08.Api.csproj"
+                "appProject": "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj"
             }
         },
         {
@@ -63,12 +63,12 @@
             ],
             "dockerBuild": {
                 "tag": "bdsa2021:latest",
-                "dockerfile": "${workspaceFolder}/Lecture08.Api/Dockerfile",
+                "dockerfile": "${workspaceFolder}/MyApp.Api/Dockerfile",
                 "context": "${workspaceFolder}",
                 "pull": true
             },
             "netCore": {
-                "appProject": "${workspaceFolder}/Lecture08.Api/Lecture08.Api.csproj"
+                "appProject": "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj"
             }
         },
         {
@@ -79,7 +79,7 @@
             ],
             "dockerRun": {},
             "netCore": {
-                "appProject": "${workspaceFolder}/Lecture08.Api/Lecture08.Api.csproj",
+                "appProject": "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj",
                 "enableDebugging": true
             }
         },
@@ -91,7 +91,7 @@
             ],
             "dockerRun": {},
             "netCore": {
-                "appProject": "${workspaceFolder}/Lecture08.Api/Lecture08.Api.csproj"
+                "appProject": "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj"
             }
         }
     ]
