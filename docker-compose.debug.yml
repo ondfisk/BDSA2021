@@ -5,7 +5,9 @@ services:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
       ACCEPT_EULA: 'Y'
-      SA_PASSWORD:
+      SA_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
 
   web:
     image: web
@@ -16,9 +18,16 @@ services:
       - 5000:5000
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-    environment:
-      ConnectionStrings__Comics:
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
     depends_on:
       - db
+    secrets:
+      - source: connection_string
+        target: ConnectionStrings__Comics
+
+secrets:
+  db_password:
+    file: ./.local/db_password.txt
+  connection_string:
+    file: ./.local/connection_string.txt

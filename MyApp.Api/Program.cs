@@ -1,6 +1,8 @@
 using MyApp.Api.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace MyApp.Api
 {
@@ -20,6 +22,7 @@ namespace MyApp.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .ConfigureAppConfiguration((context, config) => config.AddKeyPerFile("/run/secrets", optional: true));
     }
 }

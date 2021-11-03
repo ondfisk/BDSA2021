@@ -7,7 +7,6 @@ using Microsoft.OpenApi.Models;
 using MyApp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using MyApp.Core;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace MyApp.Api
