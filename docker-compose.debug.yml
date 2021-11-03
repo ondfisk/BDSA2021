@@ -5,7 +5,9 @@ services:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
       ACCEPT_EULA: 'Y'
-      SA_PASSWORD_FILE: /run/secrets/db_password
+      MSSQL_SA_PASSWORD_FILE: /run/secrets/db_password
+    ports:
+      - 1433:1433
     secrets:
       - db_password
 
