@@ -15,7 +15,7 @@ services:
     image: web
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./MyApp.Api/Dockerfile
     ports:
       - 5000:5000
     environment:
