@@ -13,8 +13,8 @@ services:
     secrets:
       - db_password
 
-  web:
-    image: web
+  api:
+    image: api
     build:
       context: .
       dockerfile: ./MyApp.Api/Dockerfile
