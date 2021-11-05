@@ -25,3 +25,9 @@ dotnet user-secrets set "ConnectionStrings:Comics" "$connectionString"
 dotnet add package Microsoft.Extensions.Configuration.Json
 dotnet add package Microsoft.Extensions.Configuration.UserSecrets
 ```
+
+## Change Ports
+
+```csharp
+webBuilder.UseUrls("http://localhost:5002", "https://localhost:5003");
+```
