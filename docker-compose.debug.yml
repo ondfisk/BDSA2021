@@ -2,23 +2,34 @@ version: '3.9'
 
 services:
   db:
-    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       ACCEPT_EULA: 'Y'
-      SA_PASSWORD:
+      MSSQL_SA_PASSWORD_FILE: /run/secrets/db_password
+    ports:
+      - 1433:1433
+    secrets:
+      - db_password
 
-  web:
-    image: web
+  api:
+    image: api
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./MyApp.Api/Dockerfile
     ports:
       - 5000:5000
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-    environment:
-      ConnectionStrings__Comics:
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
     depends_on:
       - db
+    secrets:
+      - source: connection_string
+        target: ConnectionStrings__Comics
+
+secrets:
+  db_password:
+    file: ./.local/db_password.txt
+  connection_string:
+    file: ./.local/connection_string.txt
