@@ -33,21 +33,21 @@ namespace MyApp.Infrastructure.Tests
         [Fact]
         public async Task CreateAsync_given_City_returns_Created_with_City()
         {
-            var city = new CityCreateDTO("Central City");
+            var city = new CityCreateDto("Central City");
 
             var created = await _repository.CreateAsync(city);
 
-            Assert.Equal((Created, new CityDTO(3, "Central City")), created);
+            Assert.Equal((Created, new CityDto(3, "Central City")), created);
         }
 
         [Fact]
         public async Task CreateAsync_given_existing_City_returns_Conflict_with_existing_City()
         {
-            var city = new CityCreateDTO("Gotham City");
+            var city = new CityCreateDto("Gotham City");
 
             var created = await _repository.CreateAsync(city);
 
-            Assert.Equal((Conflict, new CityDTO(2, "Gotham City")), created);
+            Assert.Equal((Conflict, new CityDto(2, "Gotham City")), created);
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace MyApp.Infrastructure.Tests
         {
             var city = await _repository.ReadAsync(2);
 
-            Assert.Equal(new CityDTO(2, "Gotham City"), city);
+            Assert.Equal(new CityDto(2, "Gotham City"), city);
         }
 
         [Fact]
@@ -72,15 +72,15 @@ namespace MyApp.Infrastructure.Tests
             var cities = await _repository.ReadAsync();
 
             Assert.Collection(cities,
-                city => Assert.Equal(new CityDTO(1, "Metropolis"), city),
-                city => Assert.Equal(new CityDTO(2, "Gotham City"), city)
+                city => Assert.Equal(new CityDto(1, "Metropolis"), city),
+                city => Assert.Equal(new CityDto(2, "Gotham City"), city)
             );
         }
 
         [Fact]
         public async Task UpdateAsync_given_non_existing_City_returns_NotFound()
         {
-            var city = new CityDTO(42, "Central City");
+            var city = new CityDto(42, "Central City");
 
             var response = await _repository.UpdateAsync(city);
 
@@ -90,7 +90,7 @@ namespace MyApp.Infrastructure.Tests
         [Fact]
         public async Task UpdateAsync_given_existing_name_returns_Conflict()
         {
-            var city = new CityDTO(2, "Metropolis");
+            var city = new CityDto(2, "Metropolis");
 
             var response = await _repository.UpdateAsync(city);
 
@@ -100,7 +100,7 @@ namespace MyApp.Infrastructure.Tests
         [Fact]
         public async Task UpdateAsync_updates_and_returns_Updated()
         {
-            var city = new CityDTO(2, "Central City");
+            var city = new CityDto(2, "Central City");
 
             var response = await _repository.UpdateAsync(city);
 

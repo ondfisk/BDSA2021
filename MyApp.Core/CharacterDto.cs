@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyApp.Core
 {
-    public record CharacterDTO(int Id, string GivenName, string Surname, string AlterEgo);
+    public record CharacterDto(int Id, string GivenName, string Surname, string AlterEgo);
 
-    public record CharacterDetailsDTO(int Id, string GivenName, string Surname, string AlterEgo, string City, Gender gender, int? FirstAppearance, string Occupation, string ImageUrl, IReadOnlySet<string> Powers) : CharacterDTO(Id, GivenName, Surname, AlterEgo);
+    public record CharacterDetailsDto(int Id, string GivenName, string Surname, string AlterEgo, string City, Gender Gender, int? FirstAppearance, string Occupation, string ImageUrl, IReadOnlySet<string> Powers) : CharacterDto(Id, GivenName, Surname, AlterEgo);
 
-    public record CharacterCreateDTO
+    public record CharacterCreateDto
     {
         [StringLength(50)]
         public string GivenName { get; init; }
@@ -34,7 +34,7 @@ namespace MyApp.Core
         public ISet<string> Powers { get; init; }
     }
 
-    public record CharacterUpdateDTO : CharacterCreateDTO
+    public record CharacterUpdateDto : CharacterCreateDto
     {
         public int Id { get; init; }
     }

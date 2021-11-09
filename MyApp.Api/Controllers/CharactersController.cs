@@ -21,18 +21,18 @@ namespace MyApp.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IReadOnlyCollection<CharacterDTO>> Get()
+        public async Task<IReadOnlyCollection<CharacterDto>> Get()
             => await _repository.ReadAsync();
 
         [ProducesResponseType(404)]
-        [ProducesResponseType(typeof(CharacterDetailsDTO), 200)]
+        [ProducesResponseType(typeof(CharacterDetailsDto), 200)]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
             => (await _repository.ReadAsync(id)).ToActionResult();
 
         [HttpPost]
-        [ProducesResponseType(typeof(CharacterDetailsDTO), 201)]
-        public async Task<IActionResult> Post(CharacterCreateDTO character)
+        [ProducesResponseType(typeof(CharacterDetailsDto), 201)]
+        public async Task<IActionResult> Post(CharacterCreateDto character)
         {
             var created = await _repository.CreateAsync(character);
 
@@ -42,7 +42,7 @@ namespace MyApp.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Put(int id, [FromBody] CharacterUpdateDTO character)
+        public async Task<IActionResult> Put(int id, [FromBody] CharacterUpdateDto character)
             => (await _repository.UpdateAsync(character)).ToActionResult();
 
         [HttpDelete("{id}")]

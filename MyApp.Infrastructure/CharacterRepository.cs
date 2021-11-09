@@ -17,7 +17,7 @@ namespace MyApp.Infrastructure
             _context = context;
         }
 
-        public async Task<CharacterDetailsDTO> CreateAsync(CharacterCreateDTO character)
+        public async Task<CharacterDetailsDto> CreateAsync(CharacterCreateDto character)
         {
             var entity = new Character
             {
@@ -38,11 +38,11 @@ namespace MyApp.Infrastructure
             return await ReadAsync(entity.Id);
         }
 
-        public async Task<CharacterDetailsDTO> ReadAsync(int characterId)
+        public async Task<CharacterDetailsDto> ReadAsync(int characterId)
         {
             var characters = from c in _context.Characters
                              where c.Id == characterId
-                             select new CharacterDetailsDTO(
+                             select new CharacterDetailsDto(
                                  c.Id,
                                  c.GivenName,
                                  c.Surname,
@@ -58,13 +58,13 @@ namespace MyApp.Infrastructure
             return await characters.FirstOrDefaultAsync();
         }
 
-        public async Task<IReadOnlyCollection<CharacterDTO>> ReadAsync() =>
+        public async Task<IReadOnlyCollection<CharacterDto>> ReadAsync() =>
             (await _context.Characters
-                           .Select(c => new CharacterDTO(c.Id, c.GivenName, c.Surname, c.AlterEgo))
+                           .Select(c => new CharacterDto(c.Id, c.GivenName, c.Surname, c.AlterEgo))
                            .ToListAsync())
                            .AsReadOnly();
 
-        public async Task<Status> UpdateAsync(CharacterUpdateDTO character)
+        public async Task<Status> UpdateAsync(CharacterUpdateDto character)
         {
             var entity = await _context.Characters.Include(c => c.Powers).FirstOrDefaultAsync(c => c.Id == character.Id);
 

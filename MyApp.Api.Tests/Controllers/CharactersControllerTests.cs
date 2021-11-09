@@ -20,8 +20,8 @@ namespace MyApp.Api.Tests.Controllers
         {
             // Arrange
             var logger = new Mock<ILogger<CharactersController>>();
-            var toCreate = new CharacterCreateDTO();
-            var created = new CharacterDetailsDTO(1, "Clark", "Kent", "Superman", "Metropolis", Male, 1938, "Reporter", "http://localhost/superman.jpg", new HashSet<string>());
+            var toCreate = new CharacterCreateDto();
+            var created = new CharacterDetailsDto(1, "Clark", "Kent", "Superman", "Metropolis", Male, 1938, "Reporter", "http://localhost/superman.jpg", new HashSet<string>());
             var repository = new Mock<ICharacterRepository>();
             repository.Setup(m => m.CreateAsync(toCreate)).ReturnsAsync(created);
             var controller = new CharactersController(logger.Object, repository.Object);
@@ -40,7 +40,7 @@ namespace MyApp.Api.Tests.Controllers
         {
             // Arrange
             var logger = new Mock<ILogger<CharactersController>>();
-            var expected = new CharacterDTO[0];
+            var expected = new CharacterDto[0];
             var repository = new Mock<ICharacterRepository>();
             repository.Setup(m => m.ReadAsync()).ReturnsAsync(expected);
             var controller = new CharactersController(logger.Object, repository.Object);
@@ -58,7 +58,7 @@ namespace MyApp.Api.Tests.Controllers
             // Arrange
             var logger = new Mock<ILogger<CharactersController>>();
             var repository = new Mock<ICharacterRepository>();
-            repository.Setup(m => m.ReadAsync(42)).ReturnsAsync(default(CharacterDetailsDTO));
+            repository.Setup(m => m.ReadAsync(42)).ReturnsAsync(default(CharacterDetailsDto));
             var controller = new CharactersController(logger.Object, repository.Object);
 
             // Act
@@ -74,7 +74,7 @@ namespace MyApp.Api.Tests.Controllers
             // Arrange
             var logger = new Mock<ILogger<CharactersController>>();
             var repository = new Mock<ICharacterRepository>();
-            var character = new CharacterDetailsDTO(1, "Clark", "Kent", "Superman", "Metropolis", Male, 1938, "Reporter", "http://localhost/superman.jpg", new HashSet<string>());
+            var character = new CharacterDetailsDto(1, "Clark", "Kent", "Superman", "Metropolis", Male, 1938, "Reporter", "http://localhost/superman.jpg", new HashSet<string>());
             repository.Setup(m => m.ReadAsync(1)).ReturnsAsync(character);
             var controller = new CharactersController(logger.Object, repository.Object);
 
@@ -90,7 +90,7 @@ namespace MyApp.Api.Tests.Controllers
         {
             // Arrange
             var logger = new Mock<ILogger<CharactersController>>();
-            var character = new CharacterUpdateDTO();
+            var character = new CharacterUpdateDto();
             var repository = new Mock<ICharacterRepository>();
             repository.Setup(m => m.UpdateAsync(character)).ReturnsAsync(Updated);
             var controller = new CharactersController(logger.Object, repository.Object);
@@ -107,7 +107,7 @@ namespace MyApp.Api.Tests.Controllers
         {
             // Arrange
             var logger = new Mock<ILogger<CharactersController>>();
-            var character = new CharacterUpdateDTO();
+            var character = new CharacterUpdateDto();
             var repository = new Mock<ICharacterRepository>();
             repository.Setup(m => m.UpdateAsync(character)).ReturnsAsync(NotFound);
             var controller = new CharactersController(logger.Object, repository.Object);

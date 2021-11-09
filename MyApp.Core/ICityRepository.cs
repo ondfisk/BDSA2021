@@ -6,11 +6,11 @@ namespace MyApp.Core
 {
     public interface ICityRepository
     {
-        Task<(Status, CityDTO)> CreateAsync(CityCreateDTO city);
-        Task<CityDTO> ReadAsync(int cityId);
-        Task<IReadOnlyCollection<CityDTO>> ReadAsync();
+        Task<(Status, CityDto)> CreateAsync(CityCreateDto city);
+        Task<CityDto> ReadAsync(int cityId);
+        Task<IReadOnlyCollection<CityDto>> ReadAsync();
 
-        Task<Status> UpdateAsync(CityDTO city);
+        Task<Status> UpdateAsync(CityDto city);
         Task<Status> DeleteAsync(int cityId);
     }
 }

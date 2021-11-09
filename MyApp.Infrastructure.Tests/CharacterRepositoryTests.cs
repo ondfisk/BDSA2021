@@ -63,7 +63,7 @@ namespace MyApp.Infrastructure.Tests
         [Fact]
         public async Task CreateAsync_creates_new_character_with_generated_id()
         {
-            var character = new CharacterCreateDTO
+            var character = new CharacterCreateDto
             {
                 GivenName = "Harleen",
                 Surname = "Quinzel",
@@ -93,10 +93,10 @@ namespace MyApp.Infrastructure.Tests
             var characters = await _repository.ReadAsync();
 
             Assert.Collection(characters,
-                character => Assert.Equal(new CharacterDTO(1, "Clark", "Kent", "Superman"), character),
-                character => Assert.Equal(new CharacterDTO(2, "Bruce", "Wayne", "Batman"), character),
-                character => Assert.Equal(new CharacterDTO(3, "Diana", "Prince", "Wonder Woman"), character),
-                character => Assert.Equal(new CharacterDTO(4, "Selina", "Kyle", "Catwoman"), character)
+                character => Assert.Equal(new CharacterDto(1, "Clark", "Kent", "Superman"), character),
+                character => Assert.Equal(new CharacterDto(2, "Bruce", "Wayne", "Batman"), character),
+                character => Assert.Equal(new CharacterDto(3, "Diana", "Prince", "Wonder Woman"), character),
+                character => Assert.Equal(new CharacterDto(4, "Selina", "Kyle", "Catwoman"), character)
             );
         }
 
@@ -127,7 +127,7 @@ namespace MyApp.Infrastructure.Tests
         [Fact]
         public async Task UpdateAsync_given_non_existing_id_returns_NotFound()
         {
-            var character = new CharacterUpdateDTO
+            var character = new CharacterUpdateDto
             {
                 Id = 42,
                 AlterEgo = "Harley Quinn",
@@ -143,7 +143,7 @@ namespace MyApp.Infrastructure.Tests
         [Fact]
         public async Task UpdateAsync_updates_existing_character()
         {
-            var character = new CharacterUpdateDTO
+            var character = new CharacterUpdateDto
             {
                 Id = 1,
                 GivenName = "Clark",
