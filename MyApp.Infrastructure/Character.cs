@@ -15,11 +15,11 @@ namespace MyApp.Infrastructure
         [StringLength(50)]
         public string Surname { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string AlterEgo { get; set; }
 
-        public DateTime FirstAppearance { get; set; }
+        [Range(1900, 2100)]
+        public int? FirstAppearance { get; set; }
 
         [StringLength(50)]
         public string Occupation { get; set; }
@@ -29,6 +29,10 @@ namespace MyApp.Infrastructure
         public City City { get; set; }
 
         public Gender Gender { get; set; }
+
+        [StringLength(250)]
+        [Url]
+        public string ImageUrl { get; set; }
 
         public ICollection<Power> Powers { get; set; }
     }

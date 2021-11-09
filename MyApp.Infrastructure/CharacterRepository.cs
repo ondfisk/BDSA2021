@@ -51,6 +51,7 @@ namespace MyApp.Infrastructure
                                  c.Gender,
                                  c.FirstAppearance,
                                  c.Occupation,
+                                 c.ImageUrl,
                                  c.Powers.Select(c => c.Name).ToHashSet()
                              );
 

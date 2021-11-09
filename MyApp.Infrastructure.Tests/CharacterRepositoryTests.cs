@@ -48,10 +48,10 @@ namespace MyApp.Infrastructure.Tests
             var gymnasticAbility = new Power { Name = "gymnastic ability" };
 
             context.Characters.AddRange(
-                new Character { Id = 1, GivenName = "Clark", Surname = "Kent", AlterEgo = "Superman", Occupation = "Reporter", City = metropolis, Gender = Male, FirstAppearance = DateTime.Parse("1938-04-18"), Powers = new[] { superStrength, flight, invulnerability, superSpeed, heatVision, freezeBreath, xRayVision, superhumanHearing, healingFactor } },
-                new Character { Id = 2, GivenName = "Bruce", Surname = "Wayne", AlterEgo = "Batman", Occupation = "CEO of Wayne Enterprises", City = gothamCity, Gender = Male, FirstAppearance = DateTime.Parse("1939-05-01"), Powers = new[] { exceptionalMartialArtist, combatStrategy, inexhaustibleWealth, brilliantDeductiveSkill, advancedTechnology } },
-                new Character { Id = 3, GivenName = "Diana", Surname = "Prince", AlterEgo = "Wonder Woman", Occupation = "Amazon Princess", City = themyscira, Gender = Female, FirstAppearance = DateTime.Parse("1941-10-21"), Powers = new[] { superStrength, invulnerability, flight, combatSkill, combatStrategy, superhumanAgility, healingFactor, magicWeaponry } },
-                new Character { Id = 4, GivenName = "Selina", Surname = "Kyle", AlterEgo = "Catwoman", Occupation = "Thief", City = gothamCity, Gender = Female, FirstAppearance = DateTime.Parse("1940-04-01"), Powers = new[] { exceptionalMartialArtist, gymnasticAbility, combatSkill } }
+                new Character { Id = 1, GivenName = "Clark", Surname = "Kent", AlterEgo = "Superman", Occupation = "Reporter", City = metropolis, Gender = Male, FirstAppearance = 1938, ImageUrl = "http://localhost/superman.jpg", Powers = new[] { superStrength, flight, invulnerability, superSpeed, heatVision, freezeBreath, xRayVision, superhumanHearing, healingFactor } },
+                new Character { Id = 2, GivenName = "Bruce", Surname = "Wayne", AlterEgo = "Batman", Occupation = "CEO of Wayne Enterprises", City = gothamCity, Gender = Male, FirstAppearance = 1939, ImageUrl = "http://localhost/batman.jpg", Powers = new[] { exceptionalMartialArtist, combatStrategy, inexhaustibleWealth, brilliantDeductiveSkill, advancedTechnology } },
+                new Character { Id = 3, GivenName = "Diana", Surname = "Prince", AlterEgo = "Wonder Woman", Occupation = "Amazon Princess", City = themyscira, Gender = Female, FirstAppearance = 1941, ImageUrl = "http://localhost/wonder-woman.jpg", Powers = new[] { superStrength, invulnerability, flight, combatSkill, combatStrategy, superhumanAgility, healingFactor, magicWeaponry } },
+                new Character { Id = 4, GivenName = "Selina", Surname = "Kyle", AlterEgo = "Catwoman", Occupation = "Thief", City = gothamCity, Gender = Female, FirstAppearance = 1940, ImageUrl = "http://localhost/catwoman.jpg", Powers = new[] { exceptionalMartialArtist, gymnasticAbility, combatSkill } }
             );
 
             context.SaveChanges();
@@ -68,7 +68,7 @@ namespace MyApp.Infrastructure.Tests
                 GivenName = "Harleen",
                 Surname = "Quinzel",
                 AlterEgo = "Harley Quinn",
-                FirstAppearance = DateTime.Parse("1992-09-11"),
+                FirstAppearance = 1992,
                 Occupation = "Former psychiatrist",
                 City = "Gotham City",
                 Gender = Female,
@@ -83,7 +83,7 @@ namespace MyApp.Infrastructure.Tests
             Assert.Equal("Harley Quinn", created.AlterEgo);
             Assert.Equal("Gotham City", created.City);
             Assert.Equal("Former psychiatrist", created.Occupation);
-            Assert.Equal(DateTime.Parse("1992-09-11"), created.FirstAppearance);
+            Assert.Equal(1992, created.FirstAppearance);
             Assert.True(created.Powers.SetEquals(new[] { "complete unpredictability", "superhuman agility", "skilled fighter", "intelligence", "emotional manipulation", "immunity to toxins" }));
         }
 
@@ -118,8 +118,9 @@ namespace MyApp.Infrastructure.Tests
             Assert.Equal("Kyle", character.Surname);
             Assert.Equal("Catwoman", character.AlterEgo);
             Assert.Equal("Gotham City", character.City);
-            Assert.Equal(DateTime.Parse("1940-04-01"), character.FirstAppearance);
+            Assert.Equal(1940, character.FirstAppearance);
             Assert.Equal("Thief", character.Occupation);
+            Assert.Equal("http://localhost/catwoman.jpg", character.ImageUrl);
             Assert.True(character.Powers.SetEquals(new[] { "exceptional martial artist", "gymnastic ability", "combat skill" }));
         }
 
@@ -148,7 +149,7 @@ namespace MyApp.Infrastructure.Tests
                 GivenName = "Clark",
                 Surname = "Kent",
                 AlterEgo = "Superman",
-                FirstAppearance = DateTime.Parse("1938-04-18"),
+                FirstAppearance = 1938,
                 Occupation = "Reporter",
                 City = "Metropolis",
                 Gender = Male,
