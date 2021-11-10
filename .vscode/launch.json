@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/MyApp.Api/bin/Debug/net5.0/MyApp.Api.dll",
+            "program": "${workspaceFolder}/MyApp.Api/bin/Debug/net6.0/MyApp.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/MyApp.Api",
             "stopAtEntry": false,

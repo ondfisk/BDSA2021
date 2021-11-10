@@ -1,28 +1,39 @@
-using MyApp.Api.Model;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using System.IO;
-using Microsoft.Extensions.Configuration;
+var builder = WebApplication.CreateBuilder(args);
 
-namespace MyApp.Api
+builder.Configuration.AddKeyPerFile("/run/secrets", optional: true);
+
+// Add services to the container.
+builder.Services.AddControllers().AddJsonOptions(c =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var hostBuilder = CreateHostBuilder(args).Build();
+    c.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyApp.Api", Version = "v1" });
+    c.UseInlineDefinitionsForEnums();
+}); 
+builder.Services.AddDbContext<ComicsContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Comics")));
+builder.Services.AddScoped<IComicsContext, ComicsContext>();
+builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 
-            hostBuilder.Seed();
+var app = builder.Build();
 
-            hostBuilder.Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-                .ConfigureAppConfiguration((context, config) => config.AddKeyPerFile("/run/secrets", optional: true));
-    }
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Seed();
+
+app.Run();

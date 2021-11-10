@@ -1,22 +1,19 @@
-using System;
+namespace Linq;
 
-namespace Linq
+public enum LogLevel { Verbose, Warning, Debug, Error };
+
+public class SubSystem
 {
-    public enum LogLevel { Verbose, Warning, Debug, Error };
+    private Action<string, LogLevel> _logger;
 
-    public class SubSystem
+    public SubSystem(Action<string, LogLevel> logger)
     {
-        private Action<string, LogLevel> _logger;
+        _logger = logger;
 
-        public SubSystem(Action<string, LogLevel> logger)
-        {
-            _logger = logger;
+    }
 
-        }
-
-        public void Operation(string input)
-        {
-            _logger(input, LogLevel.Verbose);
-        }
+    public void Operation(string input)
+    {
+        _logger(input, LogLevel.Verbose);
     }
 }

@@ -1,31 +1,27 @@
-using MyApp.Core;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+namespace MyApp.Infrastructure;
 
-namespace MyApp.Infrastructure
+public class ComicsContext : DbContext, IComicsContext
 {
-    public class ComicsContext : DbContext, IComicsContext
+    public DbSet<City> Cities => Set<City>();
+    public DbSet<Power> Powers => Set<Power>();
+    public DbSet<Character> Characters => Set<Character>();
+
+    public ComicsContext(DbContextOptions<ComicsContext> options) : base(options) { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public DbSet<City> Cities { get; set; }
-        public DbSet<Power> Powers { get; set; }
-        public DbSet<Character> Characters { get; set; }
+        modelBuilder
+            .Entity<Character>()
+            .Property(e => e.Gender)
+            .HasMaxLength(50)
+            .HasConversion(new EnumToStringConverter<Gender>());
 
-        public ComicsContext(DbContextOptions<ComicsContext> options) : base(options) { }
+        modelBuilder.Entity<City>()
+                    .HasIndex(s => s.Name)
+                    .IsUnique();
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder
-                .Entity<Character>()
-                .Property(e => e.Gender)
-                .HasConversion(new EnumToStringConverter<Gender>());
-
-            modelBuilder.Entity<City>()
-                        .HasIndex(s => s.Name)
-                        .IsUnique();
-
-            modelBuilder.Entity<Power>()
-                        .HasIndex(p => p.Name)
-                        .IsUnique();
-        }
+        modelBuilder.Entity<Power>()
+                    .HasIndex(p => p.Name)
+                    .IsUnique();
     }
 }

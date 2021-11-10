@@ -51,19 +51,19 @@ namespace MyApp.Infrastructure.Tests
         }
 
         [Fact]
-        public async Task ReadAsync_given_non_existing_id_returns_null()
+        public async Task ReadAsync_given_non_existing_id_returns_None()
         {
-            var city = await _repository.ReadAsync(42);
+            var option = await _repository.ReadAsync(42);
 
-            Assert.Null(city);
+            Assert.True(option.IsNone);
         }
 
         [Fact]
         public async Task ReadAsync_given_existing_id_returns_city()
         {
-            var city = await _repository.ReadAsync(2);
+            var option = await _repository.ReadAsync(2);
 
-            Assert.Equal(new CityDto(2, "Gotham City"), city);
+            Assert.Equal(new CityDto(2, "Gotham City"), option.Value);
         }
 
         [Fact]
@@ -104,10 +104,9 @@ namespace MyApp.Infrastructure.Tests
 
             var response = await _repository.UpdateAsync(city);
 
-            var entity = await _context.Cities.FirstOrDefaultAsync(c => c.Name == "Central City");
+            var entity = await _context.Cities.FirstAsync(c => c.Name == "Central City");
 
             Assert.Equal(Updated, response);
-
 
             Assert.Equal(2, entity.Id);
         }
@@ -141,9 +140,26 @@ namespace MyApp.Infrastructure.Tests
             Assert.NotNull(entity);
         }
 
+        private bool disposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+
+                disposed = true;
+            }
+        }
+
         public void Dispose()
         {
-            _context.Dispose();
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

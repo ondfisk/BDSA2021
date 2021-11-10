@@ -1,75 +1,68 @@
-using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+namespace AsyncAndParallel;
 
-namespace AsyncAndParallel
+public class TaskParallelLibrary
 {
-    public class TaskParallelLibrary
+    public static void For()
     {
-        public static void For()
+        Parallel.For(0, 999, i =>
         {
-            Parallel.For(0, 999, i =>
-            {
-                Console.WriteLine(i);
-            });
-        }
+            Console.WriteLine(i);
+        });
+    }
 
-        public static void ForEach()
+    public static void ForEach()
+    {
+        var sw = Stopwatch.StartNew();
+
+        var numbers = Enumerable.Range(0, 1000);
+
+        var options = new ParallelOptions { MaxDegreeOfParallelism = 1 };
+
+        Parallel.ForEach(numbers, number =>
         {
-            var sw = Stopwatch.StartNew();
+            Task.Delay(1).Wait();
+            Console.WriteLine(number);
+        });
 
-            var numbers = Enumerable.Range(0, 1000);
+        Console.WriteLine($"That took: {sw.ElapsedMilliseconds} milis");
+    }
 
-            var options = new ParallelOptions { MaxDegreeOfParallelism = 1 };
+    public static void Invoke()
+    {
+        var sw = Stopwatch.StartNew();
 
-            Parallel.ForEach(numbers, number =>
-            {
-                Task.Delay(1).Wait();
-                Console.WriteLine(number);
-            });
+        Parallel.Invoke(
+            SuperLongRunningThingy1,
+            SuperLongRunningThingy2,
+            SuperLongRunningThingy3,
+            SuperLongRunningThingy1,
+            SuperLongRunningThingy2,
+            SuperLongRunningThingy3,
+            SuperLongRunningThingy4
+        );
 
-            Console.WriteLine($"That took: {sw.ElapsedMilliseconds} milis");
-        }
+        sw.Stop();
 
-        public static void Invoke()
-        {
-            var sw = Stopwatch.StartNew();
+        Console.WriteLine(sw.Elapsed);
+    }
 
-            Parallel.Invoke(
-                SuperLongRunningThingy1,
-                SuperLongRunningThingy2,
-                SuperLongRunningThingy3,
-                SuperLongRunningThingy1,
-                SuperLongRunningThingy2,
-                SuperLongRunningThingy3,
-                SuperLongRunningThingy4
-            );
+    private static void SuperLongRunningThingy1()
+    {
+        Thread.Sleep(TimeSpan.FromSeconds(1));
+    }
 
-            sw.Stop();
+    private static void SuperLongRunningThingy2()
+    {
+        Thread.Sleep(TimeSpan.FromSeconds(1));
+    }
 
-            Console.WriteLine(sw.Elapsed);
-        }
+    private static void SuperLongRunningThingy3()
+    {
+        Thread.Sleep(TimeSpan.FromSeconds(1));
+    }
 
-        private static void SuperLongRunningThingy1()
-        {
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-        }
-
-        private static void SuperLongRunningThingy2()
-        {
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-        }
-
-        private static void SuperLongRunningThingy3()
-        {
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-        }
-
-        private static void SuperLongRunningThingy4()
-        {
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-        }
+    private static void SuperLongRunningThingy4()
+    {
+        Thread.Sleep(TimeSpan.FromSeconds(1));
     }
 }
