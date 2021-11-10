@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.Infrastructure.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Web", "MyApp.Web\MyApp.Web.csproj", "{9B996F74-085C-4057-A1F9-63602C7394CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncAndParallel.UI", "AsyncAndParallel.UI\AsyncAndParallel.UI.csproj", "{775DF798-5E11-4184-A9E8-AA88BE2F4E86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -195,6 +197,18 @@ Global
 		{9B996F74-085C-4057-A1F9-63602C7394CD}.Release|x64.Build.0 = Release|Any CPU
 		{9B996F74-085C-4057-A1F9-63602C7394CD}.Release|x86.ActiveCfg = Release|Any CPU
 		{9B996F74-085C-4057-A1F9-63602C7394CD}.Release|x86.Build.0 = Release|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Debug|x64.Build.0 = Debug|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Debug|x86.Build.0 = Debug|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Release|x64.ActiveCfg = Release|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Release|x64.Build.0 = Release|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Release|x86.ActiveCfg = Release|Any CPU
+		{775DF798-5E11-4184-A9E8-AA88BE2F4E86}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
