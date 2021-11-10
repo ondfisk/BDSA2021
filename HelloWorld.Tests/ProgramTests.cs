@@ -10,7 +10,9 @@ public class ProgramTests
         Console.SetOut(writer);
 
         // Act
-        Program.Main(new string[0]);
+        var program = Assembly.LoadFrom("HelloWorld.dll");
+        program?.EntryPoint?.Invoke(null, new[] { Array.Empty<string>() });
+
         var output = writer.GetStringBuilder().ToString().Trim();
 
         // Assert
