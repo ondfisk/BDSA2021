@@ -6,7 +6,7 @@ public class City
 
     [Required]
     [StringLength(50)]
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; } = null!;
 
     public ICollection<Character> Characters { get; set; } = null!;
 }

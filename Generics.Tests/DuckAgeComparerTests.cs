@@ -11,8 +11,8 @@ public class DuckAgeComparerTests
     [Fact]
     public void Compare_given_x_less_than_y_returns_minus_1()
     {
-        var x = new Duck { Name = "Huey Duck", Age = 10 };
-        var y = new Duck { Name = "Scrooge McDuck", Age = 60 };
+        var x = new Duck(3, "Huey Duck", 10);
+        var y = new Duck(6, "Scrooge McDuck", 60);
 
         var comparer = new DuckAgeComparer();
         var c = comparer.Compare(x, y);
@@ -23,8 +23,8 @@ public class DuckAgeComparerTests
     [Fact]
     public void Compare_given_x_more_than_y_returns_1()
     {
-        var x = new Duck { Name = "Magica De Spell", Age = 302 };
-        var y = new Duck { Name = "Donald Duck", Age = 32 };
+        var x = new Duck(8, "Magica De Spell", 302);
+        var y = new Duck(1, "Donald Duck", 32);
 
         var comparer = new DuckAgeComparer();
         var c = comparer.Compare(x, y);
@@ -35,8 +35,8 @@ public class DuckAgeComparerTests
     [Fact]
     public void Compare_given_x_equals_y_returns_0()
     {
-        var x = new Duck { Name = "Huey Duck", Age = 10 };
-        var y = new Duck { Name = "Dewey Duck", Age = 10 };
+        var x = new Duck(3, "Huey Duck", 10);
+        var y = new Duck(4, "Dewey Duck", 10);
 
         var comparer = new DuckAgeComparer();
         var c = comparer.Compare(x, y);

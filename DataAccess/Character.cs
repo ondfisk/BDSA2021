@@ -10,7 +10,7 @@ public class Character
 
     [Required]
     [StringLength(50)]
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; } = null!;
 
     [StringLength(50)]
     public string? Species { get; set; }
