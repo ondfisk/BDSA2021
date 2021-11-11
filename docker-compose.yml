@@ -22,15 +22,16 @@ services:
   #   volumes:
   #     - /data:./_data
 
-  api:
-    image: api
+  server:
+    image: server
     build:
       context: .
-      dockerfile: ./MyApp.Api/Dockerfile
+      dockerfile: ./MyApp.Server/Dockerfile
     environment:
       ConnectionStrings__Comics:
     ports:
-      - 5000:5000
+      - 5077:5077
+      - 7207:7207
     depends_on:
       - db
       - storage

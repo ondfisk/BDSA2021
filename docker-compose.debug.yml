@@ -20,13 +20,14 @@ services:
   #   volumes:
   #     - /data:./_data
 
-  api:
-    image: api
+  server:
+    image: server
     build:
       context: .
-      dockerfile: ./MyApp.Api/Dockerfile
+      dockerfile: ./MyApp.Server/Dockerfile
     ports:
-      - 5000:5000
+      - 5077:5077
+      - 7207:7207
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     volumes:
