@@ -36,6 +36,12 @@ class Program
 
         var optionsBuilder = new DbContextOptionsBuilder<FuturamaContext>().UseSqlServer(connectionString);
         using var context = new FuturamaContext(optionsBuilder.Options);
+        FuturamaContextFactory.Seed(context);
+
+        foreach (var character in context.Characters.Include(c => c.Actor).AsNoTracking())
+        {
+            Console.WriteLine(character);
+        }
     }
 
     static IConfiguration LoadConfiguration()

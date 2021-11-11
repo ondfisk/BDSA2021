@@ -15,28 +15,28 @@ public class CharacterRepositoryTests : IDisposable
         var context = new ComicsContext(builder.Options);
         context.Database.EnsureCreated();
 
-        var metropolis = new City { Id = 1, Name = "Metropolis" };
-        var gothamCity = new City { Id = 2, Name = "Gotham City" };
-        var themyscira = new City { Id = 3, Name = "Themyscira" };
+        var metropolis = new City("Metropolis");
+        var gothamCity = new City("Gotham City");
+        var themyscira = new City("Themyscira");
 
-        var superStrength = new Power { Name = "super strength" };
-        var flight = new Power { Name = "flight" };
-        var invulnerability = new Power { Name = "invulnerability" };
-        var superSpeed = new Power { Name = "super speed" };
-        var heatVision = new Power { Name = "heat vision" };
-        var freezeBreath = new Power { Name = "freeze breath" };
-        var xRayVision = new Power { Name = "x-ray vision" };
-        var superhumanHearing = new Power { Name = "superhuman hearing" };
-        var healingFactor = new Power { Name = "healing factor" };
-        var exceptionalMartialArtist = new Power { Name = "exceptional martial artist" };
-        var combatStrategy = new Power { Name = "combat strategy" };
-        var inexhaustibleWealth = new Power { Name = "inexhaustible wealth" };
-        var brilliantDeductiveSkill = new Power { Name = "brilliant deductive skill" };
-        var advancedTechnology = new Power { Name = "advanced technology" };
-        var combatSkill = new Power { Name = "combat skill" };
-        var superhumanAgility = new Power { Name = "superhuman weaponry" };
-        var magicWeaponry = new Power { Name = "magic agility" };
-        var gymnasticAbility = new Power { Name = "gymnastic ability" };
+        var superStrength = new Power("super strength");
+        var flight = new Power("flight");
+        var invulnerability = new Power("invulnerability");
+        var superSpeed = new Power("super speed");
+        var heatVision = new Power("heat vision");
+        var freezeBreath = new Power("freeze breath");
+        var xRayVision = new Power("x-ray vision");
+        var superhumanHearing = new Power("superhuman hearing");
+        var healingFactor = new Power("healing factor");
+        var exceptionalMartialArtist = new Power("exceptional martial artist");
+        var combatStrategy = new Power("combat strategy");
+        var inexhaustibleWealth = new Power("inexhaustible wealth");
+        var brilliantDeductiveSkill = new Power("brilliant deductive skill");
+        var advancedTechnology = new Power("advanced technology");
+        var combatSkill = new Power("combat skill");
+        var superhumanAgility = new Power("superhuman weaponry");
+        var magicWeaponry = new Power("magic agility");
+        var gymnasticAbility = new Power("gymnastic ability");
 
         context.Characters.AddRange(
             new Character { Id = 1, GivenName = "Clark", Surname = "Kent", AlterEgo = "Superman", Occupation = "Reporter", City = metropolis, Gender = Male, FirstAppearance = 1938, ImageUrl = "http://localhost/superman.jpg", Powers = new[] { superStrength, flight, invulnerability, superSpeed, heatVision, freezeBreath, xRayVision, superhumanHearing, healingFactor } },

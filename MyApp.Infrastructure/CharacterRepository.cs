@@ -106,7 +106,7 @@ public class CharacterRepository : ICharacterRepository
     }
 
     private async Task<City?> GetCityAsync(string? name) =>
-        string.IsNullOrWhiteSpace(name) ? null : await _context.Cities.FirstOrDefaultAsync(c => c.Name == name) ?? new City { Name = name };
+        string.IsNullOrWhiteSpace(name) ? null : await _context.Cities.FirstOrDefaultAsync(c => c.Name == name) ?? new City(name);
 
     private async IAsyncEnumerable<Power> GetPowersAsync(IEnumerable<string> powers)
     {
@@ -114,7 +114,7 @@ public class CharacterRepository : ICharacterRepository
 
         foreach (var power in powers)
         {
-            yield return existing.TryGetValue(power, out var p) ? p : new Power { Name = power };
+            yield return existing.TryGetValue(power, out var p) ? p : new Power(power);
         }
     }
 }

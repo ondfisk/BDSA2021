@@ -22,10 +22,6 @@ $connectionString = "Server=localhost;Database=$database;User Id=sa;Password=$pa
 ```powershell
 dotnet user-secrets init
 dotnet user-secrets set "ConnectionStrings:Comics" "$connectionString"
-
-# Console App Only:
-dotnet add package Microsoft.Extensions.Configuration.Json
-dotnet add package Microsoft.Extensions.Configuration.UserSecrets
 ```
 
 ## Change Ports

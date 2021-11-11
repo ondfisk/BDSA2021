@@ -21,8 +21,7 @@ namespace MyApp.Infrastructure.Tests
             builder.UseSqlite(connection);
             var context = new ComicsContext(builder.Options);
             context.Database.EnsureCreated();
-            context.Cities.Add(new City { Id = 1, Name = "Metropolis" });
-            context.Cities.Add(new City { Id = 2, Name = "Gotham City" });
+            context.Cities.AddRange(new City("Metropolis") { Id = 1 }, new City("Gotham City") { Id = 2 });
             context.Characters.Add(new Character { Id = 1, AlterEgo = "Superman", CityId = 1 });
             context.SaveChanges();
 

@@ -22,7 +22,7 @@ namespace MyApp.Infrastructure
                 return (Conflict, conflict);
             }
 
-            var entity = new City { Name = city.Name };
+            var entity = new City(city.Name);
 
             _context.Cities.Add(entity);
 
