@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj",
+                "${workspaceFolder}/MyApp.Server/MyApp.Server.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj",
+                "${workspaceFolder}/MyApp.Server/MyApp.Server.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/MyApp.Api/MyApp.Api.csproj",
+                "${workspaceFolder}/MyApp.Server/MyApp.Server.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
