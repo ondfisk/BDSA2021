@@ -17,11 +17,11 @@ public record Superhero
 
 public record Superhero2
 {
-    public string GivenName { get; init; }
-    public string Surname { get; init; }
-    public string AlterEgo { get; init; }
+    public string? GivenName { get; init; }
+    public string? Surname { get; init; }
+    public string? AlterEgo { get; init; }
     public DateTime FirstAppearance { get; init; }
-    public string City { get; init; }
+    public string? City { get; init; }
 
     public override string ToString() => $"{GivenName} {Surname} aka {AlterEgo}";
 }

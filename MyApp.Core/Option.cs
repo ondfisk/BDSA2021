@@ -1,10 +1,10 @@
 ﻿namespace MyApp.Core;
 
-public record Option<T> where T : class
+public struct Option<T> where T : class
 {
     private readonly T? _value;
 
-    public T Value => _value ?? throw new NullReferenceException();
+    public T Value => _value ?? throw new InvalidOperationException();
 
     public bool IsNone => _value == null;
 
@@ -16,5 +16,6 @@ public record Option<T> where T : class
     }
 
     public static implicit operator T(Option<T> option) => option.Value;
+
     public static implicit operator Option<T>(T? value) => new(value);
 }
