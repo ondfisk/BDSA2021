@@ -1,64 +1,61 @@
-using System;
-using System.Collections.Generic;
+#pragma warning disable CA1822
+namespace Generics;
 
-namespace Generics
+public class Person
 {
-    public class Person
+}
+
+public class Student : Person
+{
+    public int Semester { get; set; }
+}
+
+public class PeopleComparer : IComparer<Person>
+{
+    public int Compare(Person? x, Person? y) => throw new NotImplementedException();
+}
+
+public class StudentComparer : IComparer<Student>
+{
+    public int Compare(Student? x, Student? y) => x?.Semester - y?.Semester ?? 0;
+}
+
+public class Variance
+{
+    public void ArrayTypeCovariance()
     {
+        Person[] people = new Student[9];
+
+        // What happens here?
+        people[3] = new Person();
     }
 
-    public class Student : Person
+    public void Invariance()
     {
-        public int Semester { get; set; }
+        // List<object> obj;
+
+        // IList<Person> people = new List<Student>();
+
+        // IList<Student> students = new List<Person>();
     }
 
-    public class PeopleComparer : IComparer<Person>
+    public void Covariance()
     {
-        public int Compare(Person x, Person y) => throw new NotImplementedException();
+        // IEnumerable<object> obj;
+
+        // IEnumerable<Person> people = new List<Student>();
+
+        // IEnumerable<Student> students = new List<Person>();
     }
 
-    public class StudentComparer : IComparer<Student>
+    public void Contravariance()
     {
-        public int Compare(Student x, Student y) => x.Semester - y.Semester;
-    }
+        // IComparer<object> objComparer;
+        // IComparable<object> objComparable;
+        // Comparison<object> objComparison;
 
-    public class Variance
-    {
-        public void ArrayTypeCovariance()
-        {
-            Person[] people = new Student[9];
+        // IComparer<Person> studentComparer = new StudentComparer();
 
-            // What happens here?
-            people[3] = new Person();
-        }
-
-        public void Invariance()
-        {
-            // List<object> obj;
-
-            // IList<Person> people = new List<Student>();
-
-            // IList<Student> students = new List<Person>();
-        }
-
-        public void Covariance()
-        {
-            // IEnumerable<object> obj;
-
-            // IEnumerable<Person> people = new List<Student>();
-
-            // IEnumerable<Student> students = new List<Person>();
-        }
-
-        public void Contravariance()
-        {
-            // IComparer<object> objComparer;
-            // IComparable<object> objComparable;
-            // Comparison<object> objComparison;
-
-            // IComparer<Person> studentComparer = new StudentComparer();
-
-            // IComparer<Student> peopleComparer = new PeopleComparer();
-        }
+        // IComparer<Student> peopleComparer = new PeopleComparer();
     }
 }

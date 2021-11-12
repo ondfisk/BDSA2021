@@ -1,24 +1,20 @@
-using System;
-using System.Collections.Generic;
+namespace Generics;
 
-namespace Generics
+public class DuckAgeComparer : IComparer<Duck>
 {
-    public class DuckAgeComparer : IComparer<Duck>
+    public int Compare(Duck? x, Duck? y)
     {
-        public int Compare(Duck x, Duck y)
+        if (x?.Age < y?.Age)
         {
-            if (x.Age < y.Age)
-            {
-                return -1;
-            }
-            if (x.Age > y.Age)
-            {
-                return 1;
-            }
-
-            return 0;
+            return -1;
+        }
+        if (x?.Age > y?.Age)
+        {
+            return 1;
         }
 
-        public static Comparison<Duck> Comparison => new DuckAgeComparer().Compare;
+        return 0;
     }
+
+    public static Comparison<Duck> Comparison => new DuckAgeComparer().Compare;
 }

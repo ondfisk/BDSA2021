@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+namespace MyApp.Core;
 
-namespace MyApp.Core
+public interface ICharacterRepository
 {
-    public interface ICharacterRepository
-    {
-        Task<CharacterDetailsDTO> CreateAsync(CharacterCreateDTO character);
-        Task<CharacterDetailsDTO> ReadAsync(int characterId);
-        Task<IReadOnlyCollection<CharacterDTO>> ReadAsync();
-        Task<Status> UpdateAsync(CharacterUpdateDTO character);
-        Task<Status> DeleteAsync(int characterId);
-    }
+    Task<CharacterDetailsDto> CreateAsync(CharacterCreateDto character);
+    Task<Option<CharacterDetailsDto>> ReadAsync(int characterId);
+    Task<IReadOnlyCollection<CharacterDto>> ReadAsync();
+    Task<Status> UpdateAsync(int id, CharacterUpdateDto character);
+    Task<Status> DeleteAsync(int characterId);
 }

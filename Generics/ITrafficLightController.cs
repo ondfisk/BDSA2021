@@ -1,12 +1,11 @@
-namespace Generics
-{
-    public interface ITrafficLightController
-    {
-        bool MayIGo(TrafficLightColor color);
-    }
+namespace Generics;
 
-    public interface IBadTrafficLightController
-    {
-        bool MayIGo(string color);
-    }
+public interface ITrafficLightController
+{
+    bool MayIGo(TrafficLightColor color);
+}
+
+public interface IBadTrafficLightController
+{
+    bool MayIGo(string color);
 }

@@ -11,13 +11,23 @@ services:
     secrets:
       - db_password
 
-  api:
-    image: api
+  # storage:
+  #   image: mcr.microsoft.com/azure-storage/azurite
+  #   ports:
+  #     - 10000:10000
+  #     - 10001:10001
+  #     - 10002:10002
+  #   volumes:
+  #     - /data:./_data
+
+  server:
+    image: server
     build:
       context: .
-      dockerfile: ./MyApp.Api/Dockerfile
+      dockerfile: ./MyApp.Server/Dockerfile
     ports:
-      - 5000:5000
+      - 5077:5077
+      - 7207:7207
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     volumes:

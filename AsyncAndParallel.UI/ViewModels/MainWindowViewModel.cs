@@ -67,7 +67,7 @@ namespace AsyncAndParallel.UI.ViewModels
 
             var data = await _client.GetStringAsync(url);
 
-            var json = JsonSerializer.Deserialize<ExchangeRate>(data, _serializerOptions);
+            var json = JsonSerializer.Deserialize<ExchangeRate>(data, _serializerOptions) ?? new ExchangeRate();
 
             return json.Rate;
         }

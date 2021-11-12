@@ -1,0 +1,96 @@
+---
+- givenName: Clark
+  surname: Kent
+  alterEgo: Superman
+  firstAppearance: 1938
+  occupation: Reporter
+  city: Metropolis
+  gender: Male
+  powers:
+    - super strength
+    - flight
+    - invulnerability
+    - super speed
+    - heat vision,
+    - freeze breath
+    - x-ray vision
+    - super human hearing
+    - healing factor
+
+- givenName: Bruce
+  surname: Wayne
+  alterEgo: Superman
+  occupation: CEO of Wayne Enterprises
+  city: Gotham City
+  gender: Male
+  firstAppearance: 1939
+  powers:
+    - exceptional martial artist
+    - combat strategy
+    - inexhaustible wealth
+    - brilliant deductive skill
+    - advanced technology
+
+- givenName: Diana
+  surname: Prince
+  alterEgo: Wonder Woman
+  occupation: Amazon Princess
+  city: Themyscira
+  gender: Female
+  firstAppearance: 1941
+  powers:
+    - super strength
+    - invulnerability
+    - flight
+    - combat skill
+    - combat strategy
+    - superhuman agility
+    - healing factor
+    - magic weaponry
+
+- givenName: Selina
+  surname: Kyle
+  alterEgo: Catwoman
+  occupation: Thief
+  city: Gotham City
+  gender: Female
+  firstAppearance: 1940
+  powers:
+    - exceptional martial artist
+    - gymnastic ability
+    - combat skill
+
+- givenName: Harleen
+  surname: Quinzel
+  alterEgo: Harley Quinn
+  occupation: Former psychiatrist
+  city: Gotham City
+  gender: Female
+  firstAppearance: 1992
+  powers:
+    - complete unpredictability
+    - superhuman agility
+    - skilled fighter
+    - intelligence
+    - emotional manipulation
+    - immunity to toxins
+
+- givenName: Lex
+  surname: Luthor
+  occupation: CEO of LexCorp
+  city: Metropolis
+  firstAppearance: 1940
+  gender: Male
+  powers:
+    - genius-level intellect
+    - inexhaustible wealth
+    - political influence
+- alterEgo: The Joker
+  city: Gotham City
+  gender: Male
+  firstAppearance: 1940
+  powers:
+    - complete unpredictability
+    - chaos agent
+    - customized weapons
+    - wields toxin which causes victims to die laughing

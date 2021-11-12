@@ -1,24 +1,38 @@
-using System;
-using System.IO;
-using Xunit;
+namespace HelloWorld.Tests;
 
-namespace HelloWorld.Tests
+public class ProgramTests
 {
-    public class ProgramTests
+    [Fact]
+    public void Main_prints_Hello_World()
     {
-        [Fact]
-        public void Main_prints_Hello_World()
-        {
-            // Arrange
-            var writer = new StringWriter();
-            Console.SetOut(writer);
+        // Arrange
+        var writer = new StringWriter();
+        Console.SetOut(writer);
 
-            // Act
-            Program.Main(new string[0]);
-            var output = writer.GetStringBuilder().ToString().Trim();
+        // Act
+        var program = Assembly.LoadFrom("HelloWorld.dll");
+        program?.EntryPoint?.Invoke(null, new[] { Array.Empty<string>() });
 
-            // Assert
-            Assert.Equal("Hello, World!", output);
-        }
+        var output = writer.GetStringBuilder().ToString().Trim();
+
+        // Assert
+        Assert.Equal("Hello, World!", output);
+    }
+
+    [Fact]
+    public void Main_given_Class_prints_Hello_Class()
+    {
+        // Arrange
+        var writer = new StringWriter();
+        Console.SetOut(writer);
+
+        // Act
+        var program = Assembly.LoadFrom("HelloWorld.dll");
+        program?.EntryPoint?.Invoke(null, new[] { new[] { "Class" } });
+
+        var output = writer.GetStringBuilder().ToString().Trim();
+
+        // Assert
+        Assert.Equal("Hello, Class!", output);
     }
 }

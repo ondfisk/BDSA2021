@@ -1,12 +1,1 @@
-using System;
-
-namespace HelloWorld
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
-        }
-    }
-}
+Console.WriteLine($"Hello, {(args.Length > 0 ? args[0] : "World")}!");

@@ -1,17 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+namespace MyApp.Infrastructure;
 
-namespace MyApp.Infrastructure
+public class Power
 {
-    public class Power
+    public int Id { get; set; }
+
+    [StringLength(50)]
+    public string Name { get; set; }
+
+    public ICollection<Character> Characters { get; set; } = null!;
+
+    public Power(string name)
     {
-        public int Id { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string Name { get; set; }
-
-        public ICollection<Character> Characters { get; set; }
+        Name = name;
     }
 }

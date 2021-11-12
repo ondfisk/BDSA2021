@@ -1,35 +1,30 @@
-using System;
-using System.Diagnostics;
-using System.Linq;
+namespace AsyncAndParallel;
 
-namespace AsyncAndParallel
+public class ParallelLinq
 {
-    public class ParallelLinq
+    public static void Run()
     {
-        public static void Run()
-        {
-            var numbers = Enumerable.Range(1, 5000000);
+        var numbers = Enumerable.Range(1, 5000000);
 
-            var query = from n in numbers.AsParallel().AsOrdered()
-                        where Enumerable.Range(2, (int)Math.Sqrt(n)).All(i => n % i > 0)
-                        select n;
+        var query = from n in numbers.AsParallel().AsOrdered()
+                    where Enumerable.Range(2, (int)Math.Sqrt(n)).All(i => n % i > 0)
+                    select n;
 
-            var primes = Time(query.ToArray, out TimeSpan time);
+        var primes = Time(query.ToArray, out TimeSpan time);
 
-            Console.WriteLine("Primes: {0}, first: {1}, last: {2}", time, primes.First(), primes.Last());
-        }
+        Console.WriteLine("Primes: {0}, first: {1}, last: {2}", time, primes.First(), primes.Last());
+    }
 
-        private static T Time<T>(Func<T> action, out TimeSpan time)
-        {
-            var stopwatch = Stopwatch.StartNew();
+    private static T Time<T>(Func<T> action, out TimeSpan time)
+    {
+        var stopwatch = Stopwatch.StartNew();
 
-            var result = action();
+        var result = action();
 
-            stopwatch.Stop();
+        stopwatch.Stop();
 
-            time = stopwatch.Elapsed;
+        time = stopwatch.Elapsed;
 
-            return result;
-        }
+        return result;
     }
 }

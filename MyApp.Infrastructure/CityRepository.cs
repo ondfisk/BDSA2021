@@ -1,10 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MyApp.Core;
-using Microsoft.EntityFrameworkCore;
-using static MyApp.Core.Status;
-
 namespace MyApp.Infrastructure
 {
     public class CityRepository : ICityRepository
@@ -16,12 +9,12 @@ namespace MyApp.Infrastructure
             _context = context;
         }
 
-        public async Task<(Status, CityDTO)> CreateAsync(CityCreateDTO city)
+        public async Task<(Status, CityDto)> CreateAsync(CityCreateDto city)
         {
             var conflict =
                 await _context.Cities
                               .Where(c => c.Name == city.Name)
-                              .Select(c => new CityDTO(c.Id, c.Name))
+                              .Select(c => new CityDto(c.Id, c.Name))
                               .FirstOrDefaultAsync();
 
             if (conflict != null)
@@ -29,36 +22,36 @@ namespace MyApp.Infrastructure
                 return (Conflict, conflict);
             }
 
-            var entity = new City { Name = city.Name };
+            var entity = new City(city.Name);
 
             _context.Cities.Add(entity);
 
             await _context.SaveChangesAsync();
 
-            return (Created, new CityDTO(entity.Id, entity.Name));
+            return (Created, new CityDto(entity.Id, entity.Name));
         }
 
-        public async Task<CityDTO> ReadAsync(int cityId)
+        public async Task<Option<CityDto>> ReadAsync(int cityId)
         {
             var cities = from c in _context.Cities
                          where c.Id == cityId
-                         select new CityDTO(c.Id, c.Name);
+                         select new CityDto(c.Id, c.Name);
 
             return await cities.FirstOrDefaultAsync();
         }
 
-        public async Task<IReadOnlyCollection<CityDTO>> ReadAsync() =>
+        public async Task<IReadOnlyCollection<CityDto>> ReadAsync() =>
             (await _context.Cities
-                           .Select(c => new CityDTO(c.Id, c.Name))
+                           .Select(c => new CityDto(c.Id, c.Name))
                            .ToListAsync())
                            .AsReadOnly();
 
-        public async Task<Status> UpdateAsync(CityDTO city)
+        public async Task<Status> UpdateAsync(CityDto city)
         {
             var conflict = await _context.Cities
                                    .Where(c => c.Id != city.Id)
                                    .Where(c => c.Name == city.Name)
-                                   .Select(c => new CityDTO(c.Id, c.Name))
+                                   .Select(c => new CityDto(c.Id, c.Name))
                                    .AnyAsync();
 
             if (conflict)

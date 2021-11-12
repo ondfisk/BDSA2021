@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using MyApp.Core;
 using Microsoft.Data.Sqlite;
@@ -22,8 +21,7 @@ namespace MyApp.Infrastructure.Tests
             builder.UseSqlite(connection);
             var context = new ComicsContext(builder.Options);
             context.Database.EnsureCreated();
-            context.Cities.Add(new City { Id = 1, Name = "Metropolis" });
-            context.Cities.Add(new City { Id = 2, Name = "Gotham City" });
+            context.Cities.AddRange(new City("Metropolis") { Id = 1 }, new City("Gotham City") { Id = 2 });
             context.Characters.Add(new Character { Id = 1, AlterEgo = "Superman", CityId = 1 });
             context.SaveChanges();
 
@@ -34,37 +32,37 @@ namespace MyApp.Infrastructure.Tests
         [Fact]
         public async Task CreateAsync_given_City_returns_Created_with_City()
         {
-            var city = new CityCreateDTO("Central City");
+            var city = new CityCreateDto("Central City");
 
             var created = await _repository.CreateAsync(city);
 
-            Assert.Equal((Created, new CityDTO(3, "Central City")), created);
+            Assert.Equal((Created, new CityDto(3, "Central City")), created);
         }
 
         [Fact]
         public async Task CreateAsync_given_existing_City_returns_Conflict_with_existing_City()
         {
-            var city = new CityCreateDTO("Gotham City");
+            var city = new CityCreateDto("Gotham City");
 
             var created = await _repository.CreateAsync(city);
 
-            Assert.Equal((Conflict, new CityDTO(2, "Gotham City")), created);
+            Assert.Equal((Conflict, new CityDto(2, "Gotham City")), created);
         }
 
         [Fact]
-        public async Task ReadAsync_given_non_existing_id_returns_null()
+        public async Task ReadAsync_given_non_existing_id_returns_None()
         {
-            var city = await _repository.ReadAsync(42);
+            var option = await _repository.ReadAsync(42);
 
-            Assert.Null(city);
+            Assert.True(option.IsNone);
         }
 
         [Fact]
         public async Task ReadAsync_given_existing_id_returns_city()
         {
-            var city = await _repository.ReadAsync(2);
+            var option = await _repository.ReadAsync(2);
 
-            Assert.Equal(new CityDTO(2, "Gotham City"), city);
+            Assert.Equal(new CityDto(2, "Gotham City"), option.Value);
         }
 
         [Fact]
@@ -73,15 +71,15 @@ namespace MyApp.Infrastructure.Tests
             var cities = await _repository.ReadAsync();
 
             Assert.Collection(cities,
-                city => Assert.Equal(new CityDTO(1, "Metropolis"), city),
-                city => Assert.Equal(new CityDTO(2, "Gotham City"), city)
+                city => Assert.Equal(new CityDto(1, "Metropolis"), city),
+                city => Assert.Equal(new CityDto(2, "Gotham City"), city)
             );
         }
 
         [Fact]
         public async Task UpdateAsync_given_non_existing_City_returns_NotFound()
         {
-            var city = new CityDTO(42, "Central City");
+            var city = new CityDto(42, "Central City");
 
             var response = await _repository.UpdateAsync(city);
 
@@ -91,7 +89,7 @@ namespace MyApp.Infrastructure.Tests
         [Fact]
         public async Task UpdateAsync_given_existing_name_returns_Conflict()
         {
-            var city = new CityDTO(2, "Metropolis");
+            var city = new CityDto(2, "Metropolis");
 
             var response = await _repository.UpdateAsync(city);
 
@@ -101,14 +99,13 @@ namespace MyApp.Infrastructure.Tests
         [Fact]
         public async Task UpdateAsync_updates_and_returns_Updated()
         {
-            var city = new CityDTO(2, "Central City");
+            var city = new CityDto(2, "Central City");
 
             var response = await _repository.UpdateAsync(city);
 
-            var entity = await _context.Cities.FirstOrDefaultAsync(c => c.Name == "Central City");
+            var entity = await _context.Cities.FirstAsync(c => c.Name == "Central City");
 
             Assert.Equal(Updated, response);
-
 
             Assert.Equal(2, entity.Id);
         }
@@ -142,9 +139,26 @@ namespace MyApp.Infrastructure.Tests
             Assert.NotNull(entity);
         }
 
+        private bool disposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+
+                disposed = true;
+            }
+        }
+
         public void Dispose()
         {
-            _context.Dispose();
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

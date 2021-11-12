@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+namespace MyApp.Core;
 
-namespace MyApp.Core
+public interface ICityRepository
 {
-    public interface ICityRepository
-    {
-        Task<(Status, CityDTO)> CreateAsync(CityCreateDTO city);
-        Task<CityDTO> ReadAsync(int cityId);
-        Task<IReadOnlyCollection<CityDTO>> ReadAsync();
-
-        Task<Status> UpdateAsync(CityDTO city);
-        Task<Status> DeleteAsync(int cityId);
-    }
+    Task<(Status, CityDto)> CreateAsync(CityCreateDto city);
+    Task<Option<CityDto>> ReadAsync(int cityId);
+    Task<IReadOnlyCollection<CityDto>> ReadAsync();
+    Task<Status> UpdateAsync(CityDto city);
+    Task<Status> DeleteAsync(int cityId);
 }

@@ -36,4 +36,12 @@ ASP.NET Core Web API part deux
 
 ## Lecture 9
 
-...
+Web applications with C#
+
+## Lecture 10
+
+Mobile and Desktop Applications with C#
+
+## Lecture 11
+
+Security
