@@ -18,4 +18,21 @@ public class ProgramTests
         // Assert
         Assert.Equal("Hello, World!", output);
     }
+
+    [Fact]
+    public void Main_given_Class_prints_Hello_Class()
+    {
+        // Arrange
+        var writer = new StringWriter();
+        Console.SetOut(writer);
+
+        // Act
+        var program = Assembly.LoadFrom("HelloWorld.dll");
+        program?.EntryPoint?.Invoke(null, new[] { new[] { "Class" } });
+
+        var output = writer.GetStringBuilder().ToString().Trim();
+
+        // Assert
+        Assert.Equal("Hello, Class!", output);
+    }
 }

@@ -28,6 +28,11 @@
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
+        },
+        {
+            "type": "blazorwasm",
+            "request": "attach",
+            "name": "Attach to Existing Blazor WebAssembly Application"
         }
     ]
 }
