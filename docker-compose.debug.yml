@@ -11,32 +11,28 @@ services:
     secrets:
       - db_password
 
-  # storage:
-  #   image: mcr.microsoft.com/azure-storage/azurite
-  #   ports:
-  #     - 10000:10000
-  #     - 10001:10001
-  #     - 10002:10002
-  #   volumes:
-  #     - /data:./_data
-
   server:
     image: server
     build:
       context: .
       dockerfile: ./MyApp.Server/Dockerfile
-    ports:
-      - 5077:5077
-      - 7207:7207
     environment:
+      ConnectionStrings__Comics:
       ASPNETCORE_ENVIRONMENT: Development
-    volumes:
-      - ~/.vsdbg:/remote_debugger:rw
+      ASPNETCORE_URLS: https://+;http://+
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      ASPNETCORE_Kestrel__Certificates__Default__Password: localhost
+    ports:
+      - 5077:80
+      - 7207:443
     depends_on:
       - db
     secrets:
       - source: connection_string
         target: ConnectionStrings__Comics
+    volumes:
+      - '../../../../.aspnet/https:/https/'
+      - ~/.vsdbg:/remote_debugger:rw
 
 secrets:
   db_password:
