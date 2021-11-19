@@ -1,7 +1,9 @@
 namespace MyApp.Server.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
+[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]

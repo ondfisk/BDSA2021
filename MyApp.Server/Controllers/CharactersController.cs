@@ -1,7 +1,9 @@
 namespace MyApp.Server.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
+[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class CharactersController : ControllerBase
 {
     private readonly ILogger<CharactersController> _logger;
@@ -13,16 +15,19 @@ public class CharactersController : ControllerBase
         _repository = repository;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IReadOnlyCollection<CharacterDto>> Get()
         => await _repository.ReadAsync();
 
+    [AllowAnonymous]
     [ProducesResponseType(404)]
     [ProducesResponseType(typeof(CharacterDetailsDto), 200)]
     [HttpGet("{id}")]
     public async Task<ActionResult<CharacterDetailsDto>> Get(int id)
         => (await _repository.ReadAsync(id)).ToActionResult();
 
+    [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(CharacterDetailsDto), 201)]
     public async Task<IActionResult> Post(CharacterCreateDto character)
@@ -32,15 +37,17 @@ public class CharactersController : ControllerBase
         return CreatedAtRoute(nameof(Get), new { created.Id }, created);
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> Put(int id, [FromBody] CharacterUpdateDto character)
-        => (await _repository.UpdateAsync(id, character)).ToActionResult();
+           => (await _repository.UpdateAsync(id, character)).ToActionResult();
 
+    [Authorize]
     [HttpDelete("{id}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> Delete(int id)
-        => (await _repository.DeleteAsync(id)).ToActionResult();
+          => (await _repository.DeleteAsync(id)).ToActionResult();
 }
