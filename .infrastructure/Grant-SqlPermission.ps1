@@ -24,7 +24,7 @@ process {
             SELECT * FROM sys.database_principals
             WHERE [name] = '`$(Identity)' AND [type] = 'E')
         BEGIN
-            CREATE USER `$(Identity) FROM EXTERNAL PROVIDER
+            CREATE USER [`$(Identity)] FROM EXTERNAL PROVIDER
         END
 
         IF NOT EXISTS (
@@ -34,7 +34,7 @@ process {
             WHERE p.name = '`$(Identity)' AND o.name = 'db_owner'
         )
         BEGIN
-            ALTER ROLE db_owner ADD MEMBER `$(Identity)
+            ALTER ROLE db_owner ADD MEMBER [`$(Identity)]
         END
 "@
     Invoke-Sqlcmd -ServerInstance "$Server.database.windows.net" `
