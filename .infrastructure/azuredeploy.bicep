@@ -1,11 +1,11 @@
 param location string = resourceGroup().location
 param sqlServerName string
 param sqlAzureAdLogin string
-param sqlAzureAdPrincipalType string
+param sqlAzureAdPrincipalType string = 'Group'
 param sqlAzureAdPrincipalId string
 param sqlDatabaseName string
 param storageAccountName string
-param blobContainerName string
+param blobContainerName string = 'images'
 param appServicePlanName string
 param webAppName string
 
@@ -67,8 +67,8 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-06-01' = {
   }
   kind: 'StorageV2'
   properties: {
-    allowBlobPublicAccess: false
-    allowSharedKeyAccess: true
+    allowBlobPublicAccess: true
+    allowSharedKeyAccess: false
     minimumTlsVersion: 'TLS1_2'
     supportsHttpsTrafficOnly: true
   }
@@ -78,6 +78,9 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-06-01' = {
 
     resource blobContainer 'containers' = {
       name: blobContainerName
+      properties: {
+        publicAccess: 'Blob'
+      }
     }
   }
 }
