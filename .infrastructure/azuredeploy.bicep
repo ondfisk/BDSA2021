@@ -47,7 +47,7 @@ resource sqlServer 'Microsoft.Sql/servers@2021-05-01-preview' = {
   }
 
   resource sqlDatabaseStaging 'databases' = {
-    name: '{sqlDatabaseName}-staging'
+    name: '${sqlDatabaseName}-staging'
     location: location
     sku: {
       name: 'GP_S_Gen5_1'
@@ -101,10 +101,10 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
 resource webApp 'Microsoft.Web/sites@2021-02-01' = {
   name: webAppName
   location: location
-  kind: 'app,linux'
   identity: {
     type: 'SystemAssigned'
   }
+  kind: 'app,linux'
   properties: {
     httpsOnly: true
     reserved: true
@@ -118,6 +118,7 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
       http20Enabled: true
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
+      netFrameworkVersion: 'v6.0'
     }
   }
 
@@ -125,36 +126,34 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
     name: 'appsettings'
     properties: {}
   }
-}
 
-resource stagingDeploymentSlot 'Microsoft.Web/sites/slots@2021-02-01' = {
-  name: '${webAppName}/staging'
-  location: location
-  kind: 'app,linux'
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    httpsOnly: true
-    reserved: true
-    serverFarmId: appServicePlan.id
-  }
-
-  resource web 'config' = {
-    name: 'web'
+  resource stagingDeploymentSlot 'slots' = {
+    name: 'staging'
+    location: location
+    identity: {
+      type: 'SystemAssigned'
+    }
+    kind: 'app,linux'
     properties: {
-      ftpsState: 'Disabled'
-      http20Enabled: true
-      minTlsVersion: '1.2'
-      scmMinTlsVersion: '1.2'
+      httpsOnly: true
+      reserved: true
+      serverFarmId: appServicePlan.id
+    }
+
+    resource web 'config' = {
+      name: 'web'
+      properties: {
+        ftpsState: 'Disabled'
+        http20Enabled: true
+        minTlsVersion: '1.2'
+        scmMinTlsVersion: '1.2'
+        netFrameworkVersion: 'v6.0'
+      }
+    }
+
+    resource appSettings 'config' = {
+      name: 'appsettings'
+      properties: {}
     }
   }
-
-  resource appSettings 'config' = {
-    name: 'appsettings'
-    properties: {}
-  }
 }
-
-output webAppManagedIdentity string = webApp.identity.principalId
-output webAppStagingManagedIdentity string = stagingDeploymentSlot.identity.principalId
