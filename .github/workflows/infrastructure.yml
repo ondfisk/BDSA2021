@@ -7,6 +7,7 @@ on:
       - main
       - lecture12
     paths:
+      - .github/workflows/infrastructure.yml
       - .infrastructure/**
   pull_request:
     branches:
@@ -50,9 +51,15 @@ jobs:
           scope: resourcegroup
           region: ${{ env.LOCATION }}
           resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
-          template: ./.infrastructure/azuredeploy.bicep
+          template: .infrastructure/azuredeploy.bicep
           deploymentMode: Validate
-          parameters: ./.infrastructure/azuredeploy.parameters.json
+          parameters: .infrastructure/azuredeploy.parameters.json
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: infrastructure
+          path: .infrastructure/
 
   deploy:
     name: Deploy
@@ -63,7 +70,10 @@ jobs:
     environment: Production
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: infrastructure
+          path: .
 
       - name: Azure Login
         uses: azure/login@v1
@@ -77,9 +87,9 @@ jobs:
           scope: resourcegroup
           region: ${{ env.LOCATION }}
           resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
-          template: ./.infrastructure/azuredeploy.bicep
+          template: .infrastructure/azuredeploy.bicep
           deploymentMode: Incremental
-          parameters: ./.infrastructure/azuredeploy.parameters.json
+          parameters: .infrastructure/azuredeploy.parameters.json
 
       - name: Install PowerShell Modules
         run: |
@@ -88,5 +98,5 @@ jobs:
 
       - name: Grant Web App Managed Identity Access To SQL Database
         run: |
-          ./.infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.DATABASE_NAME }}" -Identity "${{ env.WEBAPP_NAME }}"
-          ./.infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.STAGING_DATABASE_NAME }}" -Identity "${{ env.WEBAPP_STAGING_SLOT_NAME }}"
+          .infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.DATABASE_NAME }}" -Identity "${{ env.WEBAPP_NAME }}"
+          .infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.STAGING_DATABASE_NAME }}" -Identity "${{ env.WEBAPP_STAGING_SLOT_NAME }}"

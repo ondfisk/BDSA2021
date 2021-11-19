@@ -16,7 +16,6 @@ resource sqlServer 'Microsoft.Sql/servers@2021-05-01-preview' = {
     type: 'SystemAssigned'
   }
   properties: {
-    administratorLogin: 'sysadm'
     administrators: {
       administratorType: 'ActiveDirectory'
       azureADOnlyAuthentication: true
