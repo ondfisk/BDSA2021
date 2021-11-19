@@ -65,7 +65,7 @@ jobs:
           inlineScript: |
             az group create --name ${{ env.RESOURCE_GROUP_NAME }} --location ${{ env.LOCATION }}
 
-      - name: Validate Azure Resources
+      - name: Validate Azure Resource Deployment
         uses: azure/arm-deploy@v1
         with:
           scope: resourcegroup
@@ -74,14 +74,6 @@ jobs:
           template: .infrastructure/azuredeploy.bicep
           deploymentMode: Validate
           parameters: .infrastructure/azuredeploy.parameters.json
-
-      - name: What If Deployment
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az deployment group what-if --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
-            --template-file ./.infrastructure/azuredeploy.bicep \
-            --parameters @./.infrastructure/azuredeploy.parameters.json
 
   deploy:
     name: Deploy
