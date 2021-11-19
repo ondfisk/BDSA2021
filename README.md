@@ -45,3 +45,7 @@ Mobile and Desktop Applications with C#
 ## Lecture 11
 
 Security
+
+## Lecture 12
+
+`this._course.Dispose();`
