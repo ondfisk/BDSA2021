@@ -4,12 +4,16 @@ name: Build & Test
 on:
   push:
     paths-ignore:
+      - .github/workflows/infrastructure.yml
+      - .infrastructure/**
       - '**.md'
     branches:
       - main
 
   pull_request:
     paths-ignore:
+      - .github/workflows/infrastructure.yml
+      - .infrastructure/**
       - '**.md'
     branches:
       - main

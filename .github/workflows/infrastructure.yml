@@ -41,8 +41,8 @@ jobs:
           name: infrastructure
           path: .infrastructure/
 
-  validate:
-    name: Validate
+  test:
+    name: Test
     runs-on: ubuntu-latest
     needs:
       - build
@@ -75,12 +75,20 @@ jobs:
           deploymentMode: Validate
           parameters: .infrastructure/azuredeploy.parameters.json
 
+      - name: What If Deployment
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az deployment group what-if --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
+            --template-file ./.infrastructure/azuredeploy.bicep \
+            --parameters @./.infrastructure/azuredeploy.parameters.json
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     #if: ${{ github.ref == 'refs/heads/main' }}
     needs:
-      - validate
+      - test
     environment: Production
 
     steps:
@@ -113,6 +121,8 @@ jobs:
 
       - name: Grant Web App Managed Identity Access To SQL Database
         run: |
+          Import-Module Az.Accounts
+          Import-Module SqlServer
           ./.infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.DATABASE_NAME }}" -Identity "${{ env.WEBAPP_NAME }}"
           ./.infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.STAGING_DATABASE_NAME }}" -Identity "${{ env.WEBAPP_STAGING_SLOT_NAME }}"
         shell: pwsh
