@@ -44,3 +44,11 @@ dotnet dev-certs https --trust
     <TrimmerRootAssembly Include="Microsoft.Authentication.WebAssembly.Msal" />
 </ItemGroup>
 ```
+
+## User Specific Access (Authorization)
+
+## Allow
+
+## Demo next time
+
+Create page for user claims demo

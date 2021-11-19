@@ -1,7 +1,9 @@
 namespace MyApp.Server.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
+[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class CharactersController : ControllerBase
 {
     private readonly ILogger<CharactersController> _logger;
@@ -13,10 +15,12 @@ public class CharactersController : ControllerBase
         _repository = repository;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IReadOnlyCollection<CharacterDto>> Get()
         => await _repository.ReadAsync();
 
+    [AllowAnonymous]
     [ProducesResponseType(404)]
     [ProducesResponseType(typeof(CharacterDetailsDto), 200)]
     [HttpGet("{id}")]
