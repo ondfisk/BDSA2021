@@ -2,6 +2,10 @@
 
 Analysis, Design and Software Architecture (Autumn 2021)
 
+[![Build & Test](https://github.com/ondfisk/BDSA2021/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/ondfisk/BDSA2021/actions/workflows/build-and-test.yml)
+
+[![Infrastructure Deployment](https://github.com/ondfisk/BDSA2021/actions/workflows/infrastructure.yml/badge.svg)](https://github.com/ondfisk/BDSA2021/actions/workflows/infrastructure.yml)
+
 ## Lecture 1
 
 Test-Driven C#: Implement Hello World using TDD and Trunk Based Development.
