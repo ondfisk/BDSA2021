@@ -1,5 +1,5 @@
 ---
-name: Infrastructure Deployment
+name: Infrastructure
 
 on:
   push:
@@ -107,14 +107,12 @@ jobs:
 
       - name: Install PowerShell Modules
         run: |
-            Install-Module Az.Accounts
-            Install-Module SqlServer
+            Install-Module Az.Accounts -Scope CurrentUser -Force -AcceptLicense
+            Install-Module SqlServer -Scope CurrentUser -Force -AcceptLicense
         shell: pwsh
 
       - name: Grant Web App Managed Identity Access To SQL Database
         run: |
-          Import-Module Az.Accounts
-          Import-Module SqlServer
           ./.infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.DATABASE_NAME }}" -Identity "${{ env.WEBAPP_NAME }}"
           ./.infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.STAGING_DATABASE_NAME }}" -Identity "${{ env.WEBAPP_STAGING_SLOT_NAME }}"
         shell: pwsh
