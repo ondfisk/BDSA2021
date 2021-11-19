@@ -36,3 +36,11 @@ dotnet dev-certs https --clean
 dotnet dev-certs https --export-path $env:USERPROFILE\.aspnet\https\aspnetapp.pfx --password localhost --trust
 dotnet dev-certs https --trust
 ```
+
+## Client Update
+
+```xml
+<ItemGroup>
+    <TrimmerRootAssembly Include="Microsoft.Authentication.WebAssembly.Msal" />
+</ItemGroup>
+```
