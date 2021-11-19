@@ -49,9 +49,9 @@ jobs:
           scope: resourcegroup
           region: ${{ env.LOCATION }}
           resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
-          template: ./azuredeploy.bicep
+          template: ./.infrastructure/azuredeploy.bicep
           deploymentMode: Validate
-          parameters: azuredeploy.parameters.json
+          parameters: ./.infrastructure/azuredeploy.parameters.json
 
   deploy:
     name: Deploy
