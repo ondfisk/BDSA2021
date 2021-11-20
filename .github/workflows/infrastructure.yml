@@ -107,6 +107,7 @@ jobs:
 
       - name: Verify That SQL Server Has Directory Reader Role
         run: |
+          chmod +x ./test_sql_permission.sh
           ./.infrastructure/test_sql_permission.sh "${{ env.RESOURCE_GROUP_NAME }}" "${{ env.SQL_SERVER_NAME }}"
 
       - name: Install PowerShell Modules
