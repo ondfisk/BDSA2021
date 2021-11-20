@@ -16,3 +16,5 @@
 1. Grant SPN `Microsoft.Graph/Directory.Read.All`
 
 ## Steps
+
+Connection String: `"Server:{serverURL}; Authentication=Active Directory Managed Identity; Initial Catalog={db};"`
