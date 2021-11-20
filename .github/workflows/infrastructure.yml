@@ -105,7 +105,7 @@ jobs:
           deploymentMode: Incremental
           parameters: .infrastructure/azuredeploy.parameters.json
 
-      - name: Verify If SQL Server Has Directory Reader Role
+      - name: Verify That SQL Server Has Directory Reader Role
         run: |
           ./.infrastructure/test_sql_permission.sh "${{ env.RESOURCE_GROUP_NAME }}" "${{ env.SQL_SERVER_NAME }}"
 
