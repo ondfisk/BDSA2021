@@ -105,6 +105,10 @@ jobs:
           deploymentMode: Incremental
           parameters: .infrastructure/azuredeploy.parameters.json
 
+      - name: Verify If SQL Server Has Directory Reader Role
+        run: |
+          ./.infrastructure/test_sql_permission.sh "${{ env.RESOURCE_GROUP_NAME }}" "${{ env.SQL_SERVER_NAME }}"
+
       - name: Install PowerShell Modules
         run: |
             Install-Module Az.Accounts -Scope CurrentUser -Force -AcceptLicense
