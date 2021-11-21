@@ -106,7 +106,7 @@ jobs:
           resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
           template: .infrastructure/azuredeploy.bicep
           deploymentMode: Incremental
-          parameters: .infrastructure/azuredeploy.parameters.json githubServicePrincipalId=${{ evn.GITHUB_SERVICE_PRINCIPAL_ID }}
+          parameters: .infrastructure/azuredeploy.parameters.json githubServicePrincipalId=${{ env.GITHUB_SERVICE_PRINCIPAL_ID }}
 
       - name: Verify That SQL Server Has Directory Reader Role
         run: |
