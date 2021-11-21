@@ -13,6 +13,6 @@ R="}"
 if [ -z $CURRENT ]; then
     echo "::warning:: SQL Server must be granted Microsoft Graph/Directory.Read.All to continue"
     echo "::warning:: Execute the following in a Cloud Shell:"
-    echo "::notice:: az rest --method POST --uri 'https://graph.microsoft.com/v1.0/servicePrincipals/$MANAGED_IDENTITY/appRoleAssignments' --body '$L\"principalId\":\"$MANAGED_IDENTITY\",\"resourceId\":\"$MICROSOFT_GRAPH\",\"appRoleId\":\"$APP_ROLE_ID\"$R'"
+    echo "az rest --method POST --uri 'https://graph.microsoft.com/v1.0/servicePrincipals/$MANAGED_IDENTITY/appRoleAssignments' --body '{\"principalId\":\"$MANAGED_IDENTITY\",\"resourceId\":\"$MICROSOFT_GRAPH\",\"appRoleId\":\"$APP_ROLE_ID\"}'"
     exit 1
 fi
