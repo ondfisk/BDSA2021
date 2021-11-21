@@ -23,9 +23,7 @@ env:
   LOCATION: northeurope
   SQL_SERVER_NAME: bdsa2021sql
   DATABASE_NAME: bdsa2021
-  STAGING_DATABASE_NAME: bdsa2021-staging
   WEBAPP_NAME: bdsa2021web
-  WEBAPP_STAGING_SLOT_NAME: bdsa2021web/slots/staging
 
 jobs:
   build:
@@ -95,6 +93,11 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
 
+      - name: Get GitHub Service Principal Id
+        run: |
+          CLIENT_ID=$(az account show --query user.name --output tsv)
+          OBJECT_ID=$(az ad sp show --id $CLIENT_ID --query objectId --output tsv)
+          echo "GITHUB_SERVICE_PRINCIPAL_ID=$OBJECT_ID" >> $GITHUB_ENV
       - name: Deploy Azure Resources
         uses: azure/arm-deploy@v1
         with:
@@ -103,7 +106,7 @@ jobs:
           resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
           template: .infrastructure/azuredeploy.bicep
           deploymentMode: Incremental
-          parameters: .infrastructure/azuredeploy.parameters.json
+          parameters: .infrastructure/azuredeploy.parameters.json githubServicePrincipalId=${{ evn.GITHUB_SERVICE_PRINCIPAL_ID }}
 
       - name: Verify That SQL Server Has Directory Reader Role
         run: |
@@ -119,5 +122,4 @@ jobs:
       - name: Grant Web App Managed Identity Access To SQL Database
         run: |
           ./.infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.DATABASE_NAME }}" -Identity "${{ env.WEBAPP_NAME }}"
-          ./.infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.STAGING_DATABASE_NAME }}" -Identity "${{ env.WEBAPP_STAGING_SLOT_NAME }}"
         shell: pwsh

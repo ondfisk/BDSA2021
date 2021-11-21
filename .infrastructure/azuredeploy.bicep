@@ -9,6 +9,7 @@ param blobContainerName string = 'images'
 param appServicePlanName string
 param webAppName string
 param containerRegistryName string
+param githubServicePrincipalId string
 
 resource sqlServer 'Microsoft.Sql/servers@2021-05-01-preview' = {
   name: sqlServerName
@@ -38,15 +39,6 @@ resource sqlServer 'Microsoft.Sql/servers@2021-05-01-preview' = {
 
   resource sqlDatabase 'databases' = {
     name: sqlDatabaseName
-    location: location
-    sku: {
-      name: 'GP_S_Gen5_1'
-    }
-    properties: {}
-  }
-
-  resource sqlDatabaseStaging 'databases' = {
-    name: '${sqlDatabaseName}-staging'
     location: location
     sku: {
       name: 'GP_S_Gen5_1'
@@ -125,34 +117,37 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
     name: 'appsettings'
     properties: {}
   }
+}
 
-  resource stagingDeploymentSlot 'slots' = {
-    name: 'staging'
-    location: location
-    identity: {
-      type: 'SystemAssigned'
-    }
-    kind: 'app,linux'
-    properties: {
-      httpsOnly: true
-      reserved: true
-      serverFarmId: appServicePlan.id
-    }
+resource containerRegistry 'Microsoft.ContainerRegistry/registries@2021-06-01-preview' = {
+  name: containerRegistryName
+  location: location
+  sku: {
+    name: 'Basic'
+  }
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    adminUserEnabled: false
+    anonymousPullEnabled: false
+  }
+}
 
-    resource web 'config' = {
-      name: 'web'
-      properties: {
-        ftpsState: 'Disabled'
-        http20Enabled: true
-        minTlsVersion: '1.2'
-        scmMinTlsVersion: '1.2'
-        netFrameworkVersion: 'v6.0'
-      }
-    }
+resource webAppTocontainerRegistryRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
+  name: guid(webApp.id, containerRegistry.id)
+  scope: containerRegistry
+  properties: {
+    principalId: webApp.identity.principalId
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
+  }
+}
 
-    resource appSettings 'config' = {
-      name: 'appsettings'
-      properties: {}
-    }
+resource gitHubTocontainerRegistryRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
+  name: guid('github', containerRegistry.id)
+  scope: containerRegistry
+  properties: {
+    principalId: githubServicePrincipalId
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '8311e382-0749-4cb8-b61a-304f252e45ec')
   }
 }
