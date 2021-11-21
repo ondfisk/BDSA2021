@@ -71,7 +71,7 @@ jobs:
           resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
           template: .infrastructure/azuredeploy.bicep
           deploymentMode: Validate
-          parameters: .infrastructure/azuredeploy.parameters.json
+          parameters: .infrastructure/azuredeploy.parameters.json githubServicePrincipalId=dummy
 
   deploy:
     name: Deploy
