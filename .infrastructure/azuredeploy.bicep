@@ -9,7 +9,6 @@ param blobContainerName string = 'images'
 param appServicePlanName string
 param webAppName string
 param containerRegistryName string
-param githubServicePrincipalId string
 
 resource sqlServer 'Microsoft.Sql/servers@2021-05-01-preview' = {
   name: sqlServerName
@@ -134,20 +133,11 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2021-06-01-pr
   }
 }
 
-resource webAppTocontainerRegistryRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
+resource webAppTocontainerRegistryRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-08-01-preview' = {
   name: guid(webApp.id, containerRegistry.id)
   scope: containerRegistry
   properties: {
     principalId: webApp.identity.principalId
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
-  }
-}
-
-resource gitHubTocontainerRegistryRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
-  name: guid('github', containerRegistry.id)
-  scope: containerRegistry
-  properties: {
-    principalId: githubServicePrincipalId
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '8311e382-0749-4cb8-b61a-304f252e45ec')
   }
 }

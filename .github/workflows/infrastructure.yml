@@ -71,7 +71,7 @@ jobs:
           resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
           template: .infrastructure/azuredeploy.bicep
           deploymentMode: Validate
-          parameters: .infrastructure/azuredeploy.parameters.json githubServicePrincipalId=dummy
+          parameters: .infrastructure/azuredeploy.parameters.json
 
   deploy:
     name: Deploy
@@ -93,11 +93,6 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
 
-      - name: Get GitHub Service Principal Id
-        run: |
-          CLIENT_ID=$(az account show --query user.name --output tsv)
-          OBJECT_ID=$(az ad sp show --id $CLIENT_ID --query objectId --output tsv)
-          echo "GITHUB_SERVICE_PRINCIPAL_ID=$OBJECT_ID" >> $GITHUB_ENV
       - name: Deploy Azure Resources
         uses: azure/arm-deploy@v1
         with:
@@ -106,7 +101,7 @@ jobs:
           resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
           template: .infrastructure/azuredeploy.bicep
           deploymentMode: Incremental
-          parameters: .infrastructure/azuredeploy.parameters.json githubServicePrincipalId=${{ env.GITHUB_SERVICE_PRINCIPAL_ID }}
+          parameters: .infrastructure/azuredeploy.parameters.json
 
       - name: Verify That SQL Server Has Directory Reader Role
         run: |
