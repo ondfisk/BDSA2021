@@ -133,11 +133,20 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2021-06-01-pr
   }
 }
 
-resource webAppTocontainerRegistryRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-08-01-preview' = {
+resource webAppToContainerRegistryRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-08-01-preview' = {
   name: guid(webApp.id, containerRegistry.id)
   scope: containerRegistry
   properties: {
     principalId: webApp.identity.principalId
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
+  }
+}
+
+resource webAppToBlobStorageRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-08-01-preview' = {
+  name: guid(webApp.id, storageAccount.id)
+  scope: storageAccount
+  properties: {
+    principalId: webApp.identity.principalId
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')
   }
 }
