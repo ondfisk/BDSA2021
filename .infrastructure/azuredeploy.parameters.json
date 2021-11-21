@@ -22,6 +22,9 @@
         },
         "webAppName": {
             "value": "bdsa2021web"
+        },
+        "containerRegistryName": {
+            "value": "bdsa2021registry"
         }
     }
 }

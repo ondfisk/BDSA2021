@@ -8,6 +8,7 @@ param storageAccountName string
 param blobContainerName string = 'images'
 param appServicePlanName string
 param webAppName string
+param containerRegistryName string
 
 resource sqlServer 'Microsoft.Sql/servers@2021-05-01-preview' = {
   name: sqlServerName
