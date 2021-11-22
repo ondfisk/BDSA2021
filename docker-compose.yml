@@ -17,7 +17,7 @@ services:
     image: server
     build:
       context: .
-      dockerfile: ./MyApp.Server/Dockerfile
+      dockerfile: Dockerfile
     environment:
       ConnectionStrings__Comics:
       ASPNETCORE_URLS: https://+;http://+

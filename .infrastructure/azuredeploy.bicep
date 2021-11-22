@@ -118,7 +118,7 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
     properties: {
       AzureAd__Instance: environment().authentication.loginEndpoint
       AzureAd__Domain: 'ondfisk.dk'
-      AzureAd__TenantId: environment().authentication.tenant
+      AzureAd__TenantId: subscription().tenantId
       AzureAd__ClientId: clientId
       AzureAd__CallbackPath: '/signin-oidc'
       AzureAd__Scopes: 'API.Access'
