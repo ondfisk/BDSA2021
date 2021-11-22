@@ -48,6 +48,8 @@ jobs:
     environment: Production
 
     steps:
+      - uses: actions/checkout@v2
+
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -56,7 +58,7 @@ jobs:
       - name: Build & Push Container
         run: |
           az acr login --name ${{ env.CONTAINER_REGISTRY_NAME }}
-          docker build . --tag ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
+          docker build . --file ./MyApp.Server/Dockerfile --tag ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
           docker push ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
 
       - name: Run Container
