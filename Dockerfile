@@ -12,7 +12,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /app ./
 
-EXPOSE 5077/tcp
-ENV ASPNETCORE_URLS http://*:5077
-
 ENTRYPOINT ["dotnet", "MyApp.Server.dll"]
