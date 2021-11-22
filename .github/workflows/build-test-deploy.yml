@@ -5,10 +5,18 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "*.md"
+      - .github/workflows/infrastructure.yml
+      - .infrastructure/**
 
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - "*.md"
+      - .github/workflows/infrastructure.yml
+      - .infrastructure/**
 
   workflow_dispatch:
 
@@ -58,7 +66,7 @@ jobs:
       - name: Build & Push Container
         run: |
           az acr login --name ${{ env.CONTAINER_REGISTRY_NAME }}
-          docker build . --file ./MyApp.Server/Dockerfile --tag ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
+          docker build . --tag ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
           docker push ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
 
       - name: Run Container
