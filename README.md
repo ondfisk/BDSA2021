@@ -2,7 +2,7 @@
 
 Analysis, Design and Software Architecture (Autumn 2021)
 
-[![Build & Test](https://github.com/ondfisk/BDSA2021/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/ondfisk/BDSA2021/actions/workflows/build-and-test.yml)
+[![Build, Test, and Deploy](https://github.com/ondfisk/BDSA2021/actions/workflows/build-test-deploy.yml/badge.svg)](https://github.com/ondfisk/BDSA2021/actions/workflows/build-test-deploy.yml)
 
 [![Infrastructure Deployment](https://github.com/ondfisk/BDSA2021/actions/workflows/infrastructure.yml/badge.svg)](https://github.com/ondfisk/BDSA2021/actions/workflows/infrastructure.yml)
 
