@@ -17,11 +17,21 @@ begin {}
 
 process {
     $accessToken = (Get-AzAccessToken -ResourceUrl "https://database.windows.net").Token
+    $appId = $(az ad sp list --display-name $Identity --query "[].appId" --output tsv)
 
     $query = @"
+        DECLARE @sid UNIQUEIDENTIFIER = '$appId'
         IF NOT EXISTS (
             SELECT * FROM sys.database_principals
-            WHERE [name] = '$Identity' AND [type] = 'E')
+            WHERE [name] = '$Identity' AND [type] = 'E AND [sid] != @sid'
+        )
+        BEGIN
+            DROP USER [$Identity]
+        END
+        IF NOT EXISTS (
+            SELECT * FROM sys.database_principals
+            WHERE [name] = '$Identity' AND [type] = 'E'
+        )
         BEGIN
             CREATE USER [$Identity] FROM EXTERNAL PROVIDER
         END

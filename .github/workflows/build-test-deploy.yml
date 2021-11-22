@@ -68,9 +68,8 @@ jobs:
           az acr login --name ${{ env.CONTAINER_REGISTRY_NAME }}
           docker build . --tag ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
           docker push ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
-
-      - name: Run Container
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.WEBAPP_NAME }}
-          images: ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
+          az webapp config container set \
+          --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
+          --name ${{ env.WEBAPP_NAME }} \
+          --docker-custom-image-name '${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}'
+          az webapp restart --resource-group ${{ env.RESOURCE_GROUP_NAME }} --name ${{ env.WEBAPP_NAME }}

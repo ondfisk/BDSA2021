@@ -110,7 +110,7 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       netFrameworkVersion: 'v6.0'
-      acrUseManagedIdentityCreds: false // should be true
+      acrUseManagedIdentityCreds: true
     }
   }
 
@@ -147,7 +147,7 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2021-06-01-pr
     type: 'SystemAssigned'
   }
   properties: {
-    adminUserEnabled: true // should be false
+    adminUserEnabled: false
     anonymousPullEnabled: false
   }
 }

@@ -1,0 +1,43 @@
+﻿@page "/characters"
+@attribute [Authorize]
+@inject HttpClient Http
+
+<PageTitle>Characters</PageTitle>
+
+<h1>Characters</h1>
+
+@if (characters == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Given Name</th>
+                <th>Surname</th>
+                <th>Alter Ego</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var character in characters)
+            {
+                <tr>
+                    <td>@character.GivenName</td>
+                    <td>@character.Surname</td>
+                    <td>@character.AlterEgo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private CharacterDto[]? characters;
+
+    protected override async Task OnInitializedAsync()
+    {
+        characters = await Http.GetFromJsonAsync<CharacterDto[]>("api/Characters");
+    }
+}
