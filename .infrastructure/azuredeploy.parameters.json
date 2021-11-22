@@ -25,6 +25,9 @@
         },
         "containerRegistryName": {
             "value": "bdsa2021registry"
+        },
+        "clientId": {
+            "value": "8bfdad82-6c9e-41a2-bd1a-83d65103e5e1"
         }
     }
 }

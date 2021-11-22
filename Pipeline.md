@@ -9,6 +9,23 @@
     az ad sp create-for-rbac --role Owner --sdk-auth
     ```
 
+    Output format:
+
+    ```json
+    {
+        "clientId": "...",
+        "clientSecret": "...",
+        "subscriptionId": "...",
+        "tenantId": "...",
+        "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+        "resourceManagerEndpointUrl": "https://management.azure.com/",
+        "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+        "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+        "galleryEndpointUrl": "https://gallery.azure.com/",
+        "managementEndpointUrl": "https://management.core.windows.net/"
+    }
+    ```
+
     Create GitHub secret `AZURE_CREDENTIALS` in `Production` environment.
 
 1. Create Azure AD Group: `SQL Administrators` - record `Object ID`.

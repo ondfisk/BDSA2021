@@ -9,6 +9,7 @@ param blobContainerName string = 'images'
 param appServicePlanName string
 param webAppName string
 param containerRegistryName string
+param clientId string
 
 resource sqlServer 'Microsoft.Sql/servers@2021-05-01-preview' = {
   name: sqlServerName
@@ -114,7 +115,24 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
 
   resource appSettings 'config' = {
     name: 'appsettings'
-    properties: {}
+    properties: {
+      AzureAd__Instance: environment().authentication.loginEndpoint
+      AzureAd__Domain: 'ondfisk.dk'
+      AzureAd__TenantId: environment().authentication.tenant
+      AzureAd__ClientId: clientId
+      AzureAd__CallbackPath: '/signin-oidc'
+      AzureAd__Scopes: 'API.Access'
+    }
+  }
+
+  resource connectionStrings 'config' = {
+    name: 'connectionstrings'
+    properties: {
+      Comics: {
+        value: 'Server=${sqlServer.properties.fullyQualifiedDomainName},1433;Database=${sqlDatabaseName};Authentication=Active Directory Default'
+        type: 'SQLAzure'
+      }
+    }
   }
 }
 
