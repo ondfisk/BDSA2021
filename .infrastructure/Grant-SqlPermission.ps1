@@ -21,7 +21,7 @@ process {
 
     $query = @"
         DECLARE @sid UNIQUEIDENTIFIER = '$appId'
-        IF NOT EXISTS (
+        IF EXISTS (
             SELECT * FROM sys.database_principals
             WHERE [name] = '$Identity' AND [type] = 'E AND [sid] != @sid'
         )
