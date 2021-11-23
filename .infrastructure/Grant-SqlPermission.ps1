@@ -46,6 +46,7 @@ process {
             ALTER ROLE db_owner ADD MEMBER [$Identity]
         END
 "@
+    Write-Host $query
     Invoke-Sqlcmd -ServerInstance "$Server.database.windows.net" `
         -Database $Database `
         -Query $query `
