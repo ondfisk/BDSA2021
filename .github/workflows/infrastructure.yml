@@ -106,7 +106,7 @@ jobs:
       - name: Verify That SQL Server Has Directory Reader Role
         run: |
           chmod +x ./.infrastructure/test_sql_permission.sh
-          ./.infrastructure/test_sql_permission.sh "${{ env.RESOURCE_GROUP_NAME }}" "${{ env.SQL_SERVER_NAME }}"
+          ./.infrastructure/test_sql_permission.sh ${{ env.RESOURCE_GROUP_NAME }} ${{ env.SQL_SERVER_NAME }}
 
       - name: Install PowerShell Modules
         run: |
@@ -116,5 +116,5 @@ jobs:
 
       - name: Grant Web App Managed Identity Access To SQL Database
         run: |
-          ./.infrastructure/Grant-SqlPermission.ps1 -Server "${{ env.SQL_SERVER_NAME }}" -Database "${{ env.DATABASE_NAME }}" -Identity "${{ env.WEBAPP_NAME }}"
+          ./.infrastructure/Grant-SqlPermission.ps1 -Server ${{ env.SQL_SERVER_NAME }} -Database ${{ env.DATABASE_NAME }} -Identity ${{ env.WEBAPP_NAME }}
         shell: pwsh
