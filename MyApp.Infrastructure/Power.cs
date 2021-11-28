@@ -7,7 +7,7 @@ public class Power
     [StringLength(50)]
     public string Name { get; set; }
 
-    public ICollection<Character> Characters { get; set; } = null!;
+    public ICollection<Character> Characters { get; set; } = new HashSet<Character>();
 
     public Power(string name)
     {

@@ -1,0 +1,66 @@
+@page "/characters/{characterId:int}"
+@attribute [Authorize]
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@if (character != null)
+{
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Character Image">
+        <div class="card-body">
+            <h5 class="card-title">@character.GivenName @character.Surname aka @character.AlterEgo</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <button type="button" class="btn btn-primary" @onclick="Edit">Edit</button>
+            <button type="button" class="btn btn-danger" @onclick="Delete">Delete</button>
+        </div>
+    </div>
+}
+
+<div class="form-group">
+    <br />
+    <button type="button" class="btn btn-secondary" @onclick="Back">Back</button>
+</div>
+
+@code {
+    [Parameter]
+    public int? CharacterId { get; set; }
+
+    private CharacterDetailsDto? character;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (CharacterId != 0)
+        {
+            character = await Http.GetFromJsonAsync<CharacterDetailsDto>($"api/Characters/{CharacterId}");
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    private void Edit()
+    {
+        var uri = $"{NavigationManager.BaseUri}characters/{CharacterId}/edit";
+
+        NavigationManager.NavigateTo(uri);
+    }
+
+    private async Task Delete()
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete the character?"))
+        {
+            await Http.DeleteAsync($"api/Characters/{CharacterId}");
+
+            var uri = $"{NavigationManager.BaseUri}characters";
+
+            NavigationManager.NavigateTo(uri);
+        }
+    }
+
+    private void Back()
+    {
+        var uri = $"{NavigationManager.BaseUri}characters";
+
+        NavigationManager.NavigateTo(uri);
+    }
+}

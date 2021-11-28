@@ -1,0 +1,50 @@
+﻿@page "/claims"
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Claims</PageTitle>
+
+<h1>Claims</h1>
+
+<p>@message</p>
+
+@if (claims.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in claims)
+            {
+                <tr>
+                    <td>@claim.Type</td>
+                    <td>@claim.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private string message = string.Empty;
+    private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            message = $"You are logged in as: {user.Identity.Name}.";
+            claims = user.Claims;
+        }
+        else
+        {
+            message = "The user is NOT authenticated.";
+        }
+    }
+}

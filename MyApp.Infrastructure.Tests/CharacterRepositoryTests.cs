@@ -84,10 +84,10 @@ public class CharacterRepositoryTests : IDisposable
         var characters = await _repository.ReadAsync();
 
         Assert.Collection(characters,
-            character => Assert.Equal(new CharacterDto(1, "Clark", "Kent", "Superman"), character),
-            character => Assert.Equal(new CharacterDto(2, "Bruce", "Wayne", "Batman"), character),
-            character => Assert.Equal(new CharacterDto(3, "Diana", "Prince", "Wonder Woman"), character),
-            character => Assert.Equal(new CharacterDto(4, "Selina", "Kyle", "Catwoman"), character)
+            character => Assert.Equal(new CharacterDto(1, "Superman", "Clark", "Kent"), character),
+            character => Assert.Equal(new CharacterDto(2, "Batman", "Bruce", "Wayne"), character),
+            character => Assert.Equal(new CharacterDto(3, "Wonder Woman", "Diana", "Prince"), character),
+            character => Assert.Equal(new CharacterDto(4, "Catwoman", "Selina", "Kyle"), character)
         );
     }
 

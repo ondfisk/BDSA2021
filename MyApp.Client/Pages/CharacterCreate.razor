@@ -1,0 +1,86 @@
+﻿@page "/characters/create"
+@attribute [Authorize]
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Create Character</h1>
+
+<hr />
+
+<EditForm Model="@character" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="AlterEgo">Alter Ego</label>
+        <InputText id="AlterEgo" @bind-Value="character.AlterEgo" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="GivenName">Given Name</label>
+        <InputText id="GivenName" @bind-Value="character.GivenName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Surname">Surname</label>
+        <InputText id="Surname" @bind-Value="character.Surname" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="FirstAppearance">First Appearance</label>
+        <InputNumber id="FirstAppearance" @bind-Value="character.FirstAppearance" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="City">City</label>
+        <InputText id="City" @bind-Value="character.City" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Occupation">Occupation</label>
+        <InputText id="Occupation" @bind-Value="character.Occupation" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div>Gender</div>
+        <InputRadioGroup @bind-Value="character.Gender">
+            <InputRadio id="Female" Value="@Female" class="form-check-input" /><label class="form-check-label" for="Female">@Female</label>
+            <InputRadio id="Male" Value="@Male" class="form-check-input" /><label class="form-check-label" for="Male">@Male</label>
+            <InputRadio id="Other" Value="@Other" class="form-check-input" /><label class="form-check-label" for="Other">@Other</label>
+        </InputRadioGroup>
+    </div>
+    <div class="form-group">
+        <label for="Powers">Powers</label>
+        <InputTextArea @bind-Value="Powers" class="form-control" rows="5" />
+    </div>
+    <div class="form-group">
+        <br />
+        <button type="submit" class="btn btn-success">Create</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+        <button type="button" class="btn btn-primary" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    private CharacterCreateDto character = new();
+
+    private string Powers
+    {
+        get => string.Join(Environment.NewLine, character.Powers);
+        set => character.Powers = value.Split(Environment.NewLine).Select(p => p.Trim()).Where(p => !string.IsNullOrWhiteSpace(p)).ToHashSet();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var response = await Http.PostAsJsonAsync("api/Characters", character);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var created = await response.Content.ReadFromJsonAsync<CharacterDetailsDto>();
+
+            var uri = $"{NavigationManager.BaseUri}characters/{created?.Id}";
+
+            NavigationManager.NavigateTo(uri);
+        }
+    }
+
+    private void Cancel()
+    {
+        var uri = $"{NavigationManager.BaseUri}characters";
+
+        NavigationManager.NavigateTo(uri);
+    }
+} 

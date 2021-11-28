@@ -13,9 +13,9 @@ public class CharacterRepository : ICharacterRepository
     {
         var entity = new Character
         {
+            AlterEgo = character.AlterEgo,
             GivenName = character.GivenName,
             Surname = character.Surname,
-            AlterEgo = character.AlterEgo,
             FirstAppearance = character.FirstAppearance,
             Occupation = character.Occupation,
             City = await GetCityAsync(character.City),
@@ -29,9 +29,9 @@ public class CharacterRepository : ICharacterRepository
 
         return new CharacterDetailsDto(
                              entity.Id,
+                             entity.AlterEgo,
                              entity.GivenName,
                              entity.Surname,
-                             entity.AlterEgo,
                              entity.City?.Name,
                              entity.Gender,
                              entity.FirstAppearance,
@@ -47,9 +47,9 @@ public class CharacterRepository : ICharacterRepository
                          where c.Id == characterId
                          select new CharacterDetailsDto(
                              c.Id,
+                             c.AlterEgo,
                              c.GivenName,
                              c.Surname,
-                             c.AlterEgo,
                              c.City == null ? null : c.City.Name,
                              c.Gender,
                              c.FirstAppearance,
@@ -63,7 +63,7 @@ public class CharacterRepository : ICharacterRepository
 
     public async Task<IReadOnlyCollection<CharacterDto>> ReadAsync() =>
         (await _context.Characters
-                       .Select(c => new CharacterDto(c.Id, c.GivenName, c.Surname, c.AlterEgo))
+                       .Select(c => new CharacterDto(c.Id, c.AlterEgo, c.GivenName, c.Surname))
                        .ToListAsync())
                        .AsReadOnly();
 
@@ -76,9 +76,9 @@ public class CharacterRepository : ICharacterRepository
             return NotFound;
         }
 
+        entity.AlterEgo = character.AlterEgo;
         entity.GivenName = character.GivenName;
         entity.Surname = character.Surname;
-        entity.AlterEgo = character.AlterEgo;
         entity.FirstAppearance = character.FirstAppearance;
         entity.Occupation = character.Occupation;
         entity.City = await GetCityAsync(character.City);

@@ -1,10 +1,15 @@
 ﻿@page "/characters"
 @attribute [Authorize]
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <PageTitle>Characters</PageTitle>
 
 <h1>Characters</h1>
+
+<p>
+    <button class="btn btn-primary" @onclick="Create">New</button>
+</p>
 
 @if (characters == null)
 {
@@ -18,6 +23,7 @@ else
                 <th>Given Name</th>
                 <th>Surname</th>
                 <th>Alter Ego</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +33,7 @@ else
                     <td>@character.GivenName</td>
                     <td>@character.Surname</td>
                     <td>@character.AlterEgo</td>
+                    <td><button class="btn btn-info" @onclick="@(() => View(character))">View</button></td>
                 </tr>
             }
         </tbody>
@@ -39,5 +46,19 @@ else
     protected override async Task OnInitializedAsync()
     {
         characters = await Http.GetFromJsonAsync<CharacterDto[]>("api/Characters");
+    }
+
+    private void View(CharacterDto character)
+    {
+        var uri = $"{NavigationManager.BaseUri}characters/{character.Id}";
+
+        NavigationManager.NavigateTo(uri);
+    }
+
+    private void Create()
+    {
+        var uri = $"{NavigationManager.BaseUri}characters/create";
+
+        NavigationManager.NavigateTo(uri);
     }
 }

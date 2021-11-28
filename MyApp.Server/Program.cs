@@ -12,11 +12,6 @@ builder.Services.Configure<JwtBearerOptions>(
         options.TokenValidationParameters.NameClaimType = "name";
     });
 
-builder.Services.AddControllersWithViews().AddJsonOptions(c =>
-{
-    c.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-    c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
 builder.Services.AddRazorPages();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
