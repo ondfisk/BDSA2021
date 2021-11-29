@@ -1,4 +1,6 @@
+using System.Net;
 using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 

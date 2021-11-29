@@ -18,7 +18,7 @@ services:
       - 10001:10001
       - 10002:10002
     volumes:
-      - './MyApp.Server/Data:/data/'
+      - './.local/temp:/data/'
 
   server:
     image: server
@@ -38,8 +38,10 @@ services:
       - db
       - storage
     secrets:
-      - source: connection_string
+      - source: database_connection_string
         target: ConnectionStrings__Comics
+      - source: storage_connection_string
+        target: StorageConnectionString
     volumes:
       - '../../../../.aspnet/https:/https/'
       - ~/.vsdbg:/remote_debugger:rw
@@ -47,5 +49,7 @@ services:
 secrets:
   db_password:
     file: ./.local/db_password.txt
-  connection_string:
-    file: ./.local/connection_string.txt
+  database_connection_string:
+    file: ./.local/database_connection_string.txt
+  storage_connection_string:
+    file: ./.local/storage_connection_string.txt
