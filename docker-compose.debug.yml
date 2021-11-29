@@ -11,6 +11,15 @@ services:
     secrets:
       - db_password
 
+  storage:
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports:
+      - 10000:10000
+      - 10001:10001
+      - 10002:10002
+    volumes:
+      - './MyApp.Server/Data:/data/'
+
   server:
     image: server
     build:
@@ -27,6 +36,7 @@ services:
       - 7207:443
     depends_on:
       - db
+      - storage
     secrets:
       - source: connection_string
         target: ConnectionStrings__Comics

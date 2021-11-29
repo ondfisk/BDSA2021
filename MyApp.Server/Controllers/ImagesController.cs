@@ -1,5 +1,9 @@
 ﻿namespace MyApp.Server.Controllers;
 
+[Authorize]
+[ApiController]
+[Route("api/[controller]")]
+[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class ImagesController : Controller
 {
     private readonly IImageRepository _repository;
@@ -16,8 +20,10 @@ public class ImagesController : Controller
         _repository = repository;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Post(Guid name, [FromForm] IFormFile file)
+    [HttpPost("{name}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Post(string name, [FromForm] IFormFile file)
     {
         if (!_allowedContentTypes.Contains(file.ContentType))
         {
