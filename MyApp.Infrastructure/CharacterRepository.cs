@@ -20,6 +20,7 @@ public class CharacterRepository : ICharacterRepository
             Occupation = character.Occupation,
             City = await GetCityAsync(character.City),
             Gender = character.Gender,
+            ImageUrl = character.ImageUrl,
             Powers = await GetPowersAsync(character.Powers).ToListAsync()
         };
 
@@ -36,7 +37,7 @@ public class CharacterRepository : ICharacterRepository
                              entity.Gender,
                              entity.FirstAppearance,
                              entity.Occupation,
-                             entity.ImageUrl,
+                             null, 
                              entity.Powers.Select(c => c.Name).ToHashSet()
                          );
     }
@@ -54,7 +55,7 @@ public class CharacterRepository : ICharacterRepository
                              c.Gender,
                              c.FirstAppearance,
                              c.Occupation,
-                             c.ImageUrl,
+                             c.ImageUrl, 
                              c.Powers.Select(c => c.Name).ToHashSet()
                          );
 
@@ -83,6 +84,7 @@ public class CharacterRepository : ICharacterRepository
         entity.Occupation = character.Occupation;
         entity.City = await GetCityAsync(character.City);
         entity.Gender = character.Gender;
+        entity.ImageUrl = character.ImageUrl;
         entity.Powers = await GetPowersAsync(character.Powers).ToListAsync();
 
         await _context.SaveChangesAsync();
@@ -116,5 +118,10 @@ public class CharacterRepository : ICharacterRepository
         {
             yield return existing.TryGetValue(power, out var p) ? p : new Power(power);
         }
+    }
+
+    public Task<(Status status, Uri uri)> CreateImageAsync(int characterId, string contentType, Stream stream)
+    {
+        throw new NotImplementedException();
     }
 }

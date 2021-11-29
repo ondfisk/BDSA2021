@@ -8,7 +8,7 @@ public class CharactersControllerTests
         // Arrange
         var logger = new Mock<ILogger<CharactersController>>();
         var toCreate = new CharacterCreateDto();
-        var created = new CharacterDetailsDto(1, "Superman", "Clark", "Kent", "Metropolis", Male, 1938, "Reporter", "http://localhost/superman.jpg", new HashSet<string>());
+        var created = new CharacterDetailsDto(1, "Superman", "Clark", "Kent", "Metropolis", Male, 1938, "Reporter", "https://images.com/superman.png", new HashSet<string>());
         var repository = new Mock<ICharacterRepository>();
         repository.Setup(m => m.CreateAsync(toCreate)).ReturnsAsync(created);
         var controller = new CharactersController(logger.Object, repository.Object);
@@ -61,7 +61,7 @@ public class CharactersControllerTests
         // Arrange
         var logger = new Mock<ILogger<CharactersController>>();
         var repository = new Mock<ICharacterRepository>();
-        var character = new CharacterDetailsDto(1, "Superman", "Clark", "Kent", "Metropolis", Male, 1938, "Reporter", "http://localhost/superman.jpg", new HashSet<string>());
+        var character = new CharacterDetailsDto(1, "Superman", "Clark", "Kent", "Metropolis", Male, 1938, "Reporter", "https://images.com/superman.png", new HashSet<string>());
         repository.Setup(m => m.ReadAsync(1)).ReturnsAsync(character);
         var controller = new CharactersController(logger.Object, repository.Object);
 

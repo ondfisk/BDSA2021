@@ -123,6 +123,8 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
       AzureAd__ClientId: clientId
       AzureAd__CallbackPath: '/signin-oidc'
       AzureAd__Scopes: 'API.Access'
+      StorageConnectionString: 'ResourceId=${storageAccount.id}/;'
+      BlobContainerName: blobContainerName
     }
   }
 

@@ -29,6 +29,10 @@ public record CharacterCreateDto
 
     public Gender Gender { get; set; }
 
+    [StringLength(250)]
+    [Url]
+    public string? ImageUrl { get; set; }
+
     [CustomValidation(typeof(CharacterValidation), nameof(CharacterValidation.ValidatePowers))]
     [Required]
     public ISet<string> Powers { get; set; } = new HashSet<string>();

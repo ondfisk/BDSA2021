@@ -7,10 +7,46 @@
 @if (character != null)
 {
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Character Image">
+        @if (!string.IsNullOrWhiteSpace(character.ImageUrl))
+        {
+            <img class="card-img-top" src="@character.ImageUrl" alt="Character Image">
+        }
         <div class="card-body">
-            <h5 class="card-title">@character.GivenName @character.Surname aka @character.AlterEgo</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h5 class="card-title">@character.AlterEgo</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@character.GivenName @character.Surname</h6>
+            <p class="card-text">First Appearance: @character.FirstAppearance</p>
+            <p class="card-text">Occupation: @character.Occupation</p>
+            <p class="card-text">City: @character.City</p>
+            <p class="card-text">
+                Gender:
+                @switch (character.Gender)
+                {
+                    case Female:
+                        <span>♀</span>
+                        break;
+                    case Male:
+                        <span>♂</span>
+                        break;
+                    case Other:
+                        <span>×</span>
+                        break;
+                }
+            </p>
+            @if (character.Powers.Any())
+            {
+                <p class="card-text">Powers:</p>
+            }
+        </div>
+        @if (character.Powers.Any())
+        {
+            <ul class="list-group list-group-flush">
+                @foreach (var power in character.Powers)
+                {
+                    <li class="list-group-item">@power</li>
+                }
+            </ul>
+        }
+        <div class="card-body">
             <button type="button" class="btn btn-primary" @onclick="Edit">Edit</button>
             <button type="button" class="btn btn-danger" @onclick="Delete">Delete</button>
         </div>
@@ -63,4 +99,4 @@
 
         NavigationManager.NavigateTo(uri);
     }
-}
+    }
