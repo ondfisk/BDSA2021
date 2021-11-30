@@ -27,6 +27,7 @@ public class CharactersController : ControllerBase
     public async Task<ActionResult<CharacterDetailsDto>> Get(int id)
         => (await _repository.ReadAsync(id)).ToActionResult();
 
+    [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(CharacterDetailsDto), 201)]
     public async Task<IActionResult> Post(CharacterCreateDto character)
@@ -36,15 +37,17 @@ public class CharactersController : ControllerBase
         return CreatedAtAction(nameof(Get), new { created.Id }, created);
     }
 
+    [Authorize(Roles = $"{Member},{Administrator}")]
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Put(int id, [FromBody] CharacterUpdateDto character)
-           => (await _repository.UpdateAsync(id, character)).ToActionResult();
+            => (await _repository.UpdateAsync(id, character)).ToActionResult();
 
+    [Authorize(Roles = Administrator)]
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
-          => (await _repository.DeleteAsync(id)).ToActionResult();
+        => (await _repository.DeleteAsync(id)).ToActionResult();
 }

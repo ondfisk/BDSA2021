@@ -1,3 +1,4 @@
+global using Azure.Storage.Blobs;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,3 +12,4 @@ global using MyApp.Infrastructure;
 global using MyApp.Server.Model;
 global using static MyApp.Core.Status;
 global using static MyApp.Core.Gender;
+global using static MyApp.Core.Roles;

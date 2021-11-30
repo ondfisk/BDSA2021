@@ -12,6 +12,7 @@ builder.Services.AddMsalAuthentication(options =>
 {
     builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
     options.ProviderOptions.DefaultAccessTokenScopes.Add("api://8bfdad82-6c9e-41a2-bd1a-83d65103e5e1/API.Access");
+    options.UserOptions.RoleClaim = "appRole";
 });
 
 await builder.Build().RunAsync();
