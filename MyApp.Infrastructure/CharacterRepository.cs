@@ -37,7 +37,7 @@ public class CharacterRepository : ICharacterRepository
                              entity.Gender,
                              entity.FirstAppearance,
                              entity.Occupation,
-                             null, 
+                             entity.ImageUrl,
                              entity.Powers.Select(c => c.Name).ToHashSet()
                          );
     }
@@ -55,7 +55,7 @@ public class CharacterRepository : ICharacterRepository
                              c.Gender,
                              c.FirstAppearance,
                              c.Occupation,
-                             c.ImageUrl, 
+                             c.ImageUrl,
                              c.Powers.Select(c => c.Name).ToHashSet()
                          );
 

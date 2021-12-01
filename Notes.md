@@ -47,3 +47,11 @@ dotnet msidentity --register-app --tenant-id $tenantId --client-id $clientId
 $volume = Resolve-Path ".local/temp"
 docker run -p 10000:10000 -p 10001:10001 -p 10002:10002 -v "${volume}:/data" mcr.microsoft.com/azure-storage/azurite
 ```
+
+## App Roles in Azure AD
+
+<https://code-maze.com/using-app-roles-with-azure-active-directory-and-blazor-webassembly-hosted-apps/>
+
+## Integration Testing ASP.NET Core Web API
+
+<https://lukaszcoding.com/integration-testing-in-net-core/>

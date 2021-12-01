@@ -10,8 +10,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             options.TokenValidationParameters.RoleClaimType =
                 "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
         },
-        options => { builder.Configuration.Bind("AzureAd", options);
-    });
+        options =>
+        {
+            builder.Configuration.Bind("AzureAd", options);
+        });
 
 builder.Services.Configure<JwtBearerOptions>(
     JwtBearerDefaults.AuthenticationScheme, options =>
@@ -69,6 +71,11 @@ app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 
-await app.SeedAsync();
+if (!app.Environment.IsEnvironment("Integration"))
+{
+    await app.SeedAsync();
+}
 
 app.Run();
+
+public partial class Program { }
