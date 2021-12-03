@@ -4,7 +4,16 @@ builder.Configuration.AddKeyPerFile("/run/secrets", optional: true);
 
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+    .AddMicrosoftIdentityWebApi(options =>
+        {
+            builder.Configuration.Bind("AzureAd", options);
+            options.TokenValidationParameters.RoleClaimType =
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+        },
+        options =>
+        {
+            builder.Configuration.Bind("AzureAd", options);
+        });
 
 builder.Services.Configure<JwtBearerOptions>(
     JwtBearerDefaults.AuthenticationScheme, options =>
@@ -12,11 +21,6 @@ builder.Services.Configure<JwtBearerOptions>(
         options.TokenValidationParameters.NameClaimType = "name";
     });
 
-builder.Services.AddControllersWithViews().AddJsonOptions(c =>
-{
-    c.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-    c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
 builder.Services.AddRazorPages();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -29,6 +33,12 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<ComicsContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Comics")));
 builder.Services.AddScoped<IComicsContext, ComicsContext>();
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
+
+var storageConnectionString = builder.Configuration["StorageConnectionString"];
+var blobContainerName = builder.Configuration["BlobContainerName"];
+
+builder.Services.AddScoped<BlobContainerClient>(_ => new BlobContainerClient(storageConnectionString, blobContainerName));
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 var app = builder.Build();
 
@@ -61,6 +71,11 @@ app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 
-app.Seed();
+if (!app.Environment.IsEnvironment("Integration"))
+{
+    await app.SeedAsync();
+}
 
 app.Run();
+
+public partial class Program { }

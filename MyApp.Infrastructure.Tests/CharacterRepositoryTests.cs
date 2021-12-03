@@ -39,10 +39,10 @@ public class CharacterRepositoryTests : IDisposable
         var gymnasticAbility = new Power("gymnastic ability");
 
         context.Characters.AddRange(
-            new Character { Id = 1, GivenName = "Clark", Surname = "Kent", AlterEgo = "Superman", Occupation = "Reporter", City = metropolis, Gender = Male, FirstAppearance = 1938, ImageUrl = "http://localhost/superman.jpg", Powers = new[] { superStrength, flight, invulnerability, superSpeed, heatVision, freezeBreath, xRayVision, superhumanHearing, healingFactor } },
-            new Character { Id = 2, GivenName = "Bruce", Surname = "Wayne", AlterEgo = "Batman", Occupation = "CEO of Wayne Enterprises", City = gothamCity, Gender = Male, FirstAppearance = 1939, ImageUrl = "http://localhost/batman.jpg", Powers = new[] { exceptionalMartialArtist, combatStrategy, inexhaustibleWealth, brilliantDeductiveSkill, advancedTechnology } },
-            new Character { Id = 3, GivenName = "Diana", Surname = "Prince", AlterEgo = "Wonder Woman", Occupation = "Amazon Princess", City = themyscira, Gender = Female, FirstAppearance = 1941, ImageUrl = "http://localhost/wonder-woman.jpg", Powers = new[] { superStrength, invulnerability, flight, combatSkill, combatStrategy, superhumanAgility, healingFactor, magicWeaponry } },
-            new Character { Id = 4, GivenName = "Selina", Surname = "Kyle", AlterEgo = "Catwoman", Occupation = "Thief", City = gothamCity, Gender = Female, FirstAppearance = 1940, ImageUrl = "http://localhost/catwoman.jpg", Powers = new[] { exceptionalMartialArtist, gymnasticAbility, combatSkill } }
+            new Character { Id = 1, GivenName = "Clark", Surname = "Kent", AlterEgo = "Superman", Occupation = "Reporter", City = metropolis, Gender = Male, FirstAppearance = 1938, ImageUrl = "https://localhost/images/superman.png", Powers = new[] { superStrength, flight, invulnerability, superSpeed, heatVision, freezeBreath, xRayVision, superhumanHearing, healingFactor } },
+            new Character { Id = 2, GivenName = "Bruce", Surname = "Wayne", AlterEgo = "Batman", Occupation = "CEO of Wayne Enterprises", City = gothamCity, Gender = Male, FirstAppearance = 1939, ImageUrl = "https://localhost/images/batman.png", Powers = new[] { exceptionalMartialArtist, combatStrategy, inexhaustibleWealth, brilliantDeductiveSkill, advancedTechnology } },
+            new Character { Id = 3, GivenName = "Diana", Surname = "Prince", AlterEgo = "Wonder Woman", Occupation = "Amazon Princess", City = themyscira, Gender = Female, FirstAppearance = 1941, ImageUrl = "https://localhost/images/wonder-woman.png", Powers = new[] { superStrength, invulnerability, flight, combatSkill, combatStrategy, superhumanAgility, healingFactor, magicWeaponry } },
+            new Character { Id = 4, GivenName = "Selina", Surname = "Kyle", AlterEgo = "Catwoman", Occupation = "Thief", City = gothamCity, Gender = Female, FirstAppearance = 1940, ImageUrl = "https://localhost/images/catwoman.png", Powers = new[] { exceptionalMartialArtist, gymnasticAbility, combatSkill } }
         );
 
         context.SaveChanges();
@@ -63,6 +63,7 @@ public class CharacterRepositoryTests : IDisposable
             Occupation = "Former psychiatrist",
             City = "Gotham City",
             Gender = Female,
+            ImageUrl = "https://localhost/images/harley-quinn.png",
             Powers = new HashSet<string> { "complete unpredictability", "superhuman agility", "skilled fighter", "intelligence", "emotional manipulation", "immunity to toxins" }
         };
 
@@ -75,6 +76,8 @@ public class CharacterRepositoryTests : IDisposable
         Assert.Equal("Gotham City", created.City);
         Assert.Equal("Former psychiatrist", created.Occupation);
         Assert.Equal(1992, created.FirstAppearance);
+        Assert.Equal(Female, created.Gender);
+        Assert.Equal("https://localhost/images/harley-quinn.png", created.ImageUrl);
         Assert.True(created.Powers.SetEquals(new[] { "complete unpredictability", "superhuman agility", "skilled fighter", "intelligence", "emotional manipulation", "immunity to toxins" }));
     }
 
@@ -84,10 +87,10 @@ public class CharacterRepositoryTests : IDisposable
         var characters = await _repository.ReadAsync();
 
         Assert.Collection(characters,
-            character => Assert.Equal(new CharacterDto(1, "Clark", "Kent", "Superman"), character),
-            character => Assert.Equal(new CharacterDto(2, "Bruce", "Wayne", "Batman"), character),
-            character => Assert.Equal(new CharacterDto(3, "Diana", "Prince", "Wonder Woman"), character),
-            character => Assert.Equal(new CharacterDto(4, "Selina", "Kyle", "Catwoman"), character)
+            character => Assert.Equal(new CharacterDto(1, "Superman", "Clark", "Kent"), character),
+            character => Assert.Equal(new CharacterDto(2, "Batman", "Bruce", "Wayne"), character),
+            character => Assert.Equal(new CharacterDto(3, "Wonder Woman", "Diana", "Prince"), character),
+            character => Assert.Equal(new CharacterDto(4, "Catwoman", "Selina", "Kyle"), character)
         );
     }
 
@@ -113,7 +116,7 @@ public class CharacterRepositoryTests : IDisposable
         Assert.Equal("Gotham City", character.City);
         Assert.Equal(1940, character.FirstAppearance);
         Assert.Equal("Thief", character.Occupation);
-        Assert.Equal("http://localhost/catwoman.jpg", character.ImageUrl);
+        Assert.Equal("https://localhost/images/catwoman.png", character.ImageUrl);
         Assert.True(character.Powers.SetEquals(new[] { "exceptional martial artist", "gymnastic ability", "combat skill" }));
     }
 
@@ -146,6 +149,7 @@ public class CharacterRepositoryTests : IDisposable
             Occupation = "Reporter",
             City = "Metropolis",
             Gender = Male,
+            ImageUrl = "https://localhost/images/superman.png",
             Powers = new HashSet<string>()
         };
 

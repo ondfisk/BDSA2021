@@ -1,0 +1,120 @@
+---
+name: Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/infrastructure.yml
+      - .infrastructure/**
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/infrastructure.yml
+      - .infrastructure/**
+
+  workflow_dispatch:
+
+env:
+  RESOURCE_GROUP_NAME: bdsa2021
+  LOCATION: northeurope
+  SQL_SERVER_NAME: bdsa2021sql
+  DATABASE_NAME: bdsa2021
+  WEBAPP_NAME: bdsa2021web
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: infrastructure
+          path: .infrastructure/
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    environment: Production
+
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: infrastructure
+          path: .infrastructure/
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Create Azure Resource Group
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az group create --name ${{ env.RESOURCE_GROUP_NAME }} --location ${{ env.LOCATION }}
+
+      - name: Validate Azure Resource Deployment
+        uses: azure/arm-deploy@v1
+        with:
+          scope: resourcegroup
+          region: ${{ env.LOCATION }}
+          resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
+          template: .infrastructure/azuredeploy.bicep
+          deploymentMode: Validate
+          parameters: .infrastructure/azuredeploy.parameters.json
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs:
+      - test
+    environment: Production
+
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: infrastructure
+          path: .infrastructure/
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      - name: Deploy Azure Resources
+        uses: azure/arm-deploy@v1
+        with:
+          scope: resourcegroup
+          region: ${{ env.LOCATION }}
+          resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
+          template: .infrastructure/azuredeploy.bicep
+          deploymentMode: Incremental
+          parameters: .infrastructure/azuredeploy.parameters.json
+
+      - name: Verify That SQL Server Has Directory Reader Role
+        run: |
+          chmod +x ./.infrastructure/test_sql_permission.sh
+          ./.infrastructure/test_sql_permission.sh ${{ env.RESOURCE_GROUP_NAME }} ${{ env.SQL_SERVER_NAME }}
+
+      - name: Install PowerShell Modules
+        run: |
+            Install-Module Az.Accounts -Scope CurrentUser -Force -AcceptLicense
+            Install-Module SqlServer -Scope CurrentUser -Force -AcceptLicense
+        shell: pwsh
+
+      - name: Grant Web App Managed Identity Access To SQL Database
+        run: |
+          ./.infrastructure/Grant-SqlPermission.ps1 -Server ${{ env.SQL_SERVER_NAME }} -Database ${{ env.DATABASE_NAME }} -Identity ${{ env.WEBAPP_NAME }}
+        shell: pwsh

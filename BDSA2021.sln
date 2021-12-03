@@ -1,43 +1,42 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncAndParallel", "AsyncAndParallel\AsyncAndParallel.csproj", "{2570CC8E-0134-477B-8304-C3775CF47A6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncAndParallel", "AsyncAndParallel\AsyncAndParallel.csproj", "{2570CC8E-0134-477B-8304-C3775CF47A6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncAndParallel.UI", "AsyncAndParallel.UI\AsyncAndParallel.UI.csproj", "{74C0F77F-A4E3-4FC5-94AB-4381FAD9F28E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncAndParallel.UI", "AsyncAndParallel.UI\AsyncAndParallel.UI.csproj", "{74C0F77F-A4E3-4FC5-94AB-4381FAD9F28E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{9EA4B042-A724-4237-94EC-4DCB169D3721}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{9EA4B042-A724-4237-94EC-4DCB169D3721}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generics", "Generics\Generics.csproj", "{C6FCCE51-37E0-4A06-A94C-F19D47F824BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generics", "Generics\Generics.csproj", "{C6FCCE51-37E0-4A06-A94C-F19D47F824BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generics.Tests", "Generics.Tests\Generics.Tests.csproj", "{399AC46B-0893-41F3-A97B-3F301D1A4134}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generics.Tests", "Generics.Tests\Generics.Tests.csproj", "{399AC46B-0893-41F3-A97B-3F301D1A4134}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld", "HelloWorld\HelloWorld.csproj", "{0E78D0FD-7AF1-4714-A5C4-FAD5FCF57C14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "HelloWorld\HelloWorld.csproj", "{0E78D0FD-7AF1-4714-A5C4-FAD5FCF57C14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Tests", "HelloWorld.Tests\HelloWorld.Tests.csproj", "{44148E46-BE90-4700-A997-CC47F44BC6D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.Tests", "HelloWorld.Tests\HelloWorld.Tests.csproj", "{44148E46-BE90-4700-A997-CC47F44BC6D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq", "Linq\Linq.csproj", "{A3073EE6-3DD9-4037-AC03-369E5A8BD3A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Linq", "Linq\Linq.csproj", "{A3073EE6-3DD9-4037-AC03-369E5A8BD3A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Client", "MyApp.Client\MyApp.Client.csproj", "{5C5F65EF-00FE-418B-BF57-9109E43A5C13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.Client", "MyApp.Client\MyApp.Client.csproj", "{5C5F65EF-00FE-418B-BF57-9109E43A5C13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Core", "MyApp.Core\MyApp.Core.csproj", "{E4D88FFA-9CEF-4C28-9E48-D9B6E7BEC4CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.Core", "MyApp.Core\MyApp.Core.csproj", "{E4D88FFA-9CEF-4C28-9E48-D9B6E7BEC4CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Infrastructure", "MyApp.Infrastructure\MyApp.Infrastructure.csproj", "{69358867-4ADD-44F4-9B5D-42164A05B27F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.Infrastructure", "MyApp.Infrastructure\MyApp.Infrastructure.csproj", "{69358867-4ADD-44F4-9B5D-42164A05B27F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Infrastructure.Tests", "MyApp.Infrastructure.Tests\MyApp.Infrastructure.Tests.csproj", "{F926EEAB-0D9B-44B6-9EB9-66B07548F099}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.Infrastructure.Tests", "MyApp.Infrastructure.Tests\MyApp.Infrastructure.Tests.csproj", "{F926EEAB-0D9B-44B6-9EB9-66B07548F099}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Server", "MyApp.Server\MyApp.Server.csproj", "{CD15BAEC-7FB7-46D7-8FB3-47E947AC3D9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.Server", "MyApp.Server\MyApp.Server.csproj", "{CD15BAEC-7FB7-46D7-8FB3-47E947AC3D9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Server.Tests", "MyApp.Server.Tests\MyApp.Server.Tests.csproj", "{90D5B805-9714-4955-A17F-30108B236DA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyApp.Server.Tests", "MyApp.Server.Tests\MyApp.Server.Tests.csproj", "{90D5B805-9714-4955-A17F-30108B236DA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Server.Integration.Tests", "MyApp.Server.Integration.Tests\MyApp.Server.Integration.Tests.csproj", "{E659B58A-A3E5-4984-A8F5-A081D0CC30CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2570CC8E-0134-477B-8304-C3775CF47A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -96,5 +95,15 @@ Global
 		{90D5B805-9714-4955-A17F-30108B236DA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90D5B805-9714-4955-A17F-30108B236DA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90D5B805-9714-4955-A17F-30108B236DA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E659B58A-A3E5-4984-A8F5-A081D0CC30CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E659B58A-A3E5-4984-A8F5-A081D0CC30CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E659B58A-A3E5-4984-A8F5-A081D0CC30CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E659B58A-A3E5-4984-A8F5-A081D0CC30CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D0C11EC-31D9-4BC6-B49A-9D0F767ED643}
 	EndGlobalSection
 EndGlobal

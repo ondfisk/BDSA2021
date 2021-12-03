@@ -1,6 +1,3 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-
 namespace MyApp.Core
 {
     public record PowerCreateDto([Required, StringLength(50)] string Name);

@@ -14,7 +14,7 @@ Get-ChildItem *.csproj -Recurse | ForEach-Object { dotnet sln add $PSItem }
 $password = New-Guid
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=$password" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
 $database = "Comics"
-$connectionString = "Server=localhost;Database=$database;User Id=sa;Password=$password"
+$connectionString = "Server=localhost;Database=$database;User Id=sa;Password=$password;Trusted_Connection=False;Encrypt=False"
 ```
 
 ## Enable User Secrets
@@ -40,3 +40,18 @@ dotnet msidentity --create-app-registration --tenant-id $tenantId --app-display-
 $clientId = "ad4f8934-36c8-46e9-a100-785353381a40"
 dotnet msidentity --register-app --tenant-id $tenantId --client-id $clientId
 ```
+
+## Azurite Storage Emulator
+
+```powershell
+$volume = Resolve-Path ".local/temp"
+docker run -p 10000:10000 -p 10001:10001 -p 10002:10002 -v "${volume}:/data" mcr.microsoft.com/azure-storage/azurite
+```
+
+## App Roles in Azure AD
+
+<https://code-maze.com/using-app-roles-with-azure-active-directory-and-blazor-webassembly-hosted-apps/>
+
+## Integration Testing ASP.NET Core Web API
+
+<https://lukaszcoding.com/integration-testing-in-net-core/>

@@ -29,5 +29,5 @@ public class Character
     [Url]
     public string? ImageUrl { get; set; }
 
-    public ICollection<Power> Powers { get; set; } = null!;
+    public ICollection<Power> Powers { get; set; } = new HashSet<Power>();
 }

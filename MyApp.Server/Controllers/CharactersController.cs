@@ -21,8 +21,8 @@ public class CharactersController : ControllerBase
         => await _repository.ReadAsync();
 
     [AllowAnonymous]
-    [ProducesResponseType(404)]
-    [ProducesResponseType(typeof(CharacterDetailsDto), 200)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(CharacterDetailsDto), StatusCodes.Status200OK)]
     [HttpGet("{id}")]
     public async Task<ActionResult<CharacterDetailsDto>> Get(int id)
         => (await _repository.ReadAsync(id)).ToActionResult();
@@ -34,20 +34,20 @@ public class CharactersController : ControllerBase
     {
         var created = await _repository.CreateAsync(character);
 
-        return CreatedAtRoute(nameof(Get), new { created.Id }, created);
+        return CreatedAtAction(nameof(Get), new { created.Id }, created);
     }
 
-    [Authorize]
+    [Authorize(Roles = $"{Member},{Administrator}")]
     [HttpPut("{id}")]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Put(int id, [FromBody] CharacterUpdateDto character)
-           => (await _repository.UpdateAsync(id, character)).ToActionResult();
+            => (await _repository.UpdateAsync(id, character)).ToActionResult();
 
-    [Authorize]
+    [Authorize(Roles = Administrator)]
     [HttpDelete("{id}")]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
-          => (await _repository.DeleteAsync(id)).ToActionResult();
+        => (await _repository.DeleteAsync(id)).ToActionResult();
 }

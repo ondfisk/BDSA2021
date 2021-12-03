@@ -1,0 +1,75 @@
+---
+name: Build, Test, and Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "*.md"
+      - .github/workflows/infrastructure.yml
+      - .infrastructure/**
+
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "*.md"
+      - .github/workflows/infrastructure.yml
+      - .infrastructure/**
+
+  workflow_dispatch:
+
+env:
+  RESOURCE_GROUP_NAME: bdsa2021
+  CONTAINER_REGISTRY_NAME: bdsa2021registry
+  WEBAPP_NAME: bdsa2021web
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Install Dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs:
+      - build
+    environment: Production
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build & Push Container
+        run: |
+          az acr login --name ${{ env.CONTAINER_REGISTRY_NAME }}
+          docker build . --tag ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
+          docker push ${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}
+          az webapp config container set \
+          --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
+          --name ${{ env.WEBAPP_NAME }} \
+          --docker-custom-image-name '${{ env.CONTAINER_REGISTRY_NAME }}.azurecr.io/myapp:${{ github.sha }}'
+          az webapp restart --resource-group ${{ env.RESOURCE_GROUP_NAME }} --name ${{ env.WEBAPP_NAME }}

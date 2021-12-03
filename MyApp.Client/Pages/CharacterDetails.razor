@@ -1,0 +1,101 @@
+@page "/characters/{characterId:int}"
+@attribute [Authorize]
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@if (character != null)
+{
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+            @character.AlterEgo
+        </div>
+        @if (!string.IsNullOrWhiteSpace(character.ImageUrl))
+        {
+            <img class="card-img-top" src="@character.ImageUrl?nocache=@Guid.NewGuid()" alt="Character Image">
+        }
+        <div class="card-body">
+            <h5 class="card-title">@character.GivenName @character.Surname</h5>
+            <p class="card-text">First Appearance: @character.FirstAppearance</p>
+            <p class="card-text">Occupation: @character.Occupation</p>
+            <p class="card-text">City: @character.City</p>
+            <p class="card-text">
+                Gender:
+                @switch (character.Gender)
+                {
+                    case Female:
+                        <span>♀</span>
+                        break;
+                    case Male:
+                        <span>♂</span>
+                        break;
+                    case Other:
+                        <span>×</span>
+                        break;
+                }
+            </p>
+            @if (character.Powers.Any())
+            {
+                <p class="card-text">Powers:</p>
+                <ul class="list-group list-group-flush">
+                    @foreach (var power in character.Powers)
+                    {
+                        <li class="list-group-item">@power</li>
+                    }
+                </ul>
+            }
+        </div>
+        <div class="card-body">
+            <button type="button" class="btn btn-primary" @onclick="Edit">Edit</button>
+            <button type="button" class="btn btn-danger" @onclick="Delete">Delete</button>
+        </div>
+    </div>
+}
+
+<div class="form-group">
+    <br />
+    <button type="button" class="btn btn-secondary" @onclick="Back">Back</button>
+</div>
+
+@code {
+    [Parameter]
+    public int? CharacterId { get; set; }
+
+    private CharacterDetailsDto? character;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (CharacterId != 0)
+        {
+            character = await Http.GetFromJsonAsync<CharacterDetailsDto>($"api/Characters/{CharacterId}");
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    private void Edit()
+    {
+        var uri = $"{NavigationManager.BaseUri}characters/{CharacterId}/edit";
+
+        NavigationManager.NavigateTo(uri);
+    }
+
+    private async Task Delete()
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete the character?"))
+        {
+            await Http.DeleteAsync($"api/Characters/{CharacterId}");
+
+            var uri = $"{NavigationManager.BaseUri}characters";
+
+            NavigationManager.NavigateTo(uri);
+        }
+    }
+
+    private void Back()
+    {
+        var uri = $"{NavigationManager.BaseUri}characters";
+
+        NavigationManager.NavigateTo(uri);
+    }
+    }

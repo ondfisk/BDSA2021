@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sqlServerName": {
+            "value": "bdsa2021sql"
+        },
+        "sqlAzureAdLogin": {
+            "value": "SQL Administrators"
+        },
+        "sqlAzureAdPrincipalId": {
+            "value": "f55f8d34-f987-4f53-90a3-64b36965b5c4"
+        },
+        "sqlDatabaseName": {
+            "value": "bdsa2021"
+        },
+        "storageAccountName": {
+            "value": "bdsa2021storage"
+        },
+        "appServicePlanName": {
+            "value": "bdsa2021"
+        },
+        "webAppName": {
+            "value": "bdsa2021web"
+        },
+        "containerRegistryName": {
+            "value": "bdsa2021registry"
+        },
+        "clientId": {
+            "value": "8bfdad82-6c9e-41a2-bd1a-83d65103e5e1"
+        }
+    }
+}
