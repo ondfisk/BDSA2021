@@ -11,9 +11,6 @@ public class ImageRepository : IImageRepository
 
     public async Task<(Status status, Uri uri)> CreateImageAsync(string name, string contentType, Stream stream)
     {
-        await _client.CreateIfNotExistsAsync();
-        await _client.SetAccessPolicyAsync(PublicAccessType.Blob);
-
         var client = _client.GetBlockBlobClient(name);
 
         await client.UploadAsync(stream);
