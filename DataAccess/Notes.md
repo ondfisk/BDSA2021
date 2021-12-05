@@ -43,7 +43,7 @@ static IConfiguration LoadConfiguration()
 ## Install the SQL client package
 
 ```bash
-dotnet add package System.Data.SqlClient
+dotnet add package Microsoft.Data.SqlClient
 ```
 
 ## Raw SQL
