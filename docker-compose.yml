@@ -20,7 +20,7 @@ services:
       - 10001:10001
       - 10002:10002
     volumes:
-      - './.local/temp:/data/'
+      - C:/Azurite:/data
 
   server:
     image: server
@@ -29,6 +29,7 @@ services:
       dockerfile: ./Dockerfile
     environment:
       ConnectionStrings__Comics:
+      BlobContainerUri: https://storage:10000/devstoreaccount1/images
       ASPNETCORE_URLS: https://+;http://+
       ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
       ASPNETCORE_Kestrel__Certificates__Default__Password: localhost
@@ -39,17 +40,15 @@ services:
       - db
       - storage
     secrets:
-      - source: database_connection_string
+      - source: connection_string
         target: ConnectionStrings__Comics
-      - source: storage_connection_string
-        target: StorageConnectionString
     volumes:
-      - '../../../../.aspnet/https:/https/'
+      - ../../../../.aspnet/https:/https/
 
 secrets:
   db_password:
     file: ./.local/db_password.txt
-  database_connection_string:
-    file: ./.local/database_connection_string.txt
+  connection_string:
+    file: ./.local/connection_string.txt
   storage_connection_string:
     file: ./.local/storage_connection_string.txt

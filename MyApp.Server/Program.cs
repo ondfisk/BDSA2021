@@ -34,10 +34,9 @@ builder.Services.AddDbContext<ComicsContext>(options => options.UseSqlServer(bui
 builder.Services.AddScoped<IComicsContext, ComicsContext>();
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 
-var storageConnectionString = builder.Configuration["StorageConnectionString"];
-var blobContainerName = builder.Configuration["BlobContainerName"];
+var blobContainerUri = new Uri(builder.Configuration["BlobContainerUri"]);
 
-builder.Services.AddScoped<BlobContainerClient>(_ => new BlobContainerClient(storageConnectionString, blobContainerName));
+builder.Services.AddScoped<BlobContainerClient>(_ => new BlobContainerClient(blobContainerUri, new DefaultAzureCredential()));
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 var app = builder.Build();

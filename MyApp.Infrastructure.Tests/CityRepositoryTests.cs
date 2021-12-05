@@ -1,11 +1,3 @@
-using System;
-using System.Threading.Tasks;
-using MyApp.Core;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using Xunit;
-using static MyApp.Core.Status;
-
 namespace MyApp.Infrastructure.Tests
 {
     public class CityRepositoryTests : IDisposable
