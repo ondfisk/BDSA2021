@@ -1,3 +1,4 @@
+global using Azure.Identity;
 global using Azure.Storage.Blobs;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Authorization;
