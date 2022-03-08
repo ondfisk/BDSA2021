@@ -13,7 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="4.0.0" />
-    <PackageReference Include="Microsoft.EntityframeworkCore.SqlServer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityframeworkCore.SqlServer" Version="6.0.3" />
   </ItemGroup>
 
 </Project>
